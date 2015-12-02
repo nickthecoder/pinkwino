@@ -1,0 +1,95 @@
+Rename the optional packages (move them up, and call image jai)
+
+Create a new package called magick, which uses image magick to do the image manipulation.
+OR
+Create a new classes which uses subprocesses to create related pages media.
+  That way I can use python or shell scripts etc.
+  The plugin should pre-cache the image by asking for the related page
+  The media servlet could wait n ms for the process to end, and if it hasn't then return null
+
+Re cahcing.
+Maybe I don't want to cache the rendered pages, but perhaps the WikiPage object should
+cached, and ensure that only one instance of a given wiki page exists (i.e. there are
+no duplicates in memory). Same for WikiName (especially now that it can take a while to
+create WikiName objects).
+
+Fix memory leak associated with ThreadLocal
+  
+Create a NinePatch ImageTransform - it uses a given image to place as a frame
+around the current image.
+
+Create a bevel corner frame ImageTransform. Create it just how a real frame is created,
+with strips cut to 45deg in the corners.
+
+Create an Overlay ImageTransform - it adds a given image on top of the current
+image at a give position (x,y). If x (or y) is -ve, then its relative to the right (or bottom) edge.
+
+Delete and rename have white text on light grey background.
+
+Teaser is currently too wide
+
+Ensure that related pages are not duplicated, such as "scale(width='50')" and "scale (width='50')"
+Also that parameters are ordered in alphabetical order.
+So we need to normalise the relation, don't use its given text.
+
+
+Search jsp plugings for <pw: (deleted jps tags)
+
+
+
+Check the mime types for jpeg and png thumbnails
+
+Ensure that thumbnail and teaser do sensible things for mimetypes.
+
+Ensure that scalewidth does sensible things for mimetypes.
+
+
+In Progress
+===========
+
+
+Buffer
+======
+
+Create a standard "extras" config used by all of my wikis, that cant go in common_*
+
+
+
+
+Next
+====
+
+MimeType to have a new constructor, where you can tell it that it is text (rather than relying on mime type starting with "text/"
+
+Media must send out cache info and/or do the HEAD requests to prevent being downloaded
+again, bypassing the browser cache.
+
+Later
+=====
+
+Create a simple wiki page cache, so that a single wiki page object exists for a given wiki name.
+When starting an edit, get the page from storage again to guard against it being altered outside of the current jvm.
+
+If I want to reuse WikiPage objects, then all plugins must :
+a) Not generate different Nodes depending on browser type.
+   Look for wiki_staticSite
+b) Do not cache the rendered version of the page between requests.
+
+If the rendered version is cached, then need to :
+a) Not use conditional attributes
+b) Check for changes to dependancies
+c) Handle or ignore wiki links changing colour (due to WikiPage.getExists).
+
+
+CommandProcessor
+If the page is plain/text, then do as normal, otherwise place {{{ and }}} around the log
+messages.
+
+=========
+
+
+Bugs
+====
+
+
+

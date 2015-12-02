@@ -1,0 +1,52 @@
+version = '1.0'
+
+subprojects {
+
+    group = 'nickthecoder.co.uk'
+    version = '2.0'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+project(':pinkwino') {
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    dependencies {
+        compile 'javax.servlet:javax.servlet-api:3.1.0'
+        compile 'javax.servlet.jsp:jsp-api:2.2'
+        compile 'jstl:jstl:1.2'
+        compile 'taglibs:string:1.1.0'
+        compile 'commons-lang:commons-lang:2.3'
+        compile 'commons-net:commons-net:2.0'
+        compile 'org.apache.struts:struts-tiles:1.3.10'
+        compile 'org.apache.logging.log4j:log4j-core:2.4.1'
+        compile 'nickthecoder.co.uk:webwidgets:0.1'
+        compile 'org.apache.lucene:lucene-core:2.3.0'
+        compile 'org.apache.lucene:lucene-queries:2.3.0'
+        compile 'com.github.jai-imageio:jai-imageio-core:1.2.1'
+        compile 'junit:junit:4.4'
+        compile 'org.codehaus.groovy:groovy-all:2.3.3'
+    }
+}
+
+project(':docs') {
+    apply plugin: 'war'
+  	apply plugin: 'eclipse'
+    apply plugin: 'jetty'
+	
+  	dependencies {
+        compile project(':pinkwino')
+    }
+    
+}
+

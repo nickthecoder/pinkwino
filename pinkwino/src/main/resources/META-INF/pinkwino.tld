@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+	"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>pinkwino</shortname>
+  <uri>http://nickthecoder.co.uk/pinkwino</uri>
+
+  <!-- {{{ wikiPage -->
+  <tag>
+    <name>wikiPage</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiPageTag</tagclass>
+
+    <info>
+      Adds a WikiPage object into the request scope.
+    </info>
+
+    <attribute>
+      <name>title</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>namespace</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>relation</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>wikiPageVar</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiPage }}} -->
+
+  <!-- {{{ wikiName -->
+  <tag>
+    <name>wikiName</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiNameTag</tagclass>
+
+    <info>
+      Outputs the title for a WikiName
+    </info>
+
+    <attribute>
+      <name>wikiName</name>
+      <required>true</required>
+      <type>pinkwino.WikiName</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiName }}} -->
+
+  <!-- {{{ wiki -->
+  <tag>
+    <name>wiki</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiTag</tagclass>
+
+    <info>
+      The containing tag for all other tags refering to a given wiki page.
+    </info>
+
+    <attribute>
+      <name>page</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>versionNumber</name>
+      <required>false</required>
+      <type>int</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>wikiPageVar</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>versionVar</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wiki }}} -->
+
+  <!-- {{{ wikiEngine -->
+  <tag>
+    <name>wikiEngine</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiEngineTag</tagclass>
+
+    <info>
+      Puts the WikiEngine instance into the request scope with the
+      specified name.
+    </info>
+
+    <attribute>
+      <name>var</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiEngine }}} -->
+
+  <!-- {{{ wikiText -->
+  <tag>
+    <name>wikiText</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiTextTag</tagclass>
+
+    <info>
+      Converts the body of this tag from wiki markup to html
+    </info>
+
+    <attribute>
+      <name>page</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>summary</name>
+      <required>false</required>
+      <type>boolean</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>summaryLength</name>
+      <required>false</required>
+      <type>int</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiText }}} -->
+
+  <!-- {{{ wikiContent -->
+  <tag>
+    <name>wikiContent</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiContentTag</tagclass>
+
+    <info>
+      Renders the wiki page's content.
+    </info>
+
+    <attribute>
+      <name>version</name>
+      <required>false</required>
+      <type>pinkwino.Version</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>wikiPage</name>
+      <required>false</required>
+      <type>pinkwino.WikiPage</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiContent }}} -->
+
+  <!-- {{{ wikiTitle -->
+  <tag>
+    <name>wikiTitle</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiTitleTag</tagclass>
+
+    <info>
+      Renders the wiki page's title.
+    </info>
+
+    <attribute>
+      <name>wikiPage</name>
+      <required>false</required>
+      <type>pinkwino.WikiPage</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>full</name>
+      <required>false</required>
+      <type>boolean</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>textTransform</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiTitle }}} -->
+
+  <!-- {{{ wikiMarkup -->
+  <tag>
+    <name>wikiMarkup</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiMarkupTag</tagclass>
+
+    <info>
+      Outputs the wiki page's markup (i.e. what the user typed in,
+      not the rendered version).
+    </info>
+
+    <attribute>
+      <name>version</name>
+      <required>false</required>
+      <type>pinkwino.Version</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>wikiPage</name>
+      <required>false</required>
+      <type>pinkwino.WikiPage</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>section</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiMarkup }}} -->
+
+  <!-- {{{ wikiLink -->
+  <tag>
+    <name>wikiLink</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiLinkTag</tagclass>
+
+    <info>
+      Creates a link to one of the special wiki pages, such as the edit, or info pages.
+    </info>
+
+    <attribute>
+      <name>wikiPage</name>
+      <required>false</required>
+      <type>pinkwino.WikiPage</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>type</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>always</name>
+      <required>false</required>
+      <type>boolean</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>render</name>
+      <required>false</required>
+      <type>boolean</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>version</name>
+      <required>false</required>
+      <type>pinkwino.Version</type>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+  <!-- end wikiLink }}} -->
+
+  <!-- {{{ wikiUser -->
+  <tag>
+    <name>wikiUser</name>
+    <tagclass>uk.co.nickthecoder.pinkwino.tags.WikiUserTag</tagclass>
+
+    <info>
+      Creates a link to one of the logged in users home page.
+    </info>
+  </tag>
+  <!-- end wikiUser }}} -->
+
+</taglib>
+

@@ -1,0 +1,142 @@
+/*
+  This style sheet contains the styles specific to the webwidgets documentation.
+  There is nothing in here which you need to use from your own webapp
+  (unless you want you app to look like the webwidgets documentation).
+*/
+
+/* Fonts */
+#logo { font-family: 'Arvo', serif; font-size : 24px; letter-spacing: -1px; font-weight: bold; }
+#main { font-family: Vedana, sans; font-size: 14px; }
+p { line-height: 150%; }
+h1, h2, h3, h4 { font-family: 'Arvo', serif; font-weight: normal; }
+h1 { font-size: 28px; font-weight: bold; }
+h2 { font-size: 24px; font-weight: normal; }
+h3 { font-size: 18px; font-weight: normal; }
+#tabs { text-transform: uppercase; font-size: 12px; }
+#tabs a { text-decoration: none; }
+.tabs a { text-decoration: none; }
+
+/* Layout */
+
+#whole { width: 980px; margin: 0 auto; }
+#header { text-align: center; }
+#logo { margin: 2em 0; }
+#logo p { margin: 0; padding: 0; }
+
+#tabs .ww_tab { float: left; }
+#tabs .ww_tab a { display: block; padding: 20px 2em; }
+#belowTabs { clear: both; }
+.tabs .ww_tab { float: left; }
+.tabs .ww_tab a { display: block; padding: 10px 1em; }
+
+#main { margin: 1em 0; }
+
+#navigation { float: left; width: 200px; padding: 40px 1em; }
+
+#columns #content { float:right; width: 650px; padding: 50px 2em; }
+#full #content { width: 920px; padding: 50px 2em;}
+
+#belowColumns { clear: both; }
+#footer { text-align: center; padding: 1em; }
+
+/* Tags */
+
+h1, h2, h3, h4 { margin: 0; padding: 0;  }
+h1 { margin: 0 0 1em 0; }
+h2 { margin: 1em 0; }
+h2 { margin-bottom: 20px; padding: 0 0 12px 0; }
+h3 { margin: 2em 0 1em 0; }
+
+#navigation h2 { padding: 0 0 12px 15px; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+ul { padding: 0; margin: 0; list-style: none; }
+ul li { padding: 0; margin: 1em 0; }
+
+ol { padding: 0; margin: 0; list-style-position: inside; }
+ol li { padding: 0 0.7em; margin: 1em 0; }
+
+ul li:before{ padding: 0 0.7em; content: "-"; }
+
+table { border-collapse: collapse; }
+td, th { border: 1px solid #666; padding: 4px 8px; text-align: left; font-weight: normal; }
+
+pre { padding: 1em; overflow: scroll; }
+
+/* Class Styles */
+
+.tools { float: right; padding-left: 2em; }
+.tools .tool { padding-left: 1em; }
+.tools .tool:before { content: "["; }
+.tools .tool:after { content: "]"; }
+
+.wiki_editSection { float: right; }
+.wiki_editSection2 { margin-top: -3.5em; }
+
+
+/* Colors */
+
+body { background: #000; color: #fff; }
+a { color: #e44; }
+#navigation a, #footer a { color: #888; }
+#main { background: #fff; color: #222; border: 1px solid #bbb; border-radius: 2px; }
+td { color: #222;  }
+th { background: #ddd; color: #333; }
+#logo a { color: #fff; text-decoration: none; }
+
+#tabs .ww_tabSelected { background: url('tab.jpg'); }
+#tabs .ww_tab a { color: #eee; }
+#tabs .ww_tab a:hover { color: #fff; }
+.tabs .ww_tabSelected { background: url('tab.jpg'); }
+.tabs .ww_tab a { color: #333; }
+.tabs .ww_tab a:hover { color: #000; }
+.tabs .ww_tabSelected a, .tabs .ww_tabSelected a:hover { color: #fff; }
+
+h2 { border-bottom: 1px solid #bbb; }
+ul li:before{ color: #aaa; }
+pre { border: 1px solid #333; background: #ccc; }
+
+.tabsContent { clear: both; border: 1px solid #333; background: #eee; padding: 1em; }
+
+
+/*
+  These styles are used  by the webwidgets tags.
+*/
+
+.ww_closed { display: none; }
+.ww_maximized .ww_maxButton, .ww_maximized .ww_expandButton, .ww_minimized .ww_minButton, .ww_minimized .ww_contractButton { display: none }
+.ww_minimized .ww_maxButton, .ww_minimized .ww_expandButton { display: inline; }
+.ww_minimized .ww_minimizable { display :none; }
+
+.ww_boxIcon { float: right; }
+
+/*
+  Standard Buttons
+*/
+
+/*
+  Quotes
+*/
+.ww_quote:before { content: "“"; }
+.ww_quote:after { content: "”"; }
+
+.ww_quote2:before { content: url('beginQuote.png'); white-space: nowrap; }
+.ww_quote2:after { content: url('endQuote.png'); white-space: nowrap; }
+
+/* Pager */
+
+.pager { text-align: center; margin: 3em 0; } 
+.pager a { padding: 0.5em; }
+.pager .currentPage { border: 1px solid #888; padding: 3px; border-radius: 4px; }
+.pager a:hover{ background: #e44; border-radius: 4px; color: #fff; text-decoration: none; }
+
+@media (max-width: 1000px) {
+  #whole { width: 100%; }
+  #full #content { width: 100%; float: none; width: inherit; margin-left: 2em; margin-right: 2em; }
+  #navigation { float: none; width: inherit; margin-top: 2em; }
+  #navigation ul { line-height: 200%; }
+  #navigation ul li { display: inline; padding: 0 1em 0 0; }
+  #navigation ul li:before{ padding: 0; content: ""; }
+}
+

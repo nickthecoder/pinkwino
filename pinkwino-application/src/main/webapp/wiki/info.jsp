@@ -100,86 +100,88 @@
         
         </ww:pager>
         
-      </c:if>
       
     </form>
 
-    <br/>
+    <h2>Meta Data</h2>
     
-    <!-- attachments -->
-    <h4><a name="attachments"></a>Attachments</h4>
-    <c:if test="${version.wikiDocument.attachments.hasNext}">
-      <div class="wiki_infoListContainer">
-        <ul class="wiki_infoList">
-          <c:forEach items="${version.wikiDocument.attachments}" var="attachName">
-            <li><a href="<c:out value="${attachName.wikiPage.viewUrl}"/>"><c:out value="${attachName.formatted}"/></a></li>
-          </c:forEach>
-        </ul>
-      </div>
-    </c:if>
+        
+        <!-- links -->
+        <c:if test="${version.wikiDocument.links.hasNext}">
+        <div class="wiki_metaData_section">
+        <h3><a name="links"/></a>Links</h3>
+            <ul class="wiki_infoList">
+              <c:forEach items="${version.wikiDocument.links}" var="linkName">
+                <li><a href="<c:out value="${linkName.wikiPage.viewUrl}"/>"><c:out value="${linkName.title}"/></a></li>
+              </c:forEach>
+            </ul>
+        </div>
+        </c:if>
+    
+        <!-- attachments -->
+        <c:if test="${version.wikiDocument.attachments.hasNext}">
+        <div class="wiki_metaData_section">
+        <h3><a name="attachments"></a>Attachments</h3>
+            <ul class="wiki_infoList">
+              <c:forEach items="${version.wikiDocument.attachments}" var="attachName">
+                <li><a href="<c:out value="${attachName.wikiPage.viewUrl}"/>"><c:out value="${attachName.title}"/></a></li>
+              </c:forEach>
+            </ul>
+        </div>
+        </c:if>
 
-    <!-- includes -->
-    <h4><a name="includes"></a>Includes</h4>
-    <c:if test="${version.wikiDocument.includes.hasNext}">
-      <div class="wiki_infoListContainer">
-        <ul class="wiki_infoList">
-          <c:forEach items="${version.wikiDocument.includes}" var="includeName">
-            <li><a href="<c:out value="${includeName.wikiPage.viewUrl}"/>"><c:out value="${includeName.formatted}"/></a></li>
-          </c:forEach>
-        </ul>
-      </div>
-    </c:if>
+        <!-- includes -->
+        <c:if test="${version.wikiDocument.includes.hasNext}">
+        <div class="wiki_metaData_section">
+        <h3><a name="includes"></a>Includes</h3>
+            <ul class="wiki_infoList">
+              <c:forEach items="${version.wikiDocument.includes}" var="includeName">
+                <li><a href="<c:out value="${includeName.wikiPage.viewUrl}"/>"><c:out value="${includeName.title}"/></a></li>
+              </c:forEach>
+            </ul>
+        </div>
+        </c:if>
 
-    <!-- related pages -->
-    <h4><a name="relatedPages"></a>Related Pages</h4>
-    <c:if test="${fn:length( wikiPage.relatedPages ) > 0}">
-      <div class="wiki_infoListContainer">
-      <ww:sort items="${wikiPage.relatedPages}" var="sorted"/>
-        <ul class="wiki_infoList">
-          <li><a href="<c:out value="${wikiPage.mainPage.viewUrl}"/>">Main</a></li>
-          <c:forEach items="${sorted}" var="relatedPage">
-            <li><a href="<c:out value="${relatedPage.viewUrl}"/>"><c:out value="${relatedPage.wikiName.relation}"></c:out></a></li>
-          </c:forEach>
-        </ul>
-      </div>
-    </c:if>
+        <!-- related pages -->
+        <c:if test="${fn:length( wikiPage.relatedPages ) > 0}">
+        <div class="wiki_metaData_section">
+        <h3><a name="relatedPages"></a>Related Pages</h3>
+          <ww:sort items="${wikiPage.relatedPages}" var="sorted"/>
+            <ul class="wiki_infoList">
+              <li><a href="<c:out value="${wikiPage.mainPage.viewUrl}"/>">Main</a></li>
+              <c:forEach items="${sorted}" var="relatedPage">
+                <li><a href="<c:out value="${relatedPage.viewUrl}"/>"><c:out value="${relatedPage.wikiName.relation}"></c:out></a></li>
+              </c:forEach>
+            </ul>
+        </div>
+        </c:if>
 
-    <!-- back links -->
-    <h4><a name="backLinks"></a>Back Links</h4>
-    <c:if test="${wikiPage.backLinks.length > 0}">
-      <div class="wiki_infoListContainer">
-        <ul class="wiki_infoList">
-          <c:forEach var="searchResult" items="${wikiPage.backLinks.iterator}">
-            <li><a href="<c:out value="${searchResult.wikiName.wikiPage.viewUrl}"/>"><c:out value="${searchResult.wikiName.formatted}"/></a></li>
-          </c:forEach>
-        </ul>
-      </div>
-    </c:if>
+        <!-- back links -->
+        <c:if test="${wikiPage.backLinks.length > 0}">
+        <div class="wiki_metaData_section">
+        <h3><a name="backLinks"></a>Referenced By</h3>
+            <ul class="wiki_infoList">
+              <c:forEach var="searchResult" items="${wikiPage.backLinks.iterator}">
+                <li><a href="<c:out value="${searchResult.wikiName.wikiPage.viewUrl}"/>"><c:out value="${searchResult.wikiName.title}"/></a></li>
+              </c:forEach>
+            </ul>
+        </div>
+        </c:if>
 
-    <!-- dependents -->
-    <h4><a name="dependents"></a>Dependents</h4>
-    <c:if test="${wikiPage.dependents.length > 0}">
-      <div class="wiki_infoListContainer">
-        <ul class="wiki_infoList">
-          <c:forEach var="searchResult" items="${wikiPage.dependents.iterator}">
-            <li><a href="<c:out value="${searchResult.wikiName.wikiPage.viewUrl}"/>"><c:out value="${searchResult.wikiName.formatted}"/></a></li>
-          </c:forEach>
-        </ul>
-      </div>
-    </c:if>
+        <!-- dependents -->
+        <c:if test="${wikiPage.dependents.length > 0}">
+        <div class="wiki_metaData_section">
+        <h3><a name="dependents"></a>Dependents</h3>
+            <ul class="wiki_infoList">
+              <c:forEach var="searchResult" items="${wikiPage.dependents.iterator}">
+                <li><a href="<c:out value="${searchResult.wikiName.wikiPage.viewUrl}"/>"><c:out value="${searchResult.wikiName.title}"/></a></li>
+              </c:forEach>
+            </ul>
+        </div>
+        </c:if>
 
-    <!-- links -->
-    <h4><a name="links"/></a>Links</h4>
-    <c:if test="${version.wikiDocument.links.hasNext}">
-      <div class="wiki_infoListContainer">
-        <ul class="wiki_infoList">
-          <c:forEach items="${version.wikiDocument.links}" var="linkName">
-            <li><a href="<c:out value="${linkName.wikiPage.viewUrl}"/>"><c:out value="${linkName.formatted}"/></a></li>
-          </c:forEach>
-        </ul>
-      </div>
-    </c:if>
-
+    
+  </c:if>
     
   </tiles:put>
   

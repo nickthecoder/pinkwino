@@ -72,6 +72,7 @@ public class LuceneMetaData implements MetaData
         }
         return value;
     }
+
     static String loadField(String value)
     {
         if (value.length() == 0) {
@@ -79,6 +80,7 @@ public class LuceneMetaData implements MetaData
         }
         return value;
     }
+
     public LuceneMetaData(File directoryName) throws IOException
     {
         _analyzer = new StandardAnalyzer();
@@ -86,10 +88,8 @@ public class LuceneMetaData implements MetaData
         _searcher = null;
     }
 
-    public void rebuild(boolean fromScratch)
+    public void rebuild()
     {
-        // MORE check fromScrath, if true delete the lucene database and reopen.
-
         List<WikiPage> pages = WikiEngine.instance().getPages();
 
         for (Iterator<WikiPage> i = pages.iterator(); i.hasNext();) {
@@ -106,7 +106,7 @@ public class LuceneMetaData implements MetaData
      * Rebuilds the meta data in a new thread. Designed to be called from the
      * wiki's config bsh script.
      */
-    public void rebuildAsync(final boolean fromScratch)
+    public void rebuildAsync()
     {
         Thread thread = (new Thread()
         {
@@ -115,7 +115,7 @@ public class LuceneMetaData implements MetaData
             {
                 try {
                     WikiContext.begin(null, null);
-                    rebuild(fromScratch);
+                    rebuild();
                 } finally {
                     WikiContext.end(null, null);
                 }
@@ -201,7 +201,8 @@ public class LuceneMetaData implements MetaData
         document.add(new Field("content", saveField(wikiPage.getCurrentVersion().getContent()), Field.Store.YES,
                         Field.Index.TOKENIZED));
 
-        for (Iterator<Dependency> i = wikiPage.getCurrentVersion().getWikiDocument().getDependencies().iterator(); i.hasNext();) {
+        for (Iterator<Dependency> i = wikiPage.getCurrentVersion().getWikiDocument().getDependencies().iterator(); i
+                        .hasNext();) {
 
             Dependency dependency = i.next();
 
@@ -310,4 +311,3 @@ public class LuceneMetaData implements MetaData
     }
 
 }
-

@@ -23,7 +23,6 @@ import uk.co.nickthecoder.pinkwino.parser.tree.AutoParagraphBlock;
 import uk.co.nickthecoder.pinkwino.parser.tree.SimpleParentNode;
 import uk.co.nickthecoder.pinkwino.util.ParameterDescription;
 
-
 public class DivWikiSyntax extends AbstractWikiLineSyntax
 {
 
@@ -31,7 +30,34 @@ public class DivWikiSyntax extends AbstractWikiLineSyntax
 
     private boolean _allowParagraphs;
 
+    private String _htmlTag;
+
+    private String _cssClass;
+
     public DivWikiSyntax(String prefix, String suffix, boolean allowParagraphs)
+    {
+        this(prefix, suffix, allowParagraphs, "div", null);
+
+    }
+
+    /**
+     * While the class is called DivWikiSyntax, this constructor lets you choose
+     * which html tag to use. This was created so that wiki syntax can create
+     * html blocks which can automatically add &lt;p&gt; tags where needed,
+     * inside of a html &lt;blockquote&gt; block.
+     * 
+     * @param prefix
+     * @param suffix
+     * @param allowParagraphs
+     * @param htmlTag
+     *            A value of "div" will have the same effect as the other,
+     *            simpler constructor.
+     * @param cssCladd
+     *            The default cssClass to use, or null for no default. The css
+     *            class can be overriden by the user using parameters in the
+     *            wiki markup.
+     */
+    public DivWikiSyntax(String prefix, String suffix, boolean allowParagraphs, String htmlTag, String cssClass)
     {
         super(prefix, suffix);
 
@@ -39,6 +65,8 @@ public class DivWikiSyntax extends AbstractWikiLineSyntax
         _terminators[0] = suffix;
 
         _allowParagraphs = allowParagraphs;
+        _htmlTag = htmlTag;
+        _cssClass = cssClass;
 
         addParameterDescription(ParameterDescription.find("class"));
         addParameterDescription(ParameterDescription.find("width"));
@@ -49,10 +77,10 @@ public class DivWikiSyntax extends AbstractWikiLineSyntax
 
     public void processSyntax(Parser parser)
     {
-        SimpleParentNode divNode = new SimpleParentNode("div", true);
-        parser.begin(divNode);
+        SimpleParentNode parentNode = new SimpleParentNode(_htmlTag, true, _cssClass);
+        parser.begin(parentNode);
 
-        parseParameters(parser, divNode);
+        parseParameters(parser, parentNode);
 
         if (_allowParagraphs) {
 
@@ -62,19 +90,19 @@ public class DivWikiSyntax extends AbstractWikiLineSyntax
             String terminator = parser.parseRemainder(_terminators);
             if (terminator == null) {
                 parser.abandon(autoParagraphBlock, getPrefix());
-                parser.end(divNode);
+                parser.end(parentNode);
             } else {
                 parser.end(autoParagraphBlock);
-                parser.end(divNode);
+                parser.end(parentNode);
             }
 
         } else {
 
             String terminator = parser.parseRemainder(_terminators);
             if (terminator == null) {
-                parser.abandon(divNode, getPrefix());
+                parser.abandon(parentNode, getPrefix());
             } else {
-                parser.end(divNode);
+                parser.end(parentNode);
             }
 
         }

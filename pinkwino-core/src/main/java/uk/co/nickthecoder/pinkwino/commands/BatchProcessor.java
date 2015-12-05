@@ -65,10 +65,10 @@ public class BatchProcessor implements Runnable
         this(runnable, null);
     }
 
-    public BatchProcessor(Runnable runnable, WikiPage wikiPage)
+    public BatchProcessor(Runnable runnable, WikiPage logPage)
     {
         _runnable = runnable;
-        _logPage = wikiPage;
+        _logPage = logPage;
         _wikiContext = WikiContext.getWikiContext();
     }
 

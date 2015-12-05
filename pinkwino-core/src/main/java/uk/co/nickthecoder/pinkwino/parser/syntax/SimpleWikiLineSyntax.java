@@ -20,7 +20,10 @@ package uk.co.nickthecoder.pinkwino.parser.syntax;
 
 import uk.co.nickthecoder.pinkwino.parser.NodeFactory;
 import uk.co.nickthecoder.pinkwino.parser.Parser;
+import uk.co.nickthecoder.pinkwino.parser.RemainderResult;
+import uk.co.nickthecoder.pinkwino.parser.tree.ErrorText;
 import uk.co.nickthecoder.pinkwino.parser.tree.ParentNode;
+import uk.co.nickthecoder.pinkwino.parser.tree.PlainText;
 
 /**
  * Defines the syntax for the headings
@@ -80,7 +83,17 @@ public class SimpleWikiLineSyntax implements WikiLineSyntax
         if (_singleLine) {
             parser.parseLineRemainder(_terminators);
         } else {
-            parser.parseRemainder(_terminators);
+            //parser.parseRemainder(_terminators);
+            RemainderResult results = parser.getRemainder(_terminators, true);
+
+            if (results.getTerminator() == null) {
+                parser.abandon(parentNode, getPrefix());
+                parser.add(new ErrorText("Block " + results.getText()));
+            } else {
+                parentNode.add(new PlainText(results.getText().trim()));
+                parser.end(parentNode);
+            }
+
         }
 
         parser.end(parentNode);

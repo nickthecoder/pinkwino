@@ -13,27 +13,21 @@
 
   <tiles:put name="title" type="string">Preview : <c:out value="${wikiPage.wikiName.title}"/></tiles:put>
 
-  <tiles:put name="preamble" type="string">
+  <tiles:put name="content" type="string" >
 
     <div class="wiki_warning">
-      This is only a preview, if you want to save your changes,
-      <a href="#editForm">scroll down</a>, and click the <i>Save</i> button.
+        <p>
+          This is only a preview, if you want to save your changes,
+          <a href="#pw_editForm">scroll down</a>, and click the <i>Save</i> button.
+        </p>
     </div>
-
-  </tiles:put>
-
-  <tiles:put name="content" type="string" >
 
     <div class="wiki_content wiki_preview">
       ${version.rendered}
     </div>
 
-  </tiles:put>
-
-  <tiles:put name="fullWidth" type="string" >
-
-    <hr/>
-
+    <h1>Edit</h1>
+    
     <tiles:insert template="editForm.jsp" flush="false">
       <tiles:put name="wikiPage" value="${wikiPage}"/>
       <tiles:put name="markup" type="string" value="${param.markup}"/>

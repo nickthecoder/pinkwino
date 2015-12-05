@@ -20,6 +20,7 @@ package uk.co.nickthecoder.pinkwino.plugins;
 
 import javax.servlet.http.HttpServletRequest;
 
+import uk.co.nickthecoder.webwidgets.util.TagUtil;
 import uk.co.nickthecoder.pinkwino.WikiContext;
 import uk.co.nickthecoder.pinkwino.util.ParameterDescription;
 import uk.co.nickthecoder.pinkwino.util.ParameterDescriptions;
@@ -103,13 +104,7 @@ public abstract class AbstractVisualPlugin implements VisualPlugin
      */
     public String getUrl()
     {
-        HttpServletRequest request = getRequest();
-        StringBuffer url = request.getRequestURL();
-        if (request.getQueryString() != null) {
-            url.append("?").append(request.getQueryString());
-        }
-
-        return url.toString();
+        return TagUtil.getUrl( getRequest() );
     }
 
 }

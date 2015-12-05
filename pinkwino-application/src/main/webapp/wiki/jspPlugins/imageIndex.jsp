@@ -8,23 +8,17 @@
 <ww:pager items="${sorted}" itemsPerPage="9" subsetVar="subset" pageParameterName="pager_page">
 
 <ww:portion portionSize="3" items="${subset}" var="rows">
-<table class="wiki_imageIndex">
+<div class="wiki_thumbnails">
 
-  <c:forEach var="row" items="${rows}">
-    <tr>
-
-      <c:forEach var="thumbnailPage" items="${row}">
-       <td>
+    <c:forEach var="thumbnailPage" items="${subset}">
+         <div class="wiki_thumbnail_float"><div class="thumbnail_container"><div class="thumbnail_wrapper">
          <a href="${thumbnailPage.mainPage.viewUrl}">
            <img alt="${thumbnailPage.wikiName.title}" src="${thumbnailPage.mediaUrl}"/><br/><c:out value="${thumbnailPage.wikiName.title}"/>
          </a>
-       </td>
-      </c:forEach>
+         </div></div></div>
+    </c:forEach>
 
-    </tr>
-  </c:forEach>
-
-</table>
+</div>
 </ww:portion>
 
 <div style="text-align: center">

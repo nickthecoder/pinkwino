@@ -45,7 +45,7 @@ project(':pinkwino-application') {
     apply plugin: 'jetty'
 	
   	dependencies {
-        compile project(':pinkwino')
+        compile project(':pinkwino-core')
     }
     
 }

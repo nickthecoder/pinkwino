@@ -28,6 +28,17 @@ import org.apache.logging.log4j.Logger;
 
 import uk.co.nickthecoder.pinkwino.security.User;
 
+/**
+ * Sometimes we need to know some information about the http request/response
+ * objects deep in the heart of the wiki engine. Rather than passing these
+ * around in a maddening mass of spaghetti, we use a ThreadLocal to store the
+ * information.
+ * 
+ * All servlets need to call WikiContext.begin and end each time they process a
+ * request.
+ * 
+ * It is ok if begin gets called twice, as long as end also gets called twice.
+ */
 public class WikiContext
 {
     protected static Logger _logger = LogManager.getLogger(WikiContext.class);
@@ -46,8 +57,21 @@ public class WikiContext
 
     private WikiPage _wikiPage;
 
+    public static WikiContext getWikiContext()
+    {
+        WikiContext wikiContext = _threadLocal.get();
+
+        if (wikiContext == null) {
+            _logger.error("getWikiContext called before the thread has initialised the context.");
+            throw new RuntimeException("No WikiContext found");
+        }
+
+        return wikiContext;
+    }
+
     public static void begin(HttpServletRequest request, HttpServletResponse response)
     {
+        _logger.trace( "Begin " + request.getRequestURI());
         WikiContext wikiContext = (WikiContext) _threadLocal.get();
 
         if (wikiContext == null) {
@@ -60,27 +84,14 @@ public class WikiContext
 
     public static void end(HttpServletRequest request, HttpServletResponse response)
     {
+        _logger.trace( "End " + request.getRequestURI());
         WikiContext wikiContext = _threadLocal.get();
 
         if (wikiContext == null) {
-            wikiContext = new WikiContext();
-            _threadLocal.set(wikiContext);
+            _logger.warn("end called without matching begin");
+        } else {
+            wikiContext.endInstance(request, response);
         }
-
-        if (wikiContext.endInstance(request, response)) {
-            _threadLocal.set(null);
-        }
-    }
-
-    public static WikiContext getWikiContext()
-    {
-        WikiContext wikiContext = _threadLocal.get();
-
-        if (wikiContext == null) {
-            _logger.error("getWikiContext called before the thread has initialised the context.");
-        }
-
-        return wikiContext;
     }
 
     public WikiContext()
@@ -91,18 +102,19 @@ public class WikiContext
 
     private void beginInstance(HttpServletRequest request, HttpServletResponse response)
     {
-        _count++;
-        if (_count == 1) {
+        if (_count == 0) {
             _attributes = null;
-            if ((_request != request) || (_response != response)) {
-                _logger.error("Different request / response objects for the same wikiContext");
+        } else {
+            if (_request != request) {
+                _logger.error("Different request objects for the same wikiContext. Count = " + _count);
             }
         }
         _request = request;
         _response = response;
+        _count++;
     }
 
-    private boolean endInstance(HttpServletRequest request, HttpServletResponse response)
+    private void endInstance(HttpServletRequest request, HttpServletResponse response)
     {
         _count--;
 
@@ -112,9 +124,7 @@ public class WikiContext
             _attributes = null;
             _user = null;
             _wikiPage = null;
-            return true;
         }
-        return false;
     }
 
     public HttpServletRequest getServletRequest()
@@ -138,10 +148,10 @@ public class WikiContext
         getAttributes().put(name, value);
     }
 
-    public Map<String,Object> getAttributes()
+    public Map<String, Object> getAttributes()
     {
         if (_attributes == null) {
-            _attributes = new HashMap<String,Object>();
+            _attributes = new HashMap<String, Object>();
         }
         return _attributes;
     }
@@ -171,10 +181,10 @@ public class WikiContext
 
     /**
      * Allows two threads to share the same wiki context. To do this, the thread
-     * which process the http request should create the WikiContext in the
+     * which is processing the http request should create the WikiContext in the
      * normal way. Then it gets a reference to the WikiContext using
      * WikiContext.getWikiContext(). It can spawn a new thread, and inside that
-     * thread call this method. From that point on, both thread will share the
+     * thread call this method. From that point on, both threads will share the
      * same WikiContext.
      */
     public void share()

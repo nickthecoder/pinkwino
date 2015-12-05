@@ -10,12 +10,12 @@
   <tiles:put name="pageType" type="string" value="view"/>
   <tiles:put name="wikiPage" type="string" value="${wikiPage}"/>
 
-  <tiles:put name="namedContents" type="string" value="${version.wikiDocument.namedContents}"/>
+  <tiles:put name="namedContents" value="${version.wikiDocument.namedContents}"/>
 
   <tiles:put name="version" type="string" value="${version}"/>
 
   <tiles:put name="title" type="string">
-    <pw:wikiName wikiName="${wikiPage.wikiName}"/>
+    <c:out value="${wikiPage.wikiName.title}"/>
     
     <c:if test="${param.version != null}">
       : Version <c:out value="${param.version}"/>

@@ -42,9 +42,9 @@ public class CommandProcessor extends BatchProcessor implements CommandListener
         this(command, wikiPage, true);
     }
 
-    public CommandProcessor(Command command, WikiPage wikiPage, boolean combinedStdOutErr)
+    public CommandProcessor(Command command, WikiPage logPage, boolean combinedStdOutErr)
     {
-        super(command, wikiPage);
+        super(command, logPage);
 
         command.setCommandListener(this);
 

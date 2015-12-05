@@ -216,9 +216,7 @@ public class WikiEngine
 
         _logger.info("Initialising pinkwino wiki engine");
         _instance = new WikiEngine();
-        _instance.setContextPath(servletContext.getContextPath());
-        _logger.info( "Content path : " + _instance.getContextPath() );
-        
+        _instance.setContextPath(servletContext.getContextPath());        
         String initScript = servletContext.getInitParameter(INIT_SCRIPT_PARAMETER);
 
         if (initScript == null) {

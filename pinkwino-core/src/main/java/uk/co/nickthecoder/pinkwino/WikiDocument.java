@@ -1,5 +1,4 @@
-/* {{{ GPL
-
+/*
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -13,12 +12,10 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-}}} */
+*/
 
 package uk.co.nickthecoder.pinkwino;
 
-// {{{ imports
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,8 +30,6 @@ import uk.co.nickthecoder.pinkwino.parser.tree.Node;
 import uk.co.nickthecoder.pinkwino.parser.tree.ParentNode;
 import uk.co.nickthecoder.pinkwino.parser.tree.PlainParentNode;
 
-// }}}
-
 /**
  * When a Version of a WikiPage has been parsed, the WikiDocument holds the
  * parsed data. Rendering wiki pages is a two step operation, first we parse it,
@@ -44,7 +39,7 @@ import uk.co.nickthecoder.pinkwino.parser.tree.PlainParentNode;
  * 
  * In addition to the tree of Nodes, a WikiDocument also has a set of
  * attributes. These can be used in a similar way to attributes of a
- * ServletRequest object. i.e. they are name value pairs that can hold anthing
+ * ServletRequest object. i.e. they are name value pairs that can hold anything
  * you want. Plugins can pass information to the jsp template using these
  * attributes.
  * 
@@ -52,7 +47,7 @@ import uk.co.nickthecoder.pinkwino.parser.tree.PlainParentNode;
  * result of rendering the _rootNode. However, a wiki document can also have
  * additional nodes, which can be referenced by name. For example, imagine you
  * have a web page with the main content on the right, and a thin navigation on
- * the left. If you want the left hand side of the web page to be dependant upon
+ * the left. If you want the left hand side of the web page to be dependent upon
  * which wiki page you are looking at, then this part of the page can be
  * rendered separately. The main content, and the left hand side are both
  * contained in one wiki page - the left hand side typically being included from

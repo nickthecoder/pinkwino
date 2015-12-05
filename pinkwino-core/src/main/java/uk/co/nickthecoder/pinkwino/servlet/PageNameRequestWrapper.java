@@ -32,7 +32,8 @@ public class PageNameRequestWrapper extends HttpServletRequestWrapper
 
     private String _pagePath;
 
-    public PageNameRequestWrapper(HttpServletRequest request, String pagePath)
+    // TODO Remove this class when I'm sure its no longer needed.
+    private PageNameRequestWrapper(HttpServletRequest request, String pagePath)
     {
         super(request);
         _pagePath = pagePath;

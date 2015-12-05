@@ -43,9 +43,7 @@ public class ImagePreprocessor extends DependantMediaPreprocessor
 
     public ImagePreprocessor(Date baseDate, ImageTransform imageTransform)
     {
-        this(baseDate, imageTransform, WikiEngine.instance().getMediaManager().getMimeTypeByExtension("jpeg"));
-        _logger.info("Using default mime type ");
-        _logger.info(":" + WikiEngine.instance().getMediaManager().getMimeTypeByExtension("jpeg"));
+        this(baseDate, imageTransform, null);
     }
 
     public ImagePreprocessor(Date baseDate, ImageTransform imageTransform, MimeType mimeType)
@@ -53,39 +51,38 @@ public class ImagePreprocessor extends DependantMediaPreprocessor
         super(baseDate);
         _imageTransform = imageTransform;
         _mimeType = mimeType;
-        _logger.info("Using mime type " + _mimeType);
     }
 
     public ImagePreprocessor(ImageTransform imageTransform)
     {
         super();
         _imageTransform = imageTransform;
-        _logger.info("Using default mime type2 ");
-        _logger.info(":" + WikiEngine.instance().getMediaManager().getMimeTypeByExtension("jpeg"));
         _mimeType = WikiEngine.instance().getMediaManager().getMimeTypeByExtension("jpeg");
     }
 
+    @Override
     public ParameterDescriptions getParameterDescriptions()
     {
         return _imageTransform.getParameterDescriptions();
     }
 
+    @Override
     public MimeType getMimeType()
     {
         return _mimeType;
     }
 
-    // {{{ processMedia
+    @Override
     public InputStream processMedia(WikiPage sourcePage, WikiPage destinationPage, Parameters parameters)
     {
-        _logger.info("Mimetype = " + _mimeType);
+        MimeType mimeType = _mimeType == null ? sourcePage.getWikiName().getMimeType() : _mimeType;
 
-        String mimeType = _mimeType.getMimeType();
-
+        String mts = mimeType.getMimeType();
+        
         String suffix = null;
-        if ("image/jpeg".equals(mimeType)) {
+        if ("image/jpeg".equals(mts)) {
             suffix = ".jpg";
-        } else if ("image/png".equals(mimeType)) {
+        } else if ("image/png".equals(mts)) {
             suffix = ".png";
         }
 
@@ -136,6 +133,7 @@ public class ImagePreprocessor extends DependantMediaPreprocessor
         _imageTransform.transform(input, output, parameters);
     }
 
+    @Override
     public long getDependentDate()
     {
         return _imageTransform.getDependentDate();

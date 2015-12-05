@@ -32,23 +32,12 @@ import org.apache.logging.log4j.Logger;
 public class WikiServletContextListener
   implements ServletContextListener
 {
-
-  // -------------------- [[Static Attributes]] --------------------
-
   protected static Logger _logger = LogManager.getLogger( WikiServletContextListener.class );
-
-  // -------------------- [[Attributes]] --------------------
-
-  // -------------------- [[Static Methods]] --------------------
-
-  // -------------------- [[Constructors]] --------------------
 
 
   public WikiServletContextListener()
   {
   }
-
-  // -------------------- [[Methods]] --------------------
 
   public void contextDestroyed( ServletContextEvent sce )
   {
@@ -66,9 +55,5 @@ public class WikiServletContextListener
     }
   }
 
-  // -------------------- [[Test / Debug]] --------------------
-
 }
-
-// ---------- End Of Class WikiServletContextListener ----------
 

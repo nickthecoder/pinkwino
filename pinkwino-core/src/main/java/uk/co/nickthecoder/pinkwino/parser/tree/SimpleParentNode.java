@@ -21,11 +21,19 @@ import uk.co.nickthecoder.pinkwino.parser.NodeFactory;
 public class SimpleParentNode extends PlainParentNode implements NodeFactory, Cloneable, SummaryPart
 {
     private String _tagName;
+    
+    private String _cssClass;
 
     public SimpleParentNode(String tagName, boolean isBlock)
     {
+        this( tagName, isBlock, null );
+    }
+    
+    public SimpleParentNode(String tagName, boolean isBlock, String cssClass)
+    {
         super(isBlock);
         _tagName = tagName;
+        _cssClass = cssClass;
     }
 
     public String getTagName()
@@ -37,6 +45,9 @@ public class SimpleParentNode extends PlainParentNode implements NodeFactory, Cl
     {
         buffer.append("<").append(_tagName);
         renderParameters(buffer);
+        if (_cssClass != null) {
+            buffer.append( " class=\"" ).append( _cssClass ).append("\"");
+        }
         buffer.append(">");
         super.render(buffer);
         buffer.append("</").append(_tagName).append(">");

@@ -5,22 +5,25 @@
 <c:choose>
 
   <c:when test="${parameters['float'].value == 'none'}">
-    <div style="text-align: ${parameters.align.value}">
+    <div class="wiki_image_align_${parameters.align.value}">
+      <figure>
       <c:choose>
         <c:when test="${parameters.renderLink.value == 'false'}">
-          <img src="${imageWikiPage.mediaUrl}" alt="${imageWikiPage.wikiName.formatted}" />
+            <img src="${imageWikiPage.mediaUrl}" alt="${imageWikiPage.wikiName.formatted}" />
         </c:when>
         <c:otherwise>
           <a href="${imageWikiPage.mainPage.viewUrl}"><img src="${imageWikiPage.mediaUrl}" alt="${imageWikiPage.wikiName.formatted}" /></a>
         </c:otherwise>
       </c:choose>
-      ${jspNode.renderChildren}
+      <figcaption>${jspNode.renderChildren}</figcaption>
+      </figure>
     </div>
   </c:when>
 
   <c:otherwise>
 
     <div class="wiki_image_float_${parameters['float'].value}">
+      <figure>
       <c:choose>
         <c:when test="${parameters.renderLink.value == 'false'}">
           <img src="${imageWikiPage.mediaUrl}" alt="${imageWikiPage.wikiName.formatted}" />
@@ -30,9 +33,8 @@
         </c:otherwise>
       </c:choose>
 
-      <div class="wiki_caption" style="text-align: ${parameters.align.value};">
-        ${jspNode.renderChildren}
-      </div>
+        <figcaption>${jspNode.renderChildren}</figcaption>
+      </figure>
     </div>
   </c:otherwise>
 

@@ -19,12 +19,25 @@ wikiEngine.setSyntaxManager( sm )
 //sm.addWikiSyntax( new ThrowSyntax( "<!#throw#!>" ) )
 //sm.addWikiSyntax( new SimpleWikiSyntax( "<!#throw2#!>", "", new ThrowNode() ) )
 
+// Blocks
+sm.addWikiLineSyntax( new PreBlockSyntax( "{{{", "}}}" ) )
+sm.addWikiLineSyntax( new PreBlockSyntax( "<pre>", "</pre>" ) )
+sm.addWikiLineSyntax( new DivWikiSyntax( "((", "))", true ) )
+sm.addWikiLineSyntax( new DivWikiSyntax( "{{[", "]}}", true ) )
+sm.addWikiLineSyntax( new DivWikiSyntax( ">>", "<<", true, "blockquote", null ) )
+sm.addWikiLineSyntax( new DivWikiSyntax( "\"\"\"", "\"\"\"", true, "blockquote", "wiki_quote" ) )
+sm.addWikiLineSyntax( new PreBlockSyntax( "\$\$\$", "\$\$\$", "wiki_code" ) )
+
 // Text styles
 sm.addWikiSyntax( new SimpleWikiSyntax( "++", new SimpleParentNode( "b", false ) ) )
-sm.addWikiSyntax( new SimpleWikiSyntax( "__", "__", Span.createClass( "wiki_underline" ) ) )
+sm.addWikiSyntax( new SimpleWikiSyntax( "__", new SimpleParentNode( "u", false ) ) )
 sm.addWikiSyntax( new SimpleWikiSyntax( "''", new SimpleParentNode( "i", false )  ) )
-sm.addWikiSyntax( new SimpleWikiSyntax( "--", "--", Span.createClass( "wiki_strike" ) ) )
-sm.addWikiSyntax( new SimpleWikiSyntax( "``", "``", Span.createClass( "wiki_code" ) ) )
+sm.addWikiSyntax( new SimpleWikiSyntax( "--", "--", new SimpleParentNode( "s", false ) ) )
+sm.addWikiSyntax( new SimpleWikiSyntax( "^^", "^^", new SimpleParentNode( "sup", false ) ) )
+sm.addWikiSyntax( new SimpleWikiSyntax( ",,", ",,", new SimpleParentNode( "sub", false ) ) )
+sm.addWikiSyntax( new SimpleWikiSyntax( "\$\$", "\$\$", new SimpleParentNode( "code", false ) ) )
+sm.addWikiSyntax( new SimpleWikiSyntax( "``",   "``",   new SimpleParentNode( "code", false ) ) ) // Backwards compatible
+sm.addWikiSyntax( new SimpleWikiSyntax( "\"\"", "\"\"", new SimpleParentNode( "q", false ) ) )
 
 // Comment and nowiki
 sm.addWikiSyntax( new SimpleWikiSyntax( "<!--", "-->", new Comment() ) )
@@ -52,13 +65,9 @@ sm.addWikiLineSyntax( new HeadingSyntax( 3, "====", "====" ) )
 sm.addWikiLineSyntax( new HeadingSyntax( 2, "===", "===" ) )
 sm.addWikiLineSyntax( new HeadingSyntax( 1, "==", "==" ) )
 
-// Blocks
-sm.addWikiLineSyntax( new PreBlockSyntax( "{{{", "}}}" ) )
-// sm.addWikiLineSyntax( new PreBlockSyntax( "<pre>", "</pre>" ) )
-sm.addWikiLineSyntax( new DivWikiSyntax( "{{[", "]}}", true ) )
 
-// Plugins {{ foo( thing="x" width="6" ) }}
-sm.addWikiSyntax( new PluginSyntax( "{{:", "}}" ) ) // Backwards compatable.
+// Plugins
+sm.addWikiSyntax( new PluginSyntax( "{{:", "}}" ) ) // Backwards compatible.
 sm.addWikiSyntax( new PluginSyntax( "{{", "}}" ) )
 
 // Paragraph separator and Horizontal Rule

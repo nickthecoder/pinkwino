@@ -7,7 +7,7 @@
 
 <tiles:insert template="${wikiEngine.urlManager.template}" flush="true">
 
-  <tiles:put name="pageType" value="view"/>
+  <tiles:put name="pageType" value="diff"/>
 
   <tiles:put name="wikiPage" value="${wikiPage}"/>
 
@@ -16,62 +16,72 @@
   <tiles:put name="version" value="${version}"/>
 
   <tiles:put name="title" type="string">
-    <pw:wikiName wikiName="${wikiPage.wikiName}"/> (Version ${versionB.versionNumber} vs ${versionA.versionNumber})
+      Diff : <c:out value="${wikiPage.wikiName.title}"/>
+      (versions
+      <span class="wiki_versionB">${versionB.versionNumber}</span>
+      &amp;
+      <span class="wiki_versionA">${versionA.versionNumber}</span>)
   </tiles:put>
 
   <tiles:put name="content" type="string" >
 
     <div id="wiki_diffTools">
-      Opacity :<br/>
-      <a href="#" onmouseover="wiki_diffOpacity(0)">${versionB.versionNumber}</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.1)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.2)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.3)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.4)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.5)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.6)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.7)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.8)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(0.9)">.</a>
-      <a href="#" onmouseover="wiki_diffOpacity(1)">${versionA.versionNumber}</a>
-      
-      <br/>
+      Opacity :
+      &nbsp;
+      <span class="wiki_opacitySlider">
+          <span class="wiki_versionB" onclick="wiki_diffOpacity(0)">${versionB.versionNumber}</span
+          ><span onclick="wiki_diffOpacity(0.1)" title="10%"> </span
+          ><span onclick="wiki_diffOpacity(0.2)" title="20%"> </span
+          ><span onclick="wiki_diffOpacity(0.3)" title="30%"> </span
+          ><span onclick="wiki_diffOpacity(0.4)" title="40%"> </span
+          ><span onclick="wiki_diffOpacity(0.5)" title="50%"> </span
+          ><span onclick="wiki_diffOpacity(0.6)" title="60%"> </span
+          ><span onclick="wiki_diffOpacity(0.7)" title="70%"> </span
+          ><span onclick="wiki_diffOpacity(0.8)" title="80%"> </span
+          ><span onclick="wiki_diffOpacity(0.9)" title="90%"> </span
+          ><span class="wiki_versionA" onclick="wiki_diffOpacity(1)">${versionA.versionNumber}</span>
+      </span>
+      &nbsp;
       <a href="#" onclick="wiki_diffTogglePingPong();" />Auto/Manual</a>
       <br/>
 
-      Sections :<br/>        
+      <ul class="wiki_infoList">     
+      <li>
+        <a onclick="wiki_diffAlignSection( '#sectionTOP' )" href="#sectionTOP">TOP</a>
+      </li>
       <c:forEach var="section" items="${versionA.wikiDocument.subsections}">
         <li>
           <a onclick="wiki_diffAlignSection( '#section${section.linkName}' )" href="#section${section.linkName}"><c:out value="${section.title}"/></a>
-          
-          <c:if test="${ (! empty section.subsections) && (parameters['levels'].value != '1') }"><ul>
-            <c:forEach var="section2" items="${section.subsections}">
+        </li>
+        <c:forEach var="section2" items="${section.subsections}">
+          <li>
+            <a onclick="wiki_diffAlignSection( '#section${section2.linkName}' )" href="#section${section2.linkName}"><c:out value="${section2.title}"/></a>
+          </li> 
+          <c:if test="${ (! empty section2.subsections) && (parameters['levels'].value != '2')}">
+            <c:forEach var="section3" items="${section2.subsections}">
               <li>
-                <a onclick="wiki_diffAlignSection( '#section${section2.linkName}' )" href="#section${section2.linkName}"><c:out value="${section2.title}"/></a>
-                
-                <c:if test="${ (! empty section2.subsections) && (parameters['levels'].value != '2')}"><ul>
-                  <c:forEach var="section3" items="${section2.subsections}">
-                    <li>
-                      <a onclick="wiki_diffAlignSection( '#section${section3.linkName}' )" href="#section${section3.linkName}"><c:out value="${section3.title}"/></a>
-                    </li>
-                  </c:forEach>
-                </ul></c:if>
-                
+                <a onclick="wiki_diffAlignSection( '#section${section3.linkName}' )" href="#section${section3.linkName}"><c:out value="${section3.title}"/></a>
               </li>
             </c:forEach>
-          </ul></c:if>
-          
-        </li>
+          </c:if>
+                
+        </c:forEach>
+        
       </c:forEach>
+      </ul>
       
     </div>
 
     <div id="wiki_versions">
       <div id="wiki_versionA">
+        <a name="sectionTOP"></a>
+      
         ${versionA.rendered}
       </div>
       
       <div id="wiki_versionB">
+        <a name="sectionTOP"></a>
+        
         ${versionB.rendered}
       </div>
     </div>

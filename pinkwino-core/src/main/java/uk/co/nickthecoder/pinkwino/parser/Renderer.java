@@ -20,7 +20,7 @@ import uk.co.nickthecoder.pinkwino.Version;
 import uk.co.nickthecoder.pinkwino.WikiDocument;
 
 /**
- * Coverts the source text into html. This interface attempts to be as generic
+ * Converts the source text into html. This interface attempts to be as generic
  * as possible, so that any renderer can be made to work with this package's
  * WikiEngine.
  */

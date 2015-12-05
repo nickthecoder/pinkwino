@@ -7,51 +7,37 @@
 
 <tiles:insert template="${wikiEngine.urlManager.template}" flush="true">
 
-  <tiles:put name="title" type="string">Delete : <pw:wikiName wikiName="${wikiPage.wikiName}"/></tiles:put>
+    <tiles:put name="title" type="string">Delete : <pw:wikiName wikiName="${wikiPage.wikiName}"/></tiles:put>
 
-  <tiles:put name="wikiPage" value="${wikiPage}"/>
+    <tiles:put name="wikiPage" value="${wikiPage}"/>
 
-  <tiles:put name="pageType" value="confirmDelete"/>
+    <tiles:put name="pageType" value="confirmDelete"/>
 
-  <tiles:put name="preamble" type="string" >
+    <tiles:put name="content" type="string" >
 
-    <form name="deleteForm" id="deleteForm" method="post" action="${wikiPage.deleteUrl}">
+        <form name="deleteForm" id="deleteForm" method="post" action="${wikiPage.deleteUrl}">
 
-      <input type="hidden" name="page" value="<c:out value="${wikiPage.wikiName.formatted}"/>"/>
-      <input type="hidden" name="referrer" value="<ww:referrer/>"/>
+            <input type="hidden" name="page" value="<c:out value="${wikiPage.wikiName.formatted}"/>"/>
+            <input type="hidden" name="referrer" value="<ww:referrer/>"/>
 
-      <table class="wiki_form">
-
-        <tr>
-          <td>
             <p>
-              Are you sure you want to delete this page?
+                Are you sure you want to delete this page?
             </p>
-          </td>
-        </tr>
 
-        <tr>
-          <td class="wiki_formButtons">
-            <button name="delete" type="submit" value="1">Ok</button>
-            <button name="cancel" type="submit" value="1">Cancel</button>
-          </td>
-        </tr>
+            <div class="wiki_buttons">
+                <button name="delete" type="submit" value="1">Ok</button>
+                <button name="cancel" type="submit" value="1">Cancel</button>
+            </div>
 
-      </table>
+        </form>
 
-    </form>
+        <br/>
 
-    <br/>
+        <div class="wiki_content">
+            ${version.rendered}
+        </div>
 
-  </tiles:put>
-
-  <tiles:put name="content" type="string" >
-
-    <div class="wiki_content">
-      ${version.rendered}
-    </div>
-
-  </tiles:put>
+    </tiles:put>
 
 </tiles:insert>
 

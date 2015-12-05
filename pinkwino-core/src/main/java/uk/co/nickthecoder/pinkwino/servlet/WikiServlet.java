@@ -230,7 +230,7 @@ public class WikiServlet extends HttpServlet
         response.setCharacterEncoding(getCharacterEncoding());
 
         RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-        rd.forward(new PageNameRequestWrapper(request, getPagePath(request)), response);
+        rd.forward(request, response);
     }
 
     protected String getCharacterEncoding()

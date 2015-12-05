@@ -32,6 +32,10 @@ import uk.co.nickthecoder.pinkwino.util.Parameter;
 import uk.co.nickthecoder.pinkwino.util.ParameterDescription;
 import uk.co.nickthecoder.pinkwino.util.Parameters;
 
+/**
+ * Uses the command line tool <a href="http://wkhtmltopdf.org/">wkhtmltoimage</a> to capture a web page as an
+ * image, and save it within the wiki.
+ */
 public class CaptureWebPagePlugin extends JspPlugin
 {
 
@@ -65,7 +69,6 @@ public class CaptureWebPagePlugin extends JspPlugin
         _script = script;
 
         addParameterDescription(ParameterDescription.find("page").required());
-        addParameterDescription(ParameterDescription.find("log"));
         addParameterDescription(ParameterDescription.find("url").required());
         addParameterDescription(ParameterDescription.find("label").defaultValue("Capture Web Page"));
         addParameterDescription(ParameterDescription.find("width").defaultValue("" + width));
@@ -94,29 +97,21 @@ public class CaptureWebPagePlugin extends JspPlugin
                 Parameter urlParameter = parameters.getParameter("url");
                 Parameter widthParameter = parameters.getParameter("width");
                 Parameter heightParameter = parameters.getParameter("height");
-                Parameter logParameter = parameters.getParameter("log");
-
-                WikiPage logPage = logParameter == null ? null : WikiEngine.instance().getWikiPage(
-                                logParameter.getValue());
 
                 captureWebPage(wikiPage.getWikiName(), urlParameter.getValue(), widthParameter.getValue(),
-                                heightParameter.getValue(), logPage);
+                                heightParameter.getValue() );
             }
 
         }
 
     }
 
-    public void captureWebPage(WikiName wikiName, String url, String width, String height, WikiPage logPage)
+    public void captureWebPage(WikiName wikiName, String url, String width, String height)
     {
         try {
             File outputFile = File.createTempFile("CaptureWebPagePlugin", ".png");
 
-            /*
-             * String[] commandArray = new String[] { _khtml2png, "--width",
-             * width, "--height", height, url, outputFile.getPath() };
-             */
-            String[] commandArray = new String[] { _script, "-g", width, height, "-o", outputFile.getPath(), url };
+            String[] commandArray = new String[] { _script, "--width", width, "--height", height, url, outputFile.getPath(), };
 
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < commandArray.length; i++) {
@@ -127,7 +122,7 @@ public class CaptureWebPagePlugin extends JspPlugin
             Command command = new Command();
             command.setCommandArray(commandArray);
 
-            CommandProcessor cp = new CaptureWebPageCommandProcessor(command, logPage, wikiName, outputFile);
+            CommandProcessor cp = new CaptureWebPageCommandProcessor(command, wikiName, outputFile);
 
             cp.start();
 
@@ -142,9 +137,9 @@ public class CaptureWebPagePlugin extends JspPlugin
         private WikiName _wikiName;
         private File _file;
 
-        public CaptureWebPageCommandProcessor(Command command, WikiPage logPage, WikiName wikiName, File file)
+        public CaptureWebPageCommandProcessor(Command command, WikiName wikiName, File file)
         {
-            super(command, logPage);
+            super(command);
             _wikiName = wikiName;
             _file = file;
         }

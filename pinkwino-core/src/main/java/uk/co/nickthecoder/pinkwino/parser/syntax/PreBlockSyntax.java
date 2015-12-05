@@ -32,18 +32,26 @@ public class PreBlockSyntax extends AbstractWikiLineSyntax
 {
 
     private String[] _terminators;
+    
+    private String _cssClass;
 
     public PreBlockSyntax(String prefix, String suffix)
     {
+        this( prefix, suffix, null );
+    }
+    
+    public PreBlockSyntax(String prefix, String suffix, String cssClass )
+    {
         super(prefix, suffix);
-
+        
+        _cssClass = cssClass;
         _terminators = new String[1];
         _terminators[0] = suffix;
     }
 
     public void processSyntax(Parser parser)
     {
-        SimpleParentNode parentNode = new SimpleParentNode("pre", true);
+        SimpleParentNode parentNode = new SimpleParentNode("pre", true, _cssClass);
 
         parser.begin(parentNode);
         RemainderResult results = parser.getRemainder(_terminators, true);

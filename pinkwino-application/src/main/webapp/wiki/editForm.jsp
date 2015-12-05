@@ -3,8 +3,6 @@
 <%@ taglib uri="http://nickthecoder.co.uk/webwidgets" prefix="ww" %>
 <%@ taglib uri="http://nickthecoder.co.uk/pinkwino" prefix="pw" %>
 
-EditForm wikiPage ${wikiPage}
-
 <form id="pw_editForm" method="post" enctype="multipart/form-data" action="${wikiPage.editUrl}">
 
   <c:if test="${ (wikiPage.wikiName.media) && (empty param.section) }">
@@ -23,5 +21,16 @@ EditForm wikiPage ${wikiPage}
     <input type="submit" name="cancel" value="Cancel" accesskey="c"/>
   </div>
   
+  <ww:box minimized="true">
+    <ww:boxTitle clickable="true"><h3>Cheat Sheet ...</h3></ww:boxTitle>
+    <ww:boxContent>
+      <div class="wiki_noEdit">
+      <pw:wikiPage namespace="wiki" title="Cheat Sheet">
+        ${wikiPage.rendered}
+      </pw:wikiPage>
+      </div>
+    </ww:boxContent>
+  </ww:box>
+    
 </form>
 

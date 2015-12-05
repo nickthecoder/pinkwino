@@ -13,7 +13,7 @@
 
   <tiles:put name="title" type="string">Revert : <pw:wikiName wikiName="${wikiPage.wikiName}"/></tiles:put>
 
-  <tiles:put name="fullWidth" type="string" >
+  <tiles:put name="content" type="string" >
 
     <c:if test="${ ! empty message}">
       <div class="wiki_warning">
@@ -32,7 +32,7 @@
       </p>
     </div>
 
-    <tiles:insert template="editForm.jsp" flush="true">
+    <tiles:insert template="editForm.jsp" flush="false">
       <tiles:put name="wikiPage" value="${wikiPage}"/>
       <tiles:put name="markup" type="string">${markup}</tiles:put>
     </tiles:insert>

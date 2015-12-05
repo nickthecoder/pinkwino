@@ -56,22 +56,6 @@ public class GoogleMapPlugin extends JspPlugin
         addParameterDescription(KEY_PARAMETER_DESCRIPTION);
     }
 
-    /**
-     * Adds the javascript code to the head part of the web page. Note, for this
-     * to work, the template has to have the following code within its head tag.
-     * 
-     * <pre>
-     *       <c:if test="${! empty version.wikiDocument.namedContents.head}">
-     *         ${version.wikiDocument.namedContents.head}
-     *       </c:if>
-     * </pre>
-     */
-    public Object doBegin(PluginSupport pluginSupport, Parameters parameters)
-    {
-        includeHead(pluginSupport, parameters, "googleMapHead.jsp");
-        return super.doBegin(pluginSupport, parameters);
-    }
-
     protected Node decorateJspNode(JspNode jspNode, WikiDocument wikiDocument, Parameters parameters)
     {
         Parameter keyParameter = parameters.getParameter("key");

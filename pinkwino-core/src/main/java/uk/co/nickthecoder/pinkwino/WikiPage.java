@@ -272,6 +272,11 @@ public class WikiPage implements Comparable<WikiPage>
         return WikiEngine.instance().getRenderer().render(getCurrentVersion());
     }
 
+    public String getRendered()
+    {
+        return WikiEngine.instance().getRenderer().render(getCurrentVersion());
+    }
+
     public WikiPage getRelatedPage(String relation)
     {
         if (getWikiName().getRelation() == null) {

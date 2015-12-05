@@ -210,6 +210,12 @@ public class Parser implements PluginSupport
      */
     private void parseLineSyntaxs(String[] terminators)
     {
+        for( String terminator : terminators ) {
+            if (terminator.equals(_line)) {
+                return;
+            }
+        }
+        
         for (Iterator<WikiLineSyntax> i = _syntaxManager.getWikiLineSyntax(); i.hasNext();) {
             WikiLineSyntax wlm = i.next();
 

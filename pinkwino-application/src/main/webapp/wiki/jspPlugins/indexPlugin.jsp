@@ -6,7 +6,9 @@
 <div class="wiki_chooseLetter">
   <ww:groupByInitial var="letters" items="${wikiPages}" expression="wikiName.title">
 
+    <ul class="wiki_infoList">
     <c:forEach var="letter" items="${letters}">
+      <li>
       <c:choose>
         <c:when test="${letter.count == 0}">
           <c:out value="${letter}"/> 
@@ -15,8 +17,10 @@
           <a class="button" href="#${namespace.name}_letter_${letter}"><c:out value="${letter}"/></a>
         </c:otherwise>
       </c:choose>
+      </li>
     </c:forEach>
-
+    </ul>
+    
   </ww:groupByInitial>
 </div>
 
@@ -32,10 +36,11 @@
 
       <div class="wiki_index_group">
         <ww:sort items="${letter.items}" var="sorted"/>
-        <c:forEach var="wikiPage" items="${sorted}" varStatus="status">
-          <c:if test="${status.count > 1}">,&nbsp; </c:if>
-          <a href="${wikiPage.viewUrl}"><c:out value="${wikiPage.wikiName.title}"/></a>
-        </c:forEach>
+          <ul class="wiki_infoList">
+            <c:forEach var="wikiPage" items="${sorted}">
+              <li><a href="${wikiPage.viewUrl}"><c:out value="${wikiPage.wikiName.title}"/></a></li>
+            </c:forEach>
+          </ul>
       </div>
     </c:if>
 

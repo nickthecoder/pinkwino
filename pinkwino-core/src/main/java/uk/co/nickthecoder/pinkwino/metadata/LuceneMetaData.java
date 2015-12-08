@@ -1,4 +1,4 @@
-/* {{{ GPL
+/*
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -12,7 +12,7 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-}}} */
+ */
 
 package uk.co.nickthecoder.pinkwino.metadata;
 
@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -32,6 +33,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -44,18 +46,20 @@ import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.LockObtainFailedException;
 
 import uk.co.nickthecoder.pinkwino.Dependency;
 import uk.co.nickthecoder.pinkwino.WikiContext;
 import uk.co.nickthecoder.pinkwino.WikiEngine;
 import uk.co.nickthecoder.pinkwino.WikiName;
 import uk.co.nickthecoder.pinkwino.WikiPage;
+import uk.co.nickthecoder.pinkwino.WikiPageListener;
 
 /**
  * Uses the Lucene search engine to store the meta data.
  */
 
-public class LuceneMetaData implements MetaData
+public class LuceneMetaData implements MetaData, WikiPageListener
 {
     protected static Logger _logger = LogManager.getLogger(LuceneMetaData.class);
 
@@ -64,6 +68,10 @@ public class LuceneMetaData implements MetaData
     private Directory _directory;
 
     private Searcher _searcher;
+
+    private int _openCount = 0;
+
+    private IndexWriter _writer;
 
     static String saveField(String value)
     {
@@ -88,18 +96,25 @@ public class LuceneMetaData implements MetaData
         _searcher = null;
     }
 
-    public void rebuild()
+    public void rebuild() throws CorruptIndexException, LockObtainFailedException, IOException
     {
         List<WikiPage> pages = WikiEngine.instance().getPages();
 
-        for (Iterator<WikiPage> i = pages.iterator(); i.hasNext();) {
-            WikiPage wikiPage = i.next();
+        open();
+        try {
+            for (Iterator<WikiPage> i = pages.iterator(); i.hasNext();) {
+                WikiPage wikiPage = i.next();
 
-            try {
-                update(wikiPage);
-            } catch (Exception e) {
+                try {
+                    update(wikiPage.getWikiName(), createDocument(wikiPage));
+                } catch (Exception e) {
+                    _logger.error("Failed to update page " + wikiPage.getWikiName().getFormatted());
+                }
             }
+        } finally {
+            close();
         }
+
     }
 
     /**
@@ -110,12 +125,14 @@ public class LuceneMetaData implements MetaData
     {
         Thread thread = (new Thread()
         {
-
             public void run()
             {
                 try {
                     WikiContext.begin(null, null);
                     rebuild();
+                } catch (Exception e) {
+                    _logger.error("Failed to rebuild Lucene index. " + e);
+                    e.printStackTrace();
                 } finally {
                     WikiContext.end(null, null);
                 }
@@ -148,11 +165,6 @@ public class LuceneMetaData implements MetaData
         return _searcher;
     }
 
-    private void reopen()
-    {
-        _searcher = null;
-    }
-
     /**
      * Lists all wiki pages which link to the given page. This does NOT include
      * wiki pages which are *dependant* on the given page, so, for example, if
@@ -178,17 +190,26 @@ public class LuceneMetaData implements MetaData
      */
     public SearchResults getDependents(WikiName wikiName) throws IOException
     {
-        TermQuery backLinksQuery = new TermQuery(new Term("dependency", wikiName.getFormatted()));
-
-        Hits hits = getSearcher().search(backLinksQuery);
+        TermQuery query = new TermQuery(new Term("dependency", wikiName.getFormatted()));
+        Hits hits = getSearcher().search(query);
+        _logger.trace("Searching for 'dependency' = " + wikiName.getFormatted());
 
         return new LuceneSearchResults(hits);
     }
 
-    /** Update the meta data in lucene for the given page */
-    public void update(WikiPage wikiPage) throws IOException
+    @Override
+    public void onSave(WikiPage wikiPage) throws Exception
     {
+        open();
+        try {
+            update(wikiPage.getWikiName(), createDocument(wikiPage));
+        } finally {
+            close();
+        }
+    }
 
+    protected Document createDocument(WikiPage wikiPage)
+    {
         Document document = new Document();
         WikiName wikiName = wikiPage.getWikiName();
 
@@ -201,39 +222,73 @@ public class LuceneMetaData implements MetaData
         document.add(new Field("content", saveField(wikiPage.getCurrentVersion().getContent()), Field.Store.YES,
                         Field.Index.TOKENIZED));
 
-        for (Iterator<Dependency> i = wikiPage.getCurrentVersion().getWikiDocument().getDependencies().iterator(); i
-                        .hasNext();) {
-
-            Dependency dependency = i.next();
+        Collection<Dependency> dependencies = wikiPage.getCurrentVersion().getWikiDocument().getDependencies();
+        for (Dependency dependency : dependencies) {
 
             if (dependency.isLink()) {
 
+                _logger.trace("Adding link : " + dependency.getWikiName());
                 document.add(new Field("link", dependency.getWikiName().getFormatted(), Field.Store.YES,
                                 Field.Index.UN_TOKENIZED));
 
             } else {
-
+                _logger.trace("Adding dependency : " + dependency.getWikiName());
                 document.add(new Field("dependency", dependency.getWikiName().getFormatted(), Field.Store.YES,
                                 Field.Index.UN_TOKENIZED));
 
             }
         }
+        return document;
+    }
 
-        IndexWriter writer = new IndexWriter(getDirectory(), getAnalyzer());
-        writer.updateDocument(getWikiNameTerm(wikiName), document, getAnalyzer());
-        writer.close();
-        reopen();
+    @Override
+    public void onDelete(WikiPage wikiPage) throws Exception
+    {
+        open();
+        try {
+            delete(wikiPage.getWikiName());
+        } finally {
+            close();
+        }
 
     }
 
-    /** Remove the page from lucene */
-    public void remove(WikiName wikiName) throws IOException
+    protected synchronized void open() throws CorruptIndexException, LockObtainFailedException, IOException
     {
+        if (_writer == null) {
+            if (_openCount != 0) {
+                _logger.error("Open count should be zero when writer is closed");
+            }
+            _writer = new IndexWriter(getDirectory(), getAnalyzer());
+        }
+        _openCount++;
+    }
 
-        IndexWriter writer = new IndexWriter(getDirectory(), getAnalyzer());
-        writer.deleteDocuments(getWikiNameTerm(wikiName));
-        writer.close();
+    protected void update(WikiName wikiName, Document doc) throws CorruptIndexException, IOException
+    {
+        _writer.updateDocument(getWikiNameTerm(wikiName), doc, getAnalyzer());
+    }
 
+    protected void delete(WikiName wikiName) throws CorruptIndexException, IOException
+    {
+        _writer.deleteDocuments(getWikiNameTerm(wikiName));
+    }
+
+    protected synchronized void close() throws CorruptIndexException, IOException
+    {
+        if (_openCount <= 0) {
+            _logger.error("Closed the IndexWriter without opening it");
+        }
+
+        _openCount--;
+        if (_openCount == 0) {
+            if (_writer == null) {
+                _logger.error("Attempted to close the IndexWriter without opening it");
+            } else {
+                _writer.close();
+                _writer = null;
+            }
+        }
     }
 
     public SearchResults search(String searchString) throws Exception

@@ -39,11 +39,11 @@ h3 { font-size: 18px; font-weight: normal; }
 #belowColumns { clear: both; }
 #footer { text-align: center; padding: 1em; }
 
-h1, h2, h3, h4, hr { clear: both; }
 
 /* Tags */
 
-h1, h2, h3, h4 { margin: 0; padding: 0;  }
+hr { clear: both; }
+h1, h2, h3, h4 { margin: 0; padding: 0; clear: both; }
 h1 { margin: 0.5em 0 1em 0; }
 h2 { margin: 1em 0; }
 h2 { margin-bottom: 20px; padding: 0 0 12px 0; }
@@ -53,8 +53,8 @@ h3 { margin: 2em 0 1em 0; }
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-ul { padding: 0 0 0 2em; margin: 0; list-style-position: outside; }
-ul li, ol li { padding: 0 0.9em; margin: 1em 0; }
+ul, ol { padding: 0; margin: 0; }
+ul li, ol li { padding: 0; margin: 1em 0 1em 2em; }
 
 table { border-collapse: collapse; }
 td, th { border: 1px solid #666; padding: 4px 8px; text-align: left; }
@@ -152,15 +152,14 @@ figure { margin: 2em; }
 .thumbnail_wrapper img { box-shadow: 5px 5px 5px #ddd; border-radius: 4px; }
 .wiki_thumbnail_float { margin: 1em; }
 
-.wiki_toc { background: #eee; border: 1px dotted #f88; padding: 1.5em; }
 
 .wiki_columns { column-width: 250px; -webkit-column-width: 250px; -moz-column-width: 250px;}
 .wiki_column_section { width: 230px; -webkit-column-break-inside: avoid; page-break-inside: avoid; break-inside: avoid; }
-.wiki_column_section { padding: 1em; margin: 0em 1em 2em 1em;  }
-.wiki_column_section { border: 1px solid #f88; border-radius: 10px; box-shadow: 5px 5px 5px #ddd; background: #fee; }
+.wiki_column_section,
+.wiki_toc { border: 1px solid #f88; border-radius: 10px; box-shadow: 5px 5px 5px #ddd; background: #fee; padding: 1em; margin: 0em 1em 2em 1em;}
 .wiki_column_section h2, .wiki_column_section h3 { margin-top: 8px; }
 
-.wiki_infoList li { display: inline; line-height: 2em; padding: 0; margin: 0; line-height: 3em; }
+.wiki_infoList li { display: inline; list-style-type: none; line-height: 2em; padding: 0; margin: 0; line-height: 3em; }
 .wiki_infoList li a { width: 200px; border: 1px dotted #800; padding: 0.5em 1em; margin: 0 0.3em; white-space: nowrap; }
 .wiki_infoList li a:hover { background: #fee; color: #f00; text-decoration: none; }
 

@@ -6,7 +6,7 @@
 
   <!-- Table of Contents -->
   <ww:box styleClass="wiki_toc">
-    <ww:boxTitle title="Contents" clickable="true"/>
+    <ww:boxTitle title="Table of Contents" clickable="true"/>
     <ww:boxContent>
       <ol>
         <c:forEach var="section" items="${wikiDocument.subsections}">

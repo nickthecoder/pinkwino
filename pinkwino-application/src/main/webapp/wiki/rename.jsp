@@ -15,7 +15,7 @@
 
   <tiles:put name="content" type="string" >
 
-    <form name="deleteForm" id="deleteForm" class="wiki_form" method="post" action=".">
+    <form name="deleteForm" id="deleteForm" class="wiki_form" method="post" action="<c:out value="${wikiPage.renameUrl}"/>">
 
         <input type="hidden" name="page" value="<c:out value="${wikiPage.wikiName.formatted}"/>"/>
         <input type="hidden" name="referrer" value="<ww:referrer/>"/>

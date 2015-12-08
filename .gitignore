@@ -6,4 +6,6 @@
 .settings
 build
 bin
+/documents/lucene-metadata
+/documents/wiki/.history
 

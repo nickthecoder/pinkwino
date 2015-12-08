@@ -1,33 +1,31 @@
-Consider renaming the "common" groovy scripts.
-    Place them in the core's jar file, so that embedded can use them???
+Ensure Lucene database is updated after a page is updated.
+    Many ways to update a page : edit, save, rename...
+        So add a listener at the storage layer.
 
-
-
-Garden styles see : http://localhost:8080/pinkwino-application/view/garden/Antirrhinum
-
-Create documentation in the wiki namespace describing how to create your own standalone instance,
-and also how to embed pinkwino.
-
-Remove the InputStream return result from media stuff, because it can never be done
-on the fly using the new system.
+Rename goes weird. Only with non-default namepsace. Permissions?
+   Add <!-- renamed from ... --> to the new page??
 
 
 Google maps plugin
-    start startLatitude and startLongitude currently don't work.
+    start, startLatitude and startLongitude currently don't work.
     Rename the google map link plugin to googleMapStartLink
     Make a googleMapTargetLink too ?
 
     Include a region parameter/attribute which defaults to "uk".
 
-Rename goes weird. Only with non-default namepsace. Permissions?
-   Add <!-- renamed from ... -->.
-
+Use the latest Lucene???
 
 Switch Over
 ===========
+
+Rename software/Home to software/Software etc.
+
+Fix Recipe's Index page (as well as others?) It currently lists the default namespace.
 
 Rearrange the filesystem of the wiki documents. Only have one "content" directory for ntc and giggyserv
     containing garden, softare, default, etc.
 
 chown tomcat:shared on all of the wiki documents.
+
+Reindex (lucene)
 

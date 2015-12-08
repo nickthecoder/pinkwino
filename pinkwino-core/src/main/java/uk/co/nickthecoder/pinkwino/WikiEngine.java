@@ -1,4 +1,4 @@
-/* {{{ GPL
+/*
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -12,7 +12,7 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-}}} */
+*/
 
 package uk.co.nickthecoder.pinkwino;
 
@@ -168,6 +168,11 @@ public class WikiEngine
 
     private Charset _charset;
 
+    /**
+     * Listeners are notified when a wiki page has been saved or deleted.
+     */
+    private List<WikiPageListener> _wikiPageListeners;
+
     /*
      * A list of filters which are checked before a page is saved. If any
      * filters return an error message, then the page won't be saved.
@@ -263,6 +268,7 @@ public class WikiEngine
         _attributes.add(new SimpleAttributes());
         _attributes.setAttribute("wiki_backgroundColor", java.awt.Color.WHITE);
 
+        _wikiPageListeners = new ArrayList<WikiPageListener>();
         setCharacterSet("UTF-8");
     }
 
@@ -645,6 +651,16 @@ public class WikiEngine
      * response ); } // }}}
      */
 
+    public void addWikiPageListener( WikiPageListener wpl )
+    {
+        _wikiPageListeners.add( wpl );
+    }
+    
+    public void removeWikiPageListener( WikiPageListener wpl )
+    {
+        _wikiPageListeners.remove( wpl );
+    }
+    
     public void save(WikiPage wikiPage, String markup, File mediaFile)
     {
         // Check that the file can be saved - if any of the filters return
@@ -660,11 +676,13 @@ public class WikiEngine
 
         // Ok, we can save it, lets move on.
         wikiPage.getNamespace().getStorage().save(wikiPage, markup, mediaFile);
-        try {
-            getMetaData().update(wikiPage);
-        } catch (Exception e) {
-            _logger.error("Failed to update metadata: " + e.toString());
-            e.printStackTrace();
+        for ( WikiPageListener wpl : _wikiPageListeners ) {
+            try {
+                wpl.onSave(wikiPage);
+            } catch (Exception e) {
+                _logger.error("Failed during onSave. " + e);
+                e.printStackTrace();
+            }
         }
     }
 
@@ -741,11 +759,13 @@ public class WikiEngine
     {
         wikiPage.getNamespace().getStorage().delete(wikiPage);
 
-        try {
-            getMetaData().remove(wikiPage.getWikiName());
-        } catch (Exception e) {
-            _logger.error("Failed to remove metadata: " + e.toString());
-            e.printStackTrace();
+        for ( WikiPageListener wpl : _wikiPageListeners ) {
+            try {
+                wpl.onDelete(wikiPage);
+            } catch (Exception e) {
+                _logger.error("Failed during onDelete. " + e);
+                e.printStackTrace();
+            }
         }
     }
 

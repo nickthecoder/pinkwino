@@ -8,10 +8,10 @@
 
 <head>
   <title><tiles:insert attribute="title" ignore="true"/></title>
-  <ww:styleSheet href="/wiki/templates/default/style.css"/>
-  <link rel="icon" href="<ww:contextPath/>/wiki/templates/default/icon.png"/>
+  <ww:styleSheet href="/templates/default/style.css"/>
+  <link rel="icon" href="<ww:contextPath/>/templates/default/icon.png"/>
   <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css' />
-  <ww:script src="/wiki/templates/default/webwidgets-min.js"/>
+  <ww:script src="/templates/default/webwidgets-min.js"/>
   
   <tiles:insert attribute="extraHead" ignore="true"/>  
 </head>

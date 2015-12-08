@@ -1,0 +1,34 @@
+
+.garden             { font-family: Verdana,Sans; font-size: 80%; margin: 10px; min-height: 1000px; }
+.bed                { position: absolute; }
+table.osf_bed       { border: 1px solid black; background: #fff; color: #000; }
+table.osf_bed td    { width: 50px; height: 50px; border: 1px solid black; }
+table.osf_bed img   { width: 50px; height: 50px; }
+
+.osf_overlay        { position: absolute; width: 50px; margin-top: 36px; }
+.osf_overlayText    { position: relative; color: #000; font-size: 80%; text-align: center; background: url('images/semi.png'); }
+
+#editSquare         { display: none; }
+#newBed             { display: none; }
+
+.form th            { text-align: left; padding-right: 2em; }
+.form td            { text-align: left; }
+.form td img        { vertical-align: middle; }
+
+.selectedPatch      { background: #ccf; }
+#pickCrop           { display: none; }
+#pickCrop td        { border: 1px solid #000; }
+.pickerLabel        { width: 50px; overflow: hidden; }
+.picker .item,
+#toolbox .item      { display: inline; }
+.picker .item img   { border: 1px solid #000; margin: 1px; }
+
+.toolNameContainer  { position: relative; }
+.toolName           { position: absolute; top: -2px; left: -50px; width: 50px; text-align: center; color: #000; width: 45px; overflow: hidden; background: url('images/semi.png'); }
+
+
+#toolbox            { display: none; background: #eec; border: 1px solid #000; }
+#toolbox .title     { background: #33c; padding: 4px; color: #ccc; }
+
+#toggleToolbox.hidden .hide { display: none; }
+#toggleToolbox.shown .show { display: none; }

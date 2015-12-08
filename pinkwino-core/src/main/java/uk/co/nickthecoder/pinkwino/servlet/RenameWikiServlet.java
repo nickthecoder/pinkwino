@@ -59,6 +59,10 @@ public class RenameWikiServlet extends ForwardingWikiServlet
                 WikiPage oldWikiPage = getWikiPage(request);
                 WikiPage newWikiPage = WikiEngine.instance().getWikiPage(newName);
 
+                _logger.debug( "New Name " + newName );
+                _logger.debug( "Old wiki page " + oldWikiPage );
+                _logger.debug( "New wiki page " + newWikiPage );
+
                 if (newWikiPage.getExists()) {
                     String message = "That page already exists.";
                     request.setAttribute("message", message);

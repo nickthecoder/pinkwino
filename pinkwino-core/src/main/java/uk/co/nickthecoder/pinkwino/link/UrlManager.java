@@ -38,6 +38,7 @@ public interface UrlManager
     public static final String URL_TYPE_REVERT = "revert";
     public static final String URL_TYPE_INFO = "info";
     public static final String URL_TYPE_EDIT_SECTION = "editSection";
+    public static final String URL_TYPE_SAVE = "save";
     public static final String URL_TYPE_RAW = "raw";
     public static final String URL_TYPE_ERROR = "error";
     public static final String URL_TYPE_MEDIA = "media";

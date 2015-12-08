@@ -1,0 +1,25 @@
+.plantDetails { float: right; text-align: right; margin-left: 2em; }
+
+.plantChart { float: right; clear: both; font-size: 90%; background: #fff; color: #000;  border-spacing: 0px; }
+.plantChart { border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; }
+.plantChart th { padding: 0 0.5em; text-align: center; }
+.plantChart td, .plantChart th { height: 1.5em; border-left: 1px solid #000; }
+.plantChart tr.line td, .plantChart tr.line th { border-top: 1px solid #000; }
+
+.plantKey { margin: 1em 0;  background: #000; color: #000;  border-spacing: 1px; }
+.plantKey td { background-color: #fff; }
+
+.plantKey { float: right; clear: both; }
+
+.plantKey td, .plantKey th, .plantChart td, plantChart th { padding: 2px 6px; min-width: 1em;}
+
+.plantChart th { background: #eee; }
+
+.plantDetails .sow { background: 8ff; }
+.plantDetails .harvest { background: #ff8; }
+.plantDetails .sowIndoors { background: #88f; }
+.plantDetails .plantOut { background: #8ff; }
+.plantDetails .flower { background: #f88; }
+
+.plantData { clear: both; text-align: center; }
+

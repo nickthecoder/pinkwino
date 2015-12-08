@@ -155,6 +155,11 @@ public class Version implements Comparable<Version>
         return WikiEngine.instance().getUrlManager().getUrl(UrlManager.URL_TYPE_REVERT, this);
     }
 
+    public String getSaveUrl()
+    {
+        return WikiEngine.instance().getUrlManager().getUrl(UrlManager.URL_TYPE_SAVE, this);
+    }
+
     public String getRawUrl()
     {
         return WikiEngine.instance().getUrlManager().getUrl(UrlManager.URL_TYPE_RAW, this);

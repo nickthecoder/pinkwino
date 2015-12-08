@@ -17,7 +17,6 @@
 package uk.co.nickthecoder.pinkwino.metadata;
 
 import uk.co.nickthecoder.pinkwino.WikiName;
-import uk.co.nickthecoder.pinkwino.WikiPage;
 
 /**
  * Holds meta data about the wiki, such as dependancies between pages
@@ -35,18 +34,6 @@ public interface MetaData
     public SearchResults getBackLinks(WikiName wikiName) throws Exception;
 
     public SearchResults getDependents(WikiName wikiName) throws Exception;
-
-    /**
-     * Called by the WikiEngine when the wiki page has been saved. It allows the
-     * MetaData to update its information about the wiki page.
-     */
-    public void update(WikiPage wikiPage) throws Exception;
-
-    /**
-     * Called by the WikiEngine when the wiki page has been deleted. It allows
-     * the MetaData to update its information about the wiki page.
-     */
-    public void remove(WikiName wikiName) throws Exception;
 
     /**
      * Searches for the given text within all of the wiki pages' contents

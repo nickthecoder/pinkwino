@@ -22,9 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * Forwards all GET requests to the view as specified in the servlet
  * configuration. The "view" init parameter (as specified in web.xml)
@@ -33,8 +30,6 @@ public class ForwardingWikiServlet extends WikiServlet
 {
 
     private static final long serialVersionUID = 1L;
-
-    protected static Logger _logger = LogManager.getLogger(ForwardingWikiServlet.class);
 
     public ForwardingWikiServlet()
     {

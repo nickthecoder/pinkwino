@@ -227,6 +227,11 @@ public class WikiPage implements Comparable<WikiPage>
         return getCurrentVersion().getRawUrl();
     }
 
+    public String getSaveUrl()
+    {
+        return getCurrentVersion().getSaveUrl();
+    }
+
     public String getEditUrl()
     {
         return WikiEngine.instance().getUrlManager().getUrl(UrlManager.URL_TYPE_EDIT, this);

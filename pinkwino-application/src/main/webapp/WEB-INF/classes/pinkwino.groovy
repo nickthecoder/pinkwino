@@ -21,14 +21,14 @@ wikiEngine.setDefaultPageName( "home" )
 
 // Include this namespace in all of your wikis, because it contains useful documentation.
 def wikiNamespace = new Namespace( "wiki", "Home", "Index" )
-wikiNamespace.setStorage( new VersioningFileSystemStorage( new File( "documents/pinkwino" ) ) )
+wikiNamespace.setStorage( new VersioningFileSystemStorage( new File( "documents/wiki" ) ) )
 // You may like to make it read-only though instead
-// wikiNamespace.setStorage( new ReadOnlyStorage( new VersioningFileSystemStorage( new File( "documents/pinkwino" ) ) ) )
+// wikiNamespace.setStorage( new ReadOnlyStorage( new VersioningFileSystemStorage( new File( "documents/wiki" ) ) ) )
 wikiEngine.addNamespace( wikiNamespace )
 wikiEngine.setMessageNamespace( wikiNamespace )
 
-// Always have a default namespace, but it doesn't have to be the wikiNamespace.
-wikiEngine.setDefaultNamespace( wikiNamespace )
+// Always have a default namespace, but it doesn't have to be the "wiki" Namespace.
+// wikiEngine.setDefaultNamespace( wikiNamespace )
 
 
 // ************* TODO Remove Later ***********
@@ -39,6 +39,14 @@ defaultNamespace = new Namespace( "default", "Home", "Index" )
 defaultNamespace.setStorage( new VersioningFileSystemStorage( new File( "/gidea/documents/pinkwino/sites/giddyserv/content/public" ) ) )
 wikiEngine.addNamespace( defaultNamespace )
 wikiEngine.setDefaultNamespace( defaultNamespace )
+
+def recipeNamespace = new Namespace( "recipe", "Recipes", "Index" )
+recipeNamespace.setStorage( new VersioningFileSystemStorage( new File( "/gidea/documents/pinkwino/sites/recipe/content/recipe" ) ) )
+wikiEngine.addNamespace( recipeNamespace )
+
+def ingredientNamespace = new Namespace( "ingredient", "Index", "Index" )
+ingredientNamespace.setStorage( new VersioningFileSystemStorage( new File( "/gidea/documents/pinkwino/sites/recipe/content/ingredient" ) ) )
+wikiEngine.addNamespace( ingredientNamespace )
 
 def gardenNamespace = new Namespace( "garden", "Home", "Index" )
 gardenNamespace.setStorage( new VersioningFileSystemStorage( new File( "/gidea/documents/pinkwino/sites/garden/content/garden" ) ) )
@@ -88,13 +96,14 @@ pluginManager.add( new DivPlugin( "plantDetails", "plantDetails", false ) );
 pluginManager.add( new DivPlugin( "plantData", "plantData", false ) );
 pluginManager.add( new DivPlugin( "plantLinks", "plantLinks", false ) );
 
-def oneSquareFootPlugin = new JspPlugin( "oneSquareFoot", "/wiki/plusings/extra/oneSquareFoot/oneSquareFoot.jsp", VisualPlugin.BODY_TYPE_NONE );
+def oneSquareFootPlugin = new JspPlugin( "oneSquareFoot", "/extra/oneSquareFoot/oneSquareFoot.jsp", VisualPlugin.BODY_TYPE_NONE );
 oneSquareFootPlugin.addParameterDescription( ParameterDescription.find( "page" ).required() );
 pluginManager.add( oneSquareFootPlugin );
 
 logger.trace( "Adding security" )
 
-def authenticationManager = new StandardAuthenticationManager( new File( "/gidea/documents/pinkwino/sites/garden/users.txt" ) );
+
+def authenticationManager = new StandardAuthenticationManager( new File( "documents/users.txt" ) );
 
 authorisationManagerA = new IPAuthorisationManager( "192.168.1.*", "127.0.0.1" );
 authorisationManagerB = new StandardAuthorisationManager( "security" );
@@ -105,16 +114,24 @@ wikiEngine.enableSecurity( userNamespace, authenticationManager, authorisationMa
 
 // *******************************************
 
+// Choose the look and feel */
+// wikiEngine.getUrlManager().setTemplate( "/templates/default/template.jsp" )
+// ***** Change this back *****
+wikiEngine.getUrlManager().setTemplate( "/templates/ntc/template.jsp" )
 
-wikiEngine.getUrlManager().setTemplate( "/wiki/templates/default/template.jsp" )
+// Image manipulation store temporary files. Choose the directory
 wikiEngine.getMediaManager().setTempDirectory( new File( "/tmp" ) )
 
 // Do NOT use this key within your own web site
 // Go here for a key : https://developers.google.com/maps/documentation/javascript/get-api-key
+// ***** Remove this *****
 wikiEngine.getAttributes().setAttribute( "googleMap_key", "AIzaSyCpZxghYNTdsc5KXL483zoCMIN9tRLzHWw" );
 
+// LuceneMetaSata add searching to your wiki, as well as get info, such as which pages links
+// to a given page.
 def luceneMetaData = new LuceneMetaData( new File( "documents/lucene-metadata" ) );
 wikiEngine.setMetaData( luceneMetaData )
+wikiEngine.addWikiPageListener( luceneMetaData )
 // luceneMetaData.rebuild()
 
 logger.trace( "default pinkwino.groovy : end" );

@@ -1,0 +1,7 @@
+This page has been renamed to [wiki/Baring].
+
+Please update your bookmarks, and wiki pages which link here
+
+----
+
+{{include page="wiki/Baring"}}

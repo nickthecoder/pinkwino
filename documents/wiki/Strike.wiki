@@ -1,0 +1,16 @@
+{{aside (page="wiki/syntax index")}}
+
+Strike a line through text.
+
+This is sometimes used to show the old version of text, which has now been superseded.
+
+Its often used for comic effect to show what you really mean, but at the same time, include the politically correct version.
+
+== Example ==
+
+The queen is a --waste of space-- valuable asset.
+
+{{{
+The queen is a --waste of space-- valuable asset.
+}}}
+

@@ -1,0 +1,18 @@
+{{aside (page="wiki/syntax index")}}
+
+Line breaks should be used sparingly. Instead of line break, [wiki/paragraph]s are almost always preferable.
+
+To add a line break, add "\\" at the end of the line.
+
+! Example
+
+{{{
+This piece of text
+and this one, are on the same line.\\
+This is on a new line.
+}}}
+
+This piece of text
+and this one, are on the same line.\\
+This is on a new line.
+

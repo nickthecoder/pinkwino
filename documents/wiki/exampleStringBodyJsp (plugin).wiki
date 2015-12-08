@@ -1,0 +1,31 @@
+{{aside( page="plugins index")}}
+
+
+An example plugin to show how to use jsp pages, where the body of the plugin can contain
+plain-text (as opposed to wiki markup).
+
+The exampleStringBodyJsp plugin, takes any text, and renders it twice inside a table.
+The left hand column normally, and the right hand column in italics. 
+
+I shall call it using the following wiki-markup :
+
+{{{
+{{exampleStringJsp 
+Hello World this is not ++bold++.
+}}
+}}}
+
+And here are the results :
+
+{{exampleStringBodyJsp 
+Hello World this is not ++bold++.
+}}
+
+Note that the body is ''not'' treated as wiki markup, so the word ''bold'' is ''not'' in bold.
+
+
+See also [wiki/helloWorldJsp (plugin)]
+
+== Details ==
+{{plugin( plugin="exampleStringBodyJsp" ) }}
+

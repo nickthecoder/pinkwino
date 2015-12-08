@@ -1,0 +1,27 @@
+{{aside( page="plugins index")}}
+
+Add fancy quotes around a piece of text.
+
+{{left
+{{quote
+The quick brown\\
+fox jumped over\\
+the lazy dog.
+}}
+}}
+
+I'll use it in conjunction with the [left (plugin)].
+
+{{{
+{{left
+{{quote
+The quick brown\\
+fox jumped over\\
+the lazy dog.
+}}
+}}}
+
+
+== Details ==
+
+{{plugin plugin="quote"}}

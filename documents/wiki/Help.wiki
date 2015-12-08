@@ -1,0 +1,43 @@
+Here is a short guide on how to use a wiki.
+If you are already familiar with wikis, but want to know the details of this specific wiki's syntax, have a look at the [Syntax] page.
+
+== What is a Wiki? ==
+
+A wiki is a set of web pages which you can edit within your web browser. They are designed to let communities contribute collectively on a single topic.
+[Wikipedia|http://wikipedia.org], the on-line encyclopedia is the most famous wiki.
+
+== How do I use a Wiki? ==
+
+If you just want to read the information, a wiki is no different to any other web site.
+The fun starts when you decide to join in, and add your own contributions to the wiki.
+Some wikis are available for anybody to make changes, others require you to register first.
+
+To make changes to an existing page, first go to the page you want to edit, and then click the ''edit'' link in the top right. (that's where the link usually is anyway!).
+
+Now you can just start typing your new text, and click ''save'' when you are done.
+
+== Headings and Other Formatting ==
+
+All wikis allow you to format your text, with headings, bold text, italics etc. To do this, you need to know a little [Wiki Markup].  There are some simple rules, for example, to make text ++bold++, you place pairs of plus signs around it like this : ``<nowiki>++bold++</nowiki>``.
+
+When you are editing a page, there are reminders, so you don't need to remember all of the rules.
+For more information about the wiki markup rules, see the [Syntax] page.
+== How do I Create a New Page? ==
+
+There is no "New / Add Page" link, so don't bother looking for one!
+
+Instead, think about how others will get to your new page - they need a ''link'' to it.
+So first, decide which page will have the link. Go to that page, and edit it.
+Create the link, perhaps something like this :
+
+{{{
+Why not visit [My Page] now!
+}}}
+
+When you save it, ''"My Page"'' is a link. Click it, and then start creating your new page.
+
+== Can I Practice First? ==
+
+Yes, there usual place to practice is on a page called [Sandbox|default:Sandbox].
+
+Nobody cares about the [Sandbox|default:Sandbox] page, so put as much junk in there as you want.

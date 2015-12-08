@@ -1,0 +1,19 @@
+{{aside( page="plugins index")}}
+
+
+Gives details about a given plugin. The plugin must be registered with the plugin manager.
+
+== Plugin Details ==
+
+{{plugin( plugin="plugin" ) }}
+
+== Example ==
+
+The plugin is used below, to show the information about the ''helloWorld'' plugin.
+
+{{{
+{{plugin( plugin="helloWorld" ) }}
+}}}
+
+{{plugin( plugin="helloWorld" ) }}
+

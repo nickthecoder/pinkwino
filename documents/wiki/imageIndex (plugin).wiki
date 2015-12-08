@@ -1,0 +1,9 @@
+{{aside( page="plugins index")}}
+
+Show a list of all images within a [namespace].
+
+You can see all of the images in the wiki namespace [here|Image Index].
+
+== Details ==
+
+{{plugin plugin="imageIndex"}}

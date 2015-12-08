@@ -1,0 +1,33 @@
+{{aside( page="plugins index")}}
+
+
+Includes the contents of a template into the current page, substituting parameters along the way.
+
+The template is an ordinary wiki page, with variable names embedded in it. The format of a variable name is :
+{{{
+${foo}
+}}}
+
+
+== Plugin Details ==
+
+{{plugin( plugin="template")}}
+
+In addition to the "page" parameter, you can include as many parameters as you wish.
+The names of these additional parameters depend upon which template page you are using.
+
+== Example ==
+
+If a template called "myTemplate" contained the following :
+{{{
+Hello ${name}, why not have a look at [${link}]?
+}}}
+
+then you could include it into a page as follows :
+{{{
+{{template( page="myTemplate" name="Nick" link="wiki/hints" ) }}
+}}}
+
+The result would be :
+
+Hello Nick, why not have a look at [wiki/hints]

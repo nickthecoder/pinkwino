@@ -1,0 +1,12 @@
+{{aside( page="plugins index")}}
+
+A simple plugin that renders "hello world". If you want to write your own plugins, find out
+how the hello world plugins work.
+
+This is what is does : {{helloWorld}}, good eh?
+
+== Details ==
+
+{{plugin( plugin="helloWorld" ) }}
+
+

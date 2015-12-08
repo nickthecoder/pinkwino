@@ -1,0 +1,19 @@
+Indents a block of text.
+
+==Example==
+
+{{{
+This line isn't indented.
+>>
+This line is.
+
+This is a new paragraph within the indented block.
+<<
+}}}
+
+This line isn't indented.
+>>
+This line is.
+
+This is a new paragraph within the indented block.
+<<

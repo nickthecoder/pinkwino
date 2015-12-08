@@ -1,0 +1,4 @@
+{{aside( page="plugins index")}}
+
+== Plugin Details ==
+{{plugin( plugin="security" )}}

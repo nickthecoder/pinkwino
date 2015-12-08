@@ -1,0 +1,20 @@
+{{aside( page="plugins index")}}
+
+
+Includes another wiki page into the body of the current page.
+
+== Plugin Details ==
+
+{{plugin( plugin="include" ) }}
+
+== Example ==
+In this example, I include the [wiki/hints|wiki/hints] page.
+
+{{{
+{{include( page="wiki/hints" ) }}
+}}}
+
+=== Results ===
+
+{{include( page="wiki/hints" ) }}
+

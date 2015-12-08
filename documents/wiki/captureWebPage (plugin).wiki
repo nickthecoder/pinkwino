@@ -1,0 +1,42 @@
+{{aside(page="plugins index")}}
+
+Creates a buttons, which when clicked, captures a picture of a given web page, and saves it within a wiki page.
+
+Typically, you will use this plugin on the wiki page used to store the image. See [captureWebPage example.png].
+
+It is useful in conjuntion with the [thumbnail (plugin)], and also the [teaser (plugin)].
+
+==Example==
+
+{{{
+{{captureWebPage url="http://google.com" page="google.com.png"}}
+}}}
+
+And you can see the results here : [google.com.png].
+
+{{captureWebPage url="http://google.com" page="google.com.png"}}
+
+++Note.++ Ensure that the page name ends with ``".png"``, otherwise you won't be able to use the image as intended.
+
+== Details ==
+
+{{plugin plugin="captureWebPage"}}
+
+===page===
+The name of the wiki page where the image is saved. This should end in ".png".
+
+===url===
+The address of the web page you wish to copy. It must be a full url, such as :
+http://google.co.uk/
+
+==Implementation Notes==
+
+The current implementation uses [wkhtmltoimage|http://wkhtmltopdf.org/], and this requires that the servlet engine has a X11 display device.
+
+You will probably want to use [Xvfb|https://en.wikipedia.org/wiki/Xvfb] because web servers are generally headless.
+
+In debian based linux distributions, install the tools like so :
+
+{{{
+# aptitude install xvfb wkhtmltopdf
+}}}

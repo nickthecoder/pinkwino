@@ -1,0 +1,2 @@
+{{aside( page="plugins index")}}
+{{plugins}}

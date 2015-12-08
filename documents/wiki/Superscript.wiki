@@ -1,0 +1,10 @@
+Create superscript text, such as the "2" in E=mc^^2^^.
+
+===Example===
+
+E=mc^^2^^
+
+{{{
+E=mc^^2^^
+}}}
+

@@ -1,0 +1,15 @@
+{{aside( page="plugins index")}}
+
+Links to external web sites using the current page title as part of the url.
+
+This is typically used to search for more information about the current page. For example, on a recipe page, you may wish to link to nibbledish.com for alternative recipes.
+
+== Plugin Details ==
+
+{{plugin( plugin="externalLink")}}
+
+The url should have "%s" where the page title will be inserted. For example, to use nibbledish use :
+
+{{{
+http://www.nibbledish.com/recipes/search/%s
+}}}

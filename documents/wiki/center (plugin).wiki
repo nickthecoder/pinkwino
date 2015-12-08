@@ -1,0 +1,23 @@
+{{aside( page="plugins index")}}
+
+Centers text.
+
+
+{{{
+{{center Hello World}}
+}}}
+
+{{center Hello World}}
+
+== Details ==
+
+It is a convient equalivalent to :
+{{{
+{{[(class="wiki_center")
+...
+]}}
+}}}
+
+It creates a <div> tag, with a class id of "wiki_center".
+
+{{plugin plugin="center"}}

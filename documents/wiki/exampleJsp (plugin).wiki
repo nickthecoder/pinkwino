@@ -1,0 +1,33 @@
+{{aside( page="plugins index")}}
+
+An example plugin to show how to use jsp pages, where the body of the plugin can contain
+additional wiki markup.
+
+The exampleJsp plugin, takes any wiki-markup, and renders it twice inside a table.
+The left hand column contains the normal rendering, and the right hand side displays it
+as html.
+
+I shall call it using the following wiki-markup :
+
+{{{
+{{exampleJsp 
+The ++quick++ brown ''fox''
+jumped over the
+* lazy
+* dog
+}}
+}}}
+
+
+{{exampleJsp 
+The ++quick++ brown ''fox''
+jumped over the
+* lazy
+* dog
+}}
+
+See also [wiki/helloWorldJsp (plugin)]
+
+== Details ==
+
+{{plugin( plugin="exampleJsp" ) }}

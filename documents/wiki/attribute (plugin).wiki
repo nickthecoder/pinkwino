@@ -1,0 +1,13 @@
+{{aside(page="plugins index")}}
+
+Ouputs the value of a named wiki attribute.
+
+For example, the attribute ``wiki_characterSet`` is "{{attribute name="wiki_characterSet"}}"
+
+{{{
+For example, the attribute ``wiki_defaultPageName`` is
+"{{attribute name="wiki_defaultPageName"}}"
+}}}
+
+== Details ==
+{{plugin plugin="attribute"}}

@@ -1,0 +1,47 @@
+{{aside( page="plugins index")}}
+
+Renders a google map within the wiki page.
+Google maps require you to be registered, so you will need to get a key from google. You can specify this key in two ways.
+
+# Set it in the configuration file
+# Specify it using the key parameter every time you use the googleMap plugin.
+
+Option 1 is easier in the long run, here's what you need to add to your config file :
+
+{{{
+wikiEngine.getAttributes().setAttribute( "googleMap_key", "YOUR KEY HERE" );
+}}}
+
+See also [googleMapLink (plugin)].
+
+== Details ==
+
+{{plugin plugin="googleMap"}}
+
+===longitude and latitude===
+The main place of interest.
+
+===target===
+A marker placed at the main place of interest (longitude,latitude).
+
+===start===
+A placename such as a town, road name etc. Create a route from start to the main place of interest (longitude,latitude).
+Google will perform ''geolocation'' on the ``start`` to find the coordinates. 
+
+===startLongitude , startLatitude===
+Creates a route, just like the 'start' parameter, but uses coordinates instead of a place name.
+
+Using just ``start``, is oviously easier than ``startLongitude`` and 
+``startLatitude``, but the former sometimes goes wrong, and you are forced to use the latter.
+
+==Example==
+{{googleMap(longitude="51.51443671997459" latitude="-0.10815234999995482" target="Fleet Street" startLongitude="51.48622649744676" startLatitude="-0.06953240000007099")}}
+== Administrator Notes ==
+
+The resulting html makes use of the following css classes :
+
+* ``googleMap_map``
+* ``googleMap_caption``
+* ``googleMap_directions``
+
+It is vital that you define ``googleMap_map`` with a width and a height, as that is how the map size is determined.

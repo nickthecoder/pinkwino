@@ -1,0 +1,19 @@
+{{aside( page="plugins index")}}
+
+
+Similar to the [image (plugin)], but it processes the image first - shrinking the image if its too big, and then adds a drop shadow.
+
+Here's an example :
+
+{{shadow( page="graduation.png" )\\My [graduation|graduation.png] day}}
+
+
+{{{
+{{shadow( page="graduation.png" )\\My [graduation|graduation.png] day}}
+}}}
+
+See also [thumbnail (plugin)], [teaser (plugin)].
+
+== Plugin Details ==
+
+{{plugin( plugin="shadow")}}

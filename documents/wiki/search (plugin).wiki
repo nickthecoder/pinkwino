@@ -1,0 +1,8 @@
+{{aside( page="plugins index")}}
+
+Usually used on only one page - the search page.
+
+== Plugin Details ==
+
+{{plugin( plugin="search")}}
+

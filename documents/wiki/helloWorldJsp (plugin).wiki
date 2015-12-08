@@ -1,0 +1,26 @@
+{{aside( page="plugins index")}}
+
+An example plugin that renders "hello world", using a jsp page.
+
+{{{
+Welcome : {{helloWorldJsp}}
+}}}
+
+creates the following :
+
+Welcome : {{helloWorldJsp}}
+
+===  Notes ===
+
+Note that ''Hello World'' is in its own paragraph (it isn't in the same paragraph as ''Welcome :'' (unlike the [helloWorld (plugin)]).
+
+This is because helloWorldJsp has been defined as a ''block''.
+Why did I do that?
+If you are going to use a jsp page to render your plugin, its likely to be fairly complex, and so it will probably have a ``<div>`` or a ``<table>`` tag etc, so the paragraph ''Welcome :'' must be closed before the jsp plugin can begin.
+(``<div>``s are not allowed inside ``<p>`` tags).
+
+
+== Details ==
+
+{{plugin( plugin="helloWorldJsp" ) }}
+

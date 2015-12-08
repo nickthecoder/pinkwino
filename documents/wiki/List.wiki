@@ -1,0 +1,66 @@
+{{aside (page="wiki/syntax index")}}
+
+To create a bullet point list, begin each line with an asterisk (*).
+A single item can be split over multiple lines.
+
+To end the list, use a blank line.
+
+{{{
+* red
+* green 
+* blue
+}}}
+
+Creates :
+
+* red
+* green 
+* blue
+
+You can have multiple levels of indentation, just add more asterisks for more indenting. For example :
+
+{{{
+* red
+** pink
+* green
+** jade
+* blue
+}}}
+
+* red
+** pink
+* green
+** jade
+* blue
+
+Numbered lists are just as easy, use a hash symbol (#) (AKA pound symbol for Americans).
+
+{{{
+# red
+# green
+# blue
+}}}
+
+produces 
+
+# red
+# green
+# blue
+
+These can once again be indended further :
+
+{{{
+# red
+## pink
+# green
+## jade
+# blue
+}}}
+
+produces 
+
+# red
+## pink
+# green
+## jade
+# blue

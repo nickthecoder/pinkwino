@@ -1,0 +1,9 @@
+Create subscript text, such as the 2 in H,,2,,O.
+
+===Example===
+
+H,,2,,O
+
+{{{
+H,,2,,O
+}}}

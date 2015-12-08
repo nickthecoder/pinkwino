@@ -1,0 +1,40 @@
+{{aside (page="wiki/syntax index")}}
+
+Links are the most important part of wiki syntax, as they people to get from one web page to another.
+
+To link to another wiki page, simply place the name of the wiki page in square brackets :
+
+{{{
+[Table]
+}}}
+
+The above links to the [Table] page.
+
+You can change the label that appears on the page like so :
+
+{{{
+Learn how to [create tables in this wiki|Table]
+}}}
+
+In the example above the link text is now ''"create tables in this wiki"'',
+but it still links to the same wiki page ([Table]).
+
+The character that seperates the lable from the page name is called a ''"pipe symbol"'', 
+and is located to the left of the letter Z on many keyboards. (you need to use the shift key).
+
+You can also link to external web site (i.e. pages outside of this wiki).
+The syntax is the same, but you have to give the full address (url). Note, you must incude the "http://" at the front.
+Copy and pasting the address from your web browsers address toolbar will prevent typos.
+
+Here's an example linking to http://google.com :
+{{{
+[http://google.com]
+}}}
+
+and here it is again, but this time the label is changed to [google:http://google.com]
+{{{
+[google:http://google.com]
+}}}
+
+Some plugins can also create links, such as the [image|image (plugin)].
+

@@ -1,0 +1,3 @@
+Pinkwino is a [Wiki], which is a web site that you can edit directly in your web browser.
+
+Read more about Pinkwino, and download it from [nickthecoder.co.uk|http://nickthecoder.co.uk/software/view/Pinkwino].

@@ -1,0 +1,56 @@
+==In-line Quotes==
+
+To quote a word (or words) within a paragraph, use two pairs of double quotes.
+
+This uses the HTML ''q'' tag.
+
+===Example===
+
+Just one word is ""quoted"", I hope.
+
+{{{
+Just one word is ""quoted"", I hope.
+}}}
+
+==Block Quotes==
+
+To quote a ''block of text'', use three double quotes before and after the block of text.
+
+This uses the HTML ''blockquote'' tag with a css class ''wiki_quote''.
+
+Note that the text is automatically split into html <p> (paragraphs) and the quotes are at the beginning and end of the paragraphs.
+
+===Example===
+
+A wise man once said :
+"""
+Too many cooks make spoil the broth.
+
+Many hands make light work.
+"""
+
+{{{
+A wise man once said :
+"""
+Too many cooks make spoil the broth.
+
+Many hands make light work.
+"""
+}}}
+
+==Implementation Notes==
+
+If your style sheet does not define the ''wiki_quote'' style, then the ''block quote'' will be indented without any quote marks around it.
+
+A simple style sheet should contain :
+{{{
+blockquote.wiki_quote p:before { content: "“"; }
+blockquote.wiki_quote p:after { content: "”"; }
+}}}
+
+but for a flashier effect, use images for the quote marks :
+
+{{{
+blockquote.wiki_quote p:before { content: url('beginQuote.png'); white-space: nowrap; }
+blockquote.wiki_quote p:after { content: url('endQuote.png'); white-space: nowrap; }
+}}}

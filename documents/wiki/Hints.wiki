@@ -1,0 +1,82 @@
+{|( class="plain" )
+|<nowiki>== heading 1 ==</nowiki>
+|-
+|<nowiki>=== heading 2 ===</nowiki>
+|-
+|<nowiki>==== heading 3 ====</nowiki>
+|}
+
+{|( class="plain" width="100%" )
+|<nowiki>++bold++</nowiki> | ++bold++
+|-
+|<nowiki>''italics''</nowiki> | ''italics''
+|-
+|<nowiki>__foo__</nowiki> | __underline__
+|-
+|<nowiki>--foo--</nowiki> | --strike--
+|-
+|<nowiki>``foo``</nowiki> | ``code``
+|-
+|<nowiki>[home]</nowiki> | link to home
+|-
+|<nowiki>[x|home]</nowiki> | renamed link
+|-
+|<nowiki>----</nowiki> | horizontal line
+|-
+|( width="10%" ) <nowiki>\\</nowiki> | Line Break
+|-
+| <nowiki>{|</nowiki> | start table 
+|-
+| <nowiki>|</nowiki> | table cell
+|-
+| <nowiki>||</nowiki> | table heading
+|-
+| <nowiki>|-</nowiki> | new row
+|-
+| <nowiki>|}</nowiki> | end table
+|-
+| <nowiki><</nowiki>nowiki>\\</nowiki>
+| verbatim text
+|-
+| <nowiki>{{{ ... }}}</nowiki>
+| verbatim block
+|-
+| <nowiki>{{[ ... ]}}</nowiki>
+|
+{{[ block ]}}
+|-
+|
+ * red\\
+ * green\\
+ * blue
+|
+* red
+* green
+* blue
+|-
+|
+ # red\\
+ # green\\
+ # blue
+|
+# red
+# green
+# blue
+|}
+<nowiki>{{image( page="x" ) }}</nowiki>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

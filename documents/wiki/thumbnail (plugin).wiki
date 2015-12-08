@@ -1,0 +1,17 @@
+{{aside( page="plugins index")}}
+
+
+Similar to the [image (plugin)], but it shrinks the image to a thumbnail image, and adds a drop shadow.
+
+
+{{thumbnail( page="graduation.png" )\\My [graduation|graduation.png] day}}
+
+{{{
+{{thumbnail( page="graduation.png" )\\My [graduation|graduation.png] day}}
+}}}
+
+See also [teaser (plugin)], [shadow (plugin)].
+
+== Plugin Details ==
+
+{{plugin( plugin="thumbnail")}}

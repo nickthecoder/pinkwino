@@ -1,0 +1,22 @@
+{{aside( page="plugins index")}}
+
+Renders the contents of the plugin inside a box. Also has an optional title, passed as a parameter to the plugin.
+
+Uses the webwidgets box tags. If the box doesn't appear correct, check if you
+have defined the box's css correctly.
+
+! Plugin Details
+
+{{plugin( plugin="box" ) }}
+
+! Example
+{{{
+{{box( title="Hello" )
+This is an example box
+}}
+}}}
+
+{{box( title="Hello" )
+This is an example box
+}}
+

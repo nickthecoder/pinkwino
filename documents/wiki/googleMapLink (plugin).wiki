@@ -1,0 +1,10 @@
+{{aside( page="plugins index")}}
+
+Used in conjunction with [googleMap (plugin)].
+This creates a link, which can change the target or start location of the google map.
+
+The parameters work in the same way as [googleMap (plugin)].
+
+== Details ==
+
+{{plugin plugin="googleMapLink"}}

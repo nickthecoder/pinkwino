@@ -1,0 +1,60 @@
+{{aside( page="plugins index")}}
+
+Allows a piece of wiki content to appear in a separate part of the web page.
+It is commonly used to place navigation items to the left/right of the main content.
+
+This page should have a list of all the plugins, which is implemented using the aside plugin. The position of this list is determined by the template. The default template places them on the left of the page. The contents of this page's aside is taken from the [plugins index] page. 
+
+== Plugin Details ==
+
+{{plugin( plugin="aside")}}
+
+== Administrator Notes ==
+
+There are two different implementations for this plugin.
+The first uses class NotedDivPlugin, the second uses NamedNodePlugin.
+
+NamedNodePlugin is more flexible, and is the recommended solution.
+However it requires addition tags within your template.jsp.
+
+Here's how each one works :
+
+=== NotedDivPlugin ===
+
+Creates a floated html div (the default css class is ``wiki_aside``).
+It also sets an attribute which the template can check for.
+This attribute can optionally be used by the template to make space for this extra content.
+
+The content will appear floated relative to where the aside plugin is within the wiki page.
+
+The css class ``wiki_aside`` must be defined within your template's style sheet. If not, the [Syntax] pages and the [Plugins] pages will look very bad.
+
+More than one aside per page is allowed.
+
+=== NamedNodePlugin ===
+
+This is more complex than NoteDivPlugin, and requires the template.jsp to do some of the work.
+
+Warning : If your template doesn't support NamedNodePlugin, then the aside will not be visible, and no error will be displayed.
+
+The main content of the wiki page ++does not++ contain the body of the aside plugin.
+Instead, a new mini-page is created, with a given name, and it is up to the template.jsp
+to look for this mini-page, and include it wherever it wants within the html page.
+
+Therefore, the contents of the aside is not relative to where is was defined, and you can only have a single aside per wiki page.
+
+Here is typical code within the template.jsp :
+
+{{{
+<tiles:importAttribute name="namedContents" ignore="true"/>
+<c:if test="${! empty namedContents.aside}">
+  <div class="wiki_aside">
+    ${namedContents.aside}
+  </div>
+</c:if>
+}}}
+
+This can appear wherever you want to see the aside.
+So if you like laying out your page using ``<table>`` tags, you could place the main contents within one ``<td>`` cell, and the aside within a different ``<td>``.
+
+The ``<div class="wiki_aside">`` above is optional - you can wrap the contents however you like.

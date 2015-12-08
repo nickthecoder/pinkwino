@@ -1,0 +1,12 @@
+A namespace is a group of pages that all share the same prefix.
+For example, this page belongs to the ''"wiki"'' namespace, so it is prefixed by ``wiki/``.
+
+Namespaces are used to split the [wiki] into groups of closely related subjects.
+For example, if you have a lot of pages about the game of chess, and many others about the game of poker,
+then it would make sense to create two namespaces, one for chess, the other for poker.
+
+When linking to another page, you have two choices, either you give the full name of the page (including the namespace), or you just give the page name, without the namespace.
+
+If you do not specify the namespace, then it is assumed that you mean the same namespace as the current page.
+For example, if I link to ``<nowiki>[index]</nowiki>``, this is the same as ``<nowiki>[wiki/index]</nowiki>`` (as the current page is in the wiki namespace).
+Using our chess and poker namespaces, we could have a "Rules" page in both namespace, and if we linked to ``<nowiki>[rules]</nowiki>`` from any chess page, it would give the rules of chess (in page chess:rules), and likewise a link to ``<nowiki>[rules]</nowiki>`` from any poker page would give the rules of poker (in page poker:rules).

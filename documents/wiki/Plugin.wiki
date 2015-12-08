@@ -1,0 +1,15 @@
+{{aside (page="wiki/syntax index")}}
+
+Plugins are use the following syntax :
+{{{
+{{pluginname}}
+}}}
+
+and if you want to give parameters to the plugin, then
+{{{
+{{pluginname(param1="value1" param2="param2")}}
+}}}
+
+Here a list of available plugins :
+
+{{plugins}}

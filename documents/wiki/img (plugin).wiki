@@ -1,0 +1,26 @@
+{{aside( page="plugins index")}}
+
+Display an image.
+
+Note : For most purposes, the [image plugin|image (plugin)] is better than this one.
+
+Unlike the ++image++ plugin, the ++img++ plugin is not a ''block'' element. I.e. it can be placed within a line of text.
+This gives the ++img++ plugin one big advantage... if can be used as part of a link.
+
+For example, if I had an image called "logo.png", then I could use that image as a link to the "home" page like so :
+{{{
+[{{img( page="logo.png")}}|home]
+}}}
+
+That looks quite complex, so lets break it down. A normal link with a label, is like this :
+{{{
+[my label|home]
+}}}
+
+and in the example above, I am just replacing the text "my label" with an image instead.
+{{{
+{{img( page="logo.png") }}
+}}}
+
+== Plugin Details ==
+{{plugin( plugin="img")}}

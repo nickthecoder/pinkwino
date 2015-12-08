@@ -1,0 +1,40 @@
+{{aside( page="plugins index")}}
+
+Floats the contents of the tag to the right of the page (using the css class ``wiki_right``).
+
+== Example ==
+{{right
+This text is\\
+pushed to the\\
+right of the\\
+page
+}}
+Meanwhile, this text can flow around it.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+
+{{{
+{{right
+This text is\\
+pushed to the\\
+right of the\\
+page
+}}
+}}}
+
+Note that the width of the box is determined by its contents, so I had to put line breaks (<nowiki>\\</nowiki>) to ensure it was quite narrow.
+== Details ==
+
+{{plugin plugin="right"}}

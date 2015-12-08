@@ -1,0 +1,13 @@
+Wiki Markup is the set of special rules which turns plain text into a formatted document.
+Each wiki may have slightly different rules.
+For example, this wiki uses the following markup to create a heqading :
+{{{
+=== My Heading ===
+}}}
+
+But other wiki's use this instead :
+{{{
+!! My Heading
+}}}
+
+For help on this wiki's markup rules, see [Syntax].

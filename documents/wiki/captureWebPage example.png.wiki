@@ -1,0 +1,1 @@
+{{captureWebPage( url="http://sevimliapartment.co.uk/" page="captureWebPage example.png" )}}

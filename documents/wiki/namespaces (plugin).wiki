@@ -1,0 +1,7 @@
+{{aside( page="plugins index")}}
+
+
+Lists all [namespaces|wiki/namespaces]
+
+== Details ==
+{{plugin( plugin="namespaces")}}

@@ -1,0 +1,9 @@
+{{aside( page="plugins index")}}
+
+Displays lots of information about the Pinkwino wiki engine, and how it has been configured.
+
+Its output can be seen on the [system status] page.
+
+== Details ==
+
+{{plugin plugin="systemStatus"}}

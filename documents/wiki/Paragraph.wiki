@@ -1,0 +1,51 @@
+{{aside (page="wiki/syntax index")}}
+
+You can start a new paragraph by leaving a blank line between one block of text and another.
+
+! Example
+
+{{{
+Hello
+
+World
+}}}
+
+Hello
+
+World
+
+! Notes
+
+Adding additional blank lines will ++not++ create a larger gap between the two paragraphs.
+Paragraphs are the preferred method of splitting up blocks of text, but you can also use [wiki/line break]s
+
+Within tables, paragraphs are disabled by default. This is because paragraphs often have padding around them, and often this padding is unwanted with a table. If you ''do'' want to have paragraphs within a table cell, nest a block with in the cell, for exameple :
+
+{{{
+{|
+|
+No paragraphs
+
+in this cell
+|
+{{[
+But look
+
+there are paragraphs here.
+]}}
+|}
+}}}
+
+{|
+|
+No paragraphs
+
+in this cell
+|
+{{[
+But look
+
+there are paragraphs here.
+]}}
+|}
+

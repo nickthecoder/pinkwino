@@ -1,0 +1,8 @@
+{{aside( page="plugins index")}}
+
+Lists pages that have been modified in the last n days.
+
+Used by the [recent changes] page.
+
+== Plugin Details ==
+{{plugin( plugin="recentChanges" )}}

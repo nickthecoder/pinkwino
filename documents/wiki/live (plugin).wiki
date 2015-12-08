@@ -1,0 +1,13 @@
+{{aside( page="plugins index")}}
+
+This is a conditional plugin, that is to say, it only renders the body of the plugin if a given criteria is met.
+
+In this case the body will be rendered if the wiki attribute ``pinkwino_static`` == false.
+
+It was designed to be used in conjunction with the [makeStatic (plugin)], to allow some content to only be shown on the ++live++ page, not in the ++staging++ site.
+
+If your wiki does not use the [makeStatic (plugin)], this plugin is probably not useful.
+
+== Details ==
+
+{{plugin plugin="live"}}

@@ -1,0 +1,45 @@
+{{aside (page="wiki/syntax index")}}
+
+Create bold text ( html <b> tag ).
+
+Enclose the text within two sets of '''<nowiki>++</nowiki>'''. 
+
+=== Example ===
+
+==== Simple ====
+
+{{{
+This is the ++best++ bold text ever.
+}}}
+
+This is the ++best++ bold text ever.
+
+==== Nested ====
+
+You can nest other wiki markup within the bold section, here we have some italics inside the bold :
+
+{{{
+Please, ++do ''not'' do that again++, thank you.
+}}}
+
+Please, ++do ''not'' do that again++, thank you.
+
+!! Illegal Nesting (blocks)
+
+You cannot insert any [Blocks|Block] within a bold section. For example, the following is illegal, because the table is a block, and cannot be within a bold section.
+
+{{{
+This is ++illegal
+{|
+| this is a table
+|}
+ending bold++ now.
+}}}
+
+This is what you would see if you tried it (note that the table markup is ignored :
+
+This is ++illegal
+{|
+| this is a table
+|}
+ending bold++ now.

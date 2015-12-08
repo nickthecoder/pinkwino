@@ -1,0 +1,9 @@
+{{aside( page="plugins index")}}
+
+Lists all [plugins|wiki/plugins] registered with the plugin manager.
+
+Used by the [plugins index] page, which is shown on th right.
+
+== Details ==
+
+{{plugin( plugin="plugins" )}}

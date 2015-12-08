@@ -1,0 +1,337 @@
+{{aside (page="wiki/syntax index")}}
+
+Here's some examples of how use write wiki pages.
+
+See also [Cheat Sheet], [Hints]
+
+{{toc}}
+
+== Headings ==
+
+To create a heading place two or more equal symbols (=) before and after the heading. The more equal signs you use the smaller the heading will be.
+
+For example :
+{{{
+== Large Heading ==
+=== Medium Heading ===
+==== Small Heading ====
+}}}
+
+[more...|Heading]
+
+== Text Styles ==
+
+{|
+|| Appearance
+|| Wiki Syntax
+|| Notes
+|-
+| ''italics''
+| <nowiki>''italics''</nowiki>
+| These are single apostrophes. [more...|Italics]
+|-
+| ++bold++
+| <nowiki>++bold++</nowiki>
+| [more...|Bold]
+|-
+| __underlined__
+| <nowiki>__underlined__</nowiki>
+| Two underscores. [more...|Underline] 
+|-
+| --strike--
+| <nowiki>--strike--</nowiki>
+| [more...|Strike]
+|-
+| ^^super^^script
+| <nowiki>^^super script^^</nowiki>
+| [more...|Superscript]
+|-
+| ,,sub,,script
+| <nowiki>,,sub,,script</nowiki>
+| [more...|Subscript]
+|-
+| $$code$$
+| <nowiki>$$code$$</nowiki>
+| Uses a fixed-width font. [more...|Code]
+|-
+| ""Quoted""
+| <nowiki>""Quoted""</nowiki>
+| [more...|Quote]
+|}
+
+== Paragraphs and Line Breaks ==
+
+{|
+|(width="50%")
+{{[
+Start a new paragraph by
+leaving a blank line
+
+This is a new paragraph.
+[more...|Paragraph]
+]}}
+|(width="50%")
+{{{
+Start a new paragraph by
+leaving a blank line
+
+This is a new paragraph.
+}}}
+|-
+|
+A line break\\
+Note this is not the same
+as a new paragraph<br>
+There are three ways to
+create a line break<br/>
+That's all of them.
+[more...|Line Break]
+|
+{{{
+A line break\\
+Note this is not the same
+as a new paragraph<br>
+There are three ways to
+create a line break<br/>
+That's all of them.
+}}}
+|-
+|
+Horizontal Line
+----
+Use sparingly, as you should
+use headings to break up a
+page.
+[more...|Horizontal Line]
+|
+{{{
+Horizontal Line
+----
+Use sparingly, as you should
+use headings to break up a
+page.
+}}}
+
+|}
+
+== Links ==
+
+The examples below link to a page called ''"nowhere"'', which doesn't exist,
+and to a page called ''"sandbox"'', which does exist.
+{|
+|(width="50%") A link to [nowhere], and a link to the [Sandbox]
+|(width="50%")
+{{{
+ A link to [nowhere],
+ and a link to the [Sandbox]
+}}}
+|-
+| Change the name, but still link [there|nowhere].
+Go [play|Sandbox].
+|
+{{{
+Change the name,
+but still link [there|nowhere].
+Go [play|Sandbox].
+}}}
+|}
+
+[more...|Link]
+
+== Lists ==
+
+{|(width="100%")
+|(width="50%")
+# Ordered
+# lists
+# are easy
+
+|(width="50%")
+{{{
+# Ordered
+# lists
+# are easy
+
+}}}
+|-
+|
+* And so are
+* unordered
+* lists
+
+|
+{{{
+* And so are
+* unordered
+* lists
+
+}}}
+|-
+|
+* Indentation
+** Is trickier
+** The more stars
+*** The more indented
+** Simple as that
+
+|
+{{{
+* Indentation
+** Is trickier
+** The more stars
+*** The more indented
+** Simple as that
+
+}}}
+|}
+
+[more...|List]
+
+== Tables ==
+
+{|
+|| Code
+|| Meaning
+|-
+|
+ <nowiki>{|</nowiki>
+| start of a table
+|-
+|
+ <nowiki>||</nowiki>
+| begin a new header cell
+|-
+|
+ <nowiki>|</nowiki>
+| begin a new cell<br/>
+|-
+|
+ <nowiki>|-</nowiki>
+| end one row, and begin a new one
+|-
+|
+ <nowiki>|}</nowiki>
+| table end<br/>
+|}
+
+All of these have to be at the beginning of a line, but you can squash serval
+table cells together on one line.
+
+A cell can span multiple lines, however, paragraphs are not created within
+table cells, so leaving a blank line does ''not'' cause a gap. If you do want
+paragraphs within a table cell, place a block within the cell using 
+<nowiki>{{[ your-text-here ]}}</nowiki>
+
+{|(width="100%")
+|(width="50%")
+{|
+|| Hello
+|| World
+|-
+| abc
+| 123
+|}
+|(width="50%")
+{{{
+{|
+|| Hello
+|| World
+|-
+| abc
+| 123
+|}
+}}}
+|}
+
+Tables, table rows and table cells can have attributes.
+
+[more...|Table]
+
+== Blocks ==
+
+{|
+|(width="50%")
+{{{
+A block of text
+without __wiki__ syntax.
+}}}
+Notice how the underscores are ''not'' treated as wiki syntax.
+|(width="50%")
+<pre>
+{{{
+A block of text
+without __wiki__ syntax.
+}}}
+</pre>
+[more...|Pre-Formatted]
+|-
+|
+Here's blockquote text:
+>>
+See how it is indented
+<<
+|
+{{{
+Here's blockquote text:
+>>
+See how it is indented
+<<
+}}}
+[more...|Blockquote]
+|-
+|
+Here's quoted text:
+"""
+See how it has quote marks around it.
+"""
+|
+{{{
+Here's quoted text:
+"""
+See how it has quote marks around it.
+"""
+}}}
+[more...|Quote]
+|-
+|
+((
+A block.
+
+This is useful inside of a table,
+to enable paragraphs.
+(Tables cells do not contain
+paragraphs by default).
+))
+
+Compare the above to this sentence,
+
+which is NOT split into two paragraphs.
+|
+{{{
+
+((
+A block.
+
+This is useful inside of a table,
+to enable paragraphs.
+Tables cells do not contain
+paragraphs by default.
+))
+
+Compare the above to this sentence,
+
+which is NOT split into two paragraphs.}}}
+[more...|Block]
+|}
+
+==Comments==
+
+Sometimes you may want to add comments into your wiki markup, which are not displayed on the final page.
+You can use the same syntax as HTML comments.
+
+<!-- this isn't displayed -->
+{{{
+Comments
+<!-- this isn't displayed -->
+}}}
+[more...|Comments]

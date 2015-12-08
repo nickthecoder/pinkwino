@@ -1,0 +1,25 @@
+{{aside (page="wiki/syntax index")}}
+
+If you want a block of text to appear untouched (i.e. does not respect wiki syntax), then enclose the text in triple curly brackets :
+
+{{{
+This text is verbatim. If we use special wiki syntax, it is NOT treated as wiki syntax.
+So for example, using plus symbols will NOT make text bold.
+++See++
+}}}
+
+This is the wiki markup for the above :
+
+{|
+|
+{{[
+<nowiki>{{{</nowiki>\\
+This text is verbatim. If we use special wiki syntax, it is NOT treated as wiki syntax.\\
+So for example, using plus symbols will NOT make text bold.\\
+<nowiki>++See++</nowiki>\\
+<nowiki>}}}</nowiki>
+]}}
+|}
+
+
+If you just want to turn off wiki markup, but without creating a new block of text, then you should use the [nowiki] syntax instead.

@@ -1,0 +1,17 @@
+{{aside (page="wiki/syntax index")}}
+
+Creates a horizontal line across the page ( a html <hr> tag ).
+
+Please use sparingly, instead, you should use [Heading]s to split up pages.
+
+== Example ==
+
+{{{
+Hello
+----
+world
+}}}
+
+Hello
+----
+world

@@ -1,0 +1,25 @@
+{{aside (page="wiki/syntax index")}}
+
+Create headings (html <h2>, <h3>, <h4> and <h5> tags).
+
+At the beginning of a line, sandwich the heading between a series of ''equal'' signs. The more ''equal'' signs, the lower level heading you will get.
+
+Note, you cannot create a <h1> tag, as that is reserved for the page heading.
+
+== Example ==
+
+To create the '''Example''' heading above, I used this :
+{{{
+== Example ==
+}}}
+
+and for lower level headings, add more "=" symbols :
+{{{
+=== Sub Heading ===
+
+==== Smallest Heading ====
+}}}
+
+=== Sub Heading ===
+
+==== Smallest Heading ====

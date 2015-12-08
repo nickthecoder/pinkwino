@@ -1,0 +1,45 @@
+{{aside (page="wiki/syntax index")}}
+
+==In-line Code==
+
+Text with a fixed-width font, using the HTML ''<code>'' tag.
+
+===Example===
+
+The variable $$index$$ is never used.
+
+{{{
+The variable $$index$$ is never used.
+}}}
+
+==Blocks of Code==
+
+A block of text using a HTML ''<pre>'' tag, with a css class of "wiki_code".
+
+===Example===
+Here's some css code :
+
+$$$
+code { color: #0c0; }
+pre.wiki_code { background-color: #bfb; }
+$$$
+
+{{{
+$$$
+code { color: #0c0; }
+pre.wiki_code { background-color: #bfb; }
+$$$
+}}}
+
+==Implementation Notes==
+
+Changing to a fixed-width font is subtle and can easily be missed.
+To bring attention to in-line code fragments, consider adding a css style. e.g. 
+{{{
+code { color: #0c0; }
+}}}
+
+And blocks of code can use a coordinated background color. e.g.
+{{{
+pre.wiki_code { background-color: #bfb; }
+}}}

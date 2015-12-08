@@ -1,0 +1,12 @@
+{{aside( page="plugins index")}}
+
+Used by the [plugins index] page and the [syntax index] page to create a simple menu.
+
+== Details ==
+
+{{plugin plugin="menu"}}
+
+== Administrator Notes ==
+
+Wraps the contents in a ``<div>`` with a css class of ''wiki_menu''.
+All links within that div are made ''block'' elements.

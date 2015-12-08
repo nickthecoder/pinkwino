@@ -1,0 +1,107 @@
+{{aside( page="plugins index")}}
+
+Places an image on the page.
+
+The image plugin is more customisable than the [img plugin|img (plugin)]. 
+
+With the image plugin you can choose to float the image either left or right. Alternately, you can align the image left, right or center.
+
+By default, the images are links to their own wiki page.
+
+== How to Upload an Image ==
+
+* Add an image plugin (as shown above) to a non-existent page.
+Make sure you end the page name with ``.png`` or ``.jpg``.
+* Click the link that you just created
+* Click ''create''
+* Click ''browse''
+* Choose the image you want to upload, and click ok.
+* Describe the image, and then click ''save''.
+
+It sounds long winded, but its very easy realy.
+
+== Plugin Details ==
+
+{{plugin( plugin="image")}}
+
+===page===
+The name of the wiki pages, which contains the image. The page name should have the appropriate file extension (.png, .jpg).
+
+===align===
+Aligns the image, 
+
+==Examples==
+
+===Simple Defaults===
+
+{{{
+Look at this : {{image( page="logo.png" )
+The Caption
+}}
+The default is to align in the center.
+}}}
+
+Look at this : {{image( page="logo.png" )
+The Caption
+}}
+The default is to align in the center.
+
+===Using align===
+
+{{{
+Look at this : {{image( page="logo.png" align="left" )
+The Caption
+}}
+Notice how this text is underneath the image (unlike the float example below).
+}}}
+
+{{image( page="logo.png" align="left")
+The Caption
+}}
+Notice how this text is underneath the image (unlike the float example below).
+
+===Using float===
+
+{{{
+{{image( page="logo.png" float="left" )
+The Caption
+}}
+Notice how the image is floating to the left of this text.
+}}}
+
+{{image( page="logo.png" float="left" )
+The Caption
+}}
+Notice how the image is floating to the left of this text.
+
+==Implementation Notes==
+
+The following css styles are needed :
+
+{{{
+.wiki_image_align_center { text-align: center; }
+.wiki_image_align_left { text-align: left; }
+.wiki_image_align_right { text-align: right; }
+
+.wiki_image_float_left { float: left; text-align: center; }
+.wiki_image_float_right { float: right; text-align: center; }
+}}}
+
+I like my captions centered...
+{{{
+.wiki_image_float_left { text-align: center; }
+.wiki_image_float_right { text-align: center; }
+}}}
+
+Set the margins. We don't need left margins on left aligned images, nor right margins on right aligned images.
+{{{
+figure { margin: 2em; }
+.wiki_image_float_left figure, .wiki_image_align_left figure { margin-left: 0; }
+.wiki_image_float_right figure .wiki_image_align_right figure{ margin-right: 0; }
+}}}
+
+Make sure that the next section doesn't float level with an image.
+
+{{{
+h1, h2, h3, h4, hr { clear: both; }
+}}}

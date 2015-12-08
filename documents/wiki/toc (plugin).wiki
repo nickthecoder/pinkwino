@@ -1,0 +1,14 @@
+{{aside( page="plugins index")}}
+
+
+Display's the current page's table of contents.
+
+{{{
+{{toc}}
+}}}
+
+{{toc}}
+
+== Plugin Details ==
+
+{{plugin( plugin="toc" ) }}

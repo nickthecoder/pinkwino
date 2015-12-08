@@ -1,0 +1,1 @@
+{{recentChanges(days="7")}}

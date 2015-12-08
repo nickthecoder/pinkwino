@@ -1,0 +1,5 @@
+A wiki is a set of web pages which you can edit within your web browser. They are designed to let communities contribute collectively on a single topic.
+
+[Wikipedia|http://wikipedia.org], the on-line encyclopedia, is the most famous wiki.
+
+If you would like to learn how to use this wiki, have a look at the [help] page, and then read about this wiki's [syntax].

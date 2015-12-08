@@ -1,0 +1,17 @@
+Indent a block of text.
+
+===Example===
+
+This is what it said :
+>>
+So long and thanks for all the fish.
+
+What will be will be.
+<<
+
+{{{
+This is what it said :
+>>
+So long and thanks for all the fish.
+<<
+}}}

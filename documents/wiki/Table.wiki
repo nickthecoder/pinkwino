@@ -1,0 +1,117 @@
+{{aside (page="wiki/syntax index")}}
+
+{{toc}}
+
+Tables are the most complex parts of this wiki. Here's a simple table :
+
+== The Basics ==
+
+{{{
+{|
+| Hello | World
+|-
+| Goobye
+| bye
+|}
+}}}
+
+{|
+| Hello | World
+|-
+| Goobye
+| bye
+|}
+
+To the start and end of a table are "{|" and "|}". i.e. a curly bracket and a pipe symbold (to the left of the "Z" on many keyboards).
+
+Each cell within the table begins with a pipe symbol ("|").
+Note that cells within a single row do NOT have to be on the same line.
+
+To start a new row, use "|-" (pipe, minus).
+
+== Headings ==
+
+Heading cells are slightly different from a normal table cell, use two pipe symbols like so :
+
+{|
+|| Heading
+|-
+| not a heading
+|}
+
+{{{
+
+{|
+|| Heading
+|-
+| not a heading
+|}
+
+}}}
+
+== Widths and Heights ==
+
+You can set the width and height of the table as a whole, or individual cells.
+You can use css units (percentages (%), pixels (px), points (pt), and 'M' widths (em).
+
+{|(width="80%" height="160px")
+|(width="100px" height="100px") 100x100 pixels
+|The rest of the width
+|-
+|abc | def
+|}
+
+Here's the wiki markup :
+
+{{{
+{|(width="80%" height="160px")
+|(width="100px" height="100px") 100x100 pixels
+|The rest of the width
+|-
+|abc | def
+|}
+}}}
+
+== Paragraphs within Tables ==
+
+By default, table cells do not use paragraphs.
+This is because the extra padding of paragraphs is usually not desirable within tables.
+However, sometimes, tables are used for large portions of text, and in those cases, paragraphs ''are'' required.
+To enable paragraphs, add <nowiki>"((" and "))"</nowiki> around the text within a table cell.
+
+This example is a standard table with just one cell, without <nowiki>"((" and "))"</nowiki> so there is no padding for paragraphs.
+
+{|
+|
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+|}
+
+Compare it with this, where paragraphs are enabled.
+
+{|
+|
+((
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+))
+|}
+
+And here is the wiki markup :
+
+{{{
+{|
+|
+((
+Lorem ipsum dolor sit amet, consectetur adipisicing
+elit, sed do eiusmod tempor incididunt ut labore et
+dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation
+ullamco laboris nisi ut aliquip ex ea commodo
+consequat.
+))
+|}
+}}}

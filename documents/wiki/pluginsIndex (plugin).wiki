@@ -1,0 +1,12 @@
+{{aside( page="plugins index")}}
+
+
+Lists all available plugins. No details are given.
+
+Used on the [plugins] page.
+
+See also [plugins (plugin)].
+
+== Plugin Details ==
+
+{{plugin( plugin="pluginsIndex" ) }}

@@ -1,0 +1,5 @@
+{{aside (page="wiki/syntax index")}}
+
+If you want to add a comment within a wiki page, that doesn't appear when viewing a page, but you can see when editing it, then place the text between <nowiki>"<!--" and "-->"</nowiki>.
+
+<!-- This text is a comment - not visible when viewing a page -->

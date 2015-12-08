@@ -1,0 +1,24 @@
+{{aside (page="wiki/syntax index")}}
+
+Create a block of text by placing it with <nowiki>"((" and "))"</nowiki>.
+
+This is often used in conjuntion with a css class, to format the text in a particual way.
+
+For example, if you had a css class within your template called "blueBox", then the following would make the text appear in the blueBox style :
+
+{{{
+(((class="blueBox")
+Hello World
+))
+}}}
+
+This can be used with the css classes "wiki_left", "wiki_right" and "wiki_center". For example
+{{{
+(((class="wiki_right")
+Hello World
+))
+}}}
+
+(((class="wiki_right")
+Hello World
+))

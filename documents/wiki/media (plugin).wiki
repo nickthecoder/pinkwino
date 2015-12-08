@@ -1,0 +1,17 @@
+{{aside( page="plugins index")}}
+
+
+Creates a link to the given media on a particular page.
+
+For example, if there were a page called "welcome.mp3", then to link to the mp3 file :
+{{{
+{{media( page="welcome.mp3" )}}
+}}}
+
+Note. If you use a normal wiki link instead of using this plugin,
+then you will link to the wiki page, not the mp3 file
+held by that wiki page.
+
+== Details ==
+{{plugin( plugin="media" )}}
+

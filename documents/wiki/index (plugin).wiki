@@ -1,0 +1,17 @@
+{{aside( page="plugins index")}}
+
+
+Creates an [index] of all pages within a given [namespace|wiki/namespaces].
+
+== Plugin Details ==
+
+{{plugin( plugin="index" ) }}
+
+== Example ==
+
+{{{
+{{index(namespace="wiki")}}
+}}}
+
+
+{{index(namespace="wiki")}}

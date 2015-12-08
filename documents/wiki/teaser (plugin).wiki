@@ -1,0 +1,16 @@
+{{aside( page="plugins index")}}
+
+
+Similar to the [image (plugin)], but it processes the image first - shrinking the image, and then adding a drop shadow.
+
+{{teaser( page="graduation.png" )\\My [graduation|graduation.png] day}}
+
+{{{
+{{teaser( page="graduation.png" )\\My [graduation|graduation.png] day}}
+}}}
+
+See also [thumbnail (plugin)], [shadow (plugin)].
+
+== Plugin Details ==
+
+{{plugin( plugin="teaser")}}

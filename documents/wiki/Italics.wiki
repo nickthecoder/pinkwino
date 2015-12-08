@@ -1,0 +1,13 @@
+{{aside (page="wiki/syntax index")}}
+
+Create italics (html <i> tag).
+
+Take a single apostrophe, and put two of them at the front, and two at the end.
+
+== Example ==
+
+{{{
+This is the ''best'' italics text ever.
+}}}
+
+This is the ''best'' italics text ever.

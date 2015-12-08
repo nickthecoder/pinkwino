@@ -1,0 +1,3 @@
+The ''wiki'' [namespace] holds meta-information, which may be common to all [wiki]s.
+
+For example, it contains help pages, describing wiki [Syntax], and also help about [Plugins].

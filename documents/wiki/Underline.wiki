@@ -1,0 +1,14 @@
+{{aside (page="wiki/syntax index")}}
+
+Created underlined text.
+
+Place two underscores at the beginning and end of the text you want to underline.
+Note, as web pages often use underlining to indicate a link, underlining is very rarely used.
+
+== Example ==
+
+In __1066__ the Battle of __Hastings__ took place.
+
+{{{
+In __1066__ the Battle of __Hastings__ took place.
+}}}

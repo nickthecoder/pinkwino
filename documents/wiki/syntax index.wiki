@@ -1,0 +1,24 @@
+===Syntax Menu===
+{{[( class="wiki_menu")
+
+[wiki/Block]
+[wiki/Bold]
+[wiki/Code]
+[wiki/Comment]
+[wiki/Heading]
+[wiki/Horizontal Line]
+[wiki/Italics]
+[wiki/Line Break]
+[wiki/Link]
+[wiki/List]
+[wiki/Nowiki]
+[wiki/Paragraph]
+[wiki/Plugin]
+[wiki/Pre-Formatted]
+[wiki/Quote]
+[wiki/Strike]
+[wiki/Table]
+[wiki/Underline]
+
+]}}
+

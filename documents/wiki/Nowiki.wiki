@@ -1,0 +1,24 @@
+{{aside (page="wiki/syntax index")}}
+
+Use "<nowiki><nowiki></nowiki>blah blah</nowiki>" to turn off wiki syntax.
+
+This is useful when you want add text that would otherwise clash with the normal wiki syntax.
+
+For example, if I wanted to write :
+
+{{{
+My English grade was A++, which is the best
+you can get!
+}}}
+
+Then, the <nowiki>++</nowiki> would clash with the wiki's [bold] syntax. To fix this, use the following :
+
+{{{
+My English grade was <nowiki>A++</nowiki>, which is the best
+you can get!
+}}}
+
+And you get the following :
+
+My English grade was <nowiki>A++</nowiki>, which is the best
+you can get!

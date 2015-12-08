@@ -1,0 +1,3 @@
+Here is a complete list of [Namespace]s within this wiki.
+
+{{namespaces}}

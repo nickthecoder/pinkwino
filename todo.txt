@@ -2,6 +2,9 @@ Ensure Lucene database is updated after a page is updated.
     Many ways to update a page : edit, save, rename...
         So add a listener at the storage layer.
 
+Add a new WikiPageListener to inform Ichneutae that a page has changed.
+    Also one to inform the OTHER pinkwino instance (i.e. giddyserv vs nickthecoder.co.uk)
+
 Rename goes weird. Only with non-default namepsace. Permissions?
    Add <!-- renamed from ... --> to the new page??
 

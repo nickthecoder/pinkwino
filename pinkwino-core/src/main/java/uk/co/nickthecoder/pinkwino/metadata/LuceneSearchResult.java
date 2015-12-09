@@ -1,4 +1,4 @@
-/* {{{ GPL
+/*
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -12,7 +12,7 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-}}} */
+*/
 
 package uk.co.nickthecoder.pinkwino.metadata;
 
@@ -21,12 +21,9 @@ import org.apache.lucene.document.Document;
 import uk.co.nickthecoder.pinkwino.WikiEngine;
 import uk.co.nickthecoder.pinkwino.WikiName;
 
-/**
-*/
 
 public class LuceneSearchResult implements SearchResult
-{
-
+{    
     private Document _document;
 
     private float _score;

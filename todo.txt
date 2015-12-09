@@ -1,6 +1,8 @@
+
+Use the latest Lucene???
+
 Ensure Lucene database is updated after a page is updated.
-    Many ways to update a page : edit, save, rename...
-        So add a listener at the storage layer.
+
 
 Add a new WikiPageListener to inform Ichneutae that a page has changed.
     Also one to inform the OTHER pinkwino instance (i.e. giddyserv vs nickthecoder.co.uk)
@@ -8,15 +10,12 @@ Add a new WikiPageListener to inform Ichneutae that a page has changed.
 Rename goes weird. Only with non-default namepsace. Permissions?
    Add <!-- renamed from ... --> to the new page??
 
-
 Google maps plugin
     start, startLatitude and startLongitude currently don't work.
     Rename the google map link plugin to googleMapStartLink
     Make a googleMapTargetLink too ?
 
     Include a region parameter/attribute which defaults to "uk".
-
-Use the latest Lucene???
 
 Switch Over
 ===========

@@ -19,7 +19,12 @@ package uk.co.nickthecoder.pinkwino.metadata;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.lucene.search.Hits;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 
 /**
  * Contains a Lucene Hit object. Each Hit has a lucene Document, which contains
@@ -28,25 +33,30 @@ import org.apache.lucene.search.Hits;
 
 public class LuceneSearchResults implements SearchResults
 {
+    
+    private static final Logger _logger = LogManager.getLogger(LuceneSearchResults.class);
 
-    private Hits _hits;
+    private IndexSearcher _indexSearcher;
+
+    private TopDocs _topDocs;
 
     private Collection<String> _keywords;
 
-    public LuceneSearchResults(Hits hits)
+    public LuceneSearchResults(IndexSearcher indexSearcher, TopDocs topDocs)
     {
-        _hits = hits;
+        _indexSearcher = indexSearcher;
+        _topDocs = topDocs;
         _keywords = new ArrayList<String>(0);
     }
 
     public int getLength()
     {
-        return _hits.length();
+        return _topDocs.scoreDocs.length;
     }
 
     public int length()
     {
-        return _hits.length();
+        return _topDocs.scoreDocs.length;
     }
 
     /** Returns an iteration of SearchResult objects */
@@ -63,9 +73,12 @@ public class LuceneSearchResults implements SearchResults
     public SearchResult get(int n)
     {
         try {
-            return new LuceneSearchResult(_hits.doc(n), _hits.score(n));
+            ScoreDoc scoreDoc = _topDocs.scoreDocs[n];
+            Document doc = _indexSearcher.doc( scoreDoc.doc );
+            return new LuceneSearchResult( doc, scoreDoc.score);
         } catch (Exception e) {
-            System.err.println("LuceneSearchResults: Failed to get hit #" + n);
+            _logger.error("LuceneSearchResults: Failed to get hit #" + n);
+            e.printStackTrace();
             return null;
         }
     }

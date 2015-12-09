@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -28,25 +30,30 @@ import java.util.StringTokenizer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.Hit;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
+import org.apache.lucene.store.NIOFSDirectory;
 
 import uk.co.nickthecoder.pinkwino.Dependency;
 import uk.co.nickthecoder.pinkwino.WikiContext;
@@ -67,11 +74,13 @@ public class LuceneMetaData implements MetaData, WikiPageListener
 
     private Directory _directory;
 
-    private Searcher _searcher;
-
-    private int _openCount = 0;
+    private int _openWriterCount = 0;
 
     private IndexWriter _writer;
+
+    private DirectoryReader _reader;
+
+    private IndexSearcher _indexSearcher;
 
     static String saveField(String value)
     {
@@ -89,18 +98,46 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         return value;
     }
 
+    private synchronized void openWriter() throws IOException
+    {
+        if (_writer == null) {
+            if (_openWriterCount != 0) {
+                _logger.error("Open count should be zero when writer is closed");
+            }
+            IndexWriterConfig config = new IndexWriterConfig(_analyzer);
+            _writer = new IndexWriter(_directory, config);
+            _openWriterCount++;
+        }
+    }
+
+    private synchronized void closeWriter() throws CorruptIndexException, IOException
+    {
+        if (_openWriterCount <= 0) {
+            _logger.error("Closed the IndexWriter without opening it");
+        }
+
+        _openWriterCount--;
+        if (_openWriterCount == 0) {
+            if (_writer == null) {
+                _logger.error("Attempted to close the IndexWriter without opening it");
+            } else {
+                _writer.close();
+                _writer = null;
+            }
+        }
+    }
+
     public LuceneMetaData(File directoryName) throws IOException
     {
         _analyzer = new StandardAnalyzer();
-        _directory = FSDirectory.getDirectory(directoryName);
-        _searcher = null;
+        _directory = new NIOFSDirectory(Paths.get(directoryName.getPath()));
     }
 
     public void rebuild() throws CorruptIndexException, LockObtainFailedException, IOException
     {
         List<WikiPage> pages = WikiEngine.instance().getPages();
 
-        open();
+        openWriter();
         try {
             for (Iterator<WikiPage> i = pages.iterator(); i.hasNext();) {
                 WikiPage wikiPage = i.next();
@@ -112,14 +149,13 @@ public class LuceneMetaData implements MetaData, WikiPageListener
                 }
             }
         } finally {
-            close();
+            closeWriter();
         }
 
     }
 
     /**
-     * Rebuilds the meta data in a new thread. Designed to be called from the
-     * wiki's config bsh script.
+     * Rebuilds the meta data in a new thread.
      */
     public void rebuildAsync()
     {
@@ -152,17 +188,40 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         return _directory;
     }
 
-    public Searcher getSearcher()
+    private IndexSearcher createIndexSearcher() throws IOException
     {
-        if (_searcher == null) {
-            try {
-                _searcher = new IndexSearcher(_directory);
-            } catch (Exception e) {
-                System.err.println("Failed to open the index searcher");
-                e.printStackTrace();
+        if (_reader == null) {
+            _reader = DirectoryReader.open(_directory);
+        } else {
+            DirectoryReader reader = DirectoryReader.openIfChanged(_reader);
+            if (reader != null) {
+                _reader = reader;
+                _indexSearcher = null;
             }
         }
-        return _searcher;
+
+        if (_indexSearcher == null) {
+            _indexSearcher = new IndexSearcher(_reader);
+        }
+
+        return _indexSearcher;
+    }
+
+
+    public SearchResults search(Query query) throws IOException
+    {
+        IndexSearcher indexSearcher = createIndexSearcher();
+
+        TopDocs topDocs = query(indexSearcher, query, 1, 100);
+        return new LuceneSearchResults(indexSearcher, topDocs);
+
+    }
+
+    private TopDocs query(IndexSearcher searcher, Query q, int pageNumber, int hitsPerPage) throws IOException
+    {
+        TopScoreDocCollector collector = TopScoreDocCollector.create(pageNumber * hitsPerPage);
+        searcher.search(q, collector);
+        return collector.topDocs((pageNumber - 1) * hitsPerPage, hitsPerPage);
     }
 
     /**
@@ -173,11 +232,8 @@ public class LuceneMetaData implements MetaData, WikiPageListener
      */
     public SearchResults getBackLinks(WikiName wikiName) throws IOException
     {
-        TermQuery backLinksQuery = new TermQuery(new Term("link", wikiName.getFormatted()));
-
-        Hits hits = getSearcher().search(backLinksQuery);
-
-        return new LuceneSearchResults(hits);
+        TermQuery query = new TermQuery(new Term("link", wikiName.getFormatted()));
+        return search(query);
     }
 
     /**
@@ -191,20 +247,17 @@ public class LuceneMetaData implements MetaData, WikiPageListener
     public SearchResults getDependents(WikiName wikiName) throws IOException
     {
         TermQuery query = new TermQuery(new Term("dependency", wikiName.getFormatted()));
-        Hits hits = getSearcher().search(query);
-        _logger.trace("Searching for 'dependency' = " + wikiName.getFormatted());
-
-        return new LuceneSearchResults(hits);
+        return search(query);
     }
 
     @Override
     public void onSave(WikiPage wikiPage) throws Exception
     {
-        open();
+        openWriter();
         try {
             update(wikiPage.getWikiName(), createDocument(wikiPage));
         } finally {
-            close();
+            closeWriter();
         }
     }
 
@@ -213,14 +266,12 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         Document document = new Document();
         WikiName wikiName = wikiPage.getWikiName();
 
-        document.add(new Field("wikiName", saveField(wikiName.getFormatted()), Field.Store.YES,
-                        Field.Index.UN_TOKENIZED));
-        document.add(new Field("namespace", saveField(wikiName.getNamespace().getName()), Field.Store.YES,
-                        Field.Index.UN_TOKENIZED));
-        document.add(new Field("title", saveField(wikiName.getTitle()), Field.Store.YES, Field.Index.UN_TOKENIZED));
-        document.add(new Field("relation", saveField(wikiName.getRelation()), Field.Store.YES, Field.Index.UN_TOKENIZED));
-        document.add(new Field("content", saveField(wikiPage.getCurrentVersion().getContent()), Field.Store.YES,
-                        Field.Index.TOKENIZED));
+        document.add(new StringField("wikiName", saveField(wikiName.getFormatted()), Field.Store.YES));
+        document.add(new StringField("namespace", saveField(wikiName.getNamespace().getName()), Field.Store.YES));
+        document.add(new TextField("title", saveField(wikiName.getTitle()), Field.Store.YES));
+        document.add(new StringField("relation", saveField(wikiName.getRelation()), Field.Store.YES));
+        document.add(new TextField("content", saveField(wikiPage.getCurrentVersion().getContent()), Field.Store.YES));
+        document.add(new LongField("lastUpdate", new Date().getTime(), Field.Store.YES));
 
         Collection<Dependency> dependencies = wikiPage.getCurrentVersion().getWikiDocument().getDependencies();
         for (Dependency dependency : dependencies) {
@@ -228,13 +279,11 @@ public class LuceneMetaData implements MetaData, WikiPageListener
             if (dependency.isLink()) {
 
                 _logger.trace("Adding link : " + dependency.getWikiName());
-                document.add(new Field("link", dependency.getWikiName().getFormatted(), Field.Store.YES,
-                                Field.Index.UN_TOKENIZED));
+                document.add(new StringField("link", dependency.getWikiName().getFormatted(), Field.Store.YES));
 
             } else {
                 _logger.trace("Adding dependency : " + dependency.getWikiName());
-                document.add(new Field("dependency", dependency.getWikiName().getFormatted(), Field.Store.YES,
-                                Field.Index.UN_TOKENIZED));
+                document.add(new StringField("dependency", dependency.getWikiName().getFormatted(), Field.Store.YES));
 
             }
         }
@@ -244,29 +293,18 @@ public class LuceneMetaData implements MetaData, WikiPageListener
     @Override
     public void onDelete(WikiPage wikiPage) throws Exception
     {
-        open();
+        openWriter();
         try {
             delete(wikiPage.getWikiName());
         } finally {
-            close();
+            closeWriter();
         }
 
     }
 
-    protected synchronized void open() throws CorruptIndexException, LockObtainFailedException, IOException
+    protected void update(WikiName wikiName, Document document) throws CorruptIndexException, IOException
     {
-        if (_writer == null) {
-            if (_openCount != 0) {
-                _logger.error("Open count should be zero when writer is closed");
-            }
-            _writer = new IndexWriter(getDirectory(), getAnalyzer());
-        }
-        _openCount++;
-    }
-
-    protected void update(WikiName wikiName, Document doc) throws CorruptIndexException, IOException
-    {
-        _writer.updateDocument(getWikiNameTerm(wikiName), doc, getAnalyzer());
+        _writer.updateDocument(getWikiNameTerm(wikiName), document);
     }
 
     protected void delete(WikiName wikiName) throws CorruptIndexException, IOException
@@ -274,90 +312,82 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         _writer.deleteDocuments(getWikiNameTerm(wikiName));
     }
 
-    protected synchronized void close() throws CorruptIndexException, IOException
+    /**
+     * Removes all documents from the index who's lastUpdate is smaller than
+     * <code>time</code>.
+     * 
+     * @param lastUpdate
+     *            Based on the number of milliseconds since January 1, 1970,
+     *            00:00:00 GMT. See {@link java.util.Date#time()}
+     */
+    protected void purge(long time)
     {
-        if (_openCount <= 0) {
-            _logger.error("Closed the IndexWriter without opening it");
-        }
+        try {
+            Query query = NumericRangeQuery.newLongRange("lastUpdate", 0l, time - 1, true, true);
+            _writer.deleteDocuments(query);
 
-        _openCount--;
-        if (_openCount == 0) {
-            if (_writer == null) {
-                _logger.error("Attempted to close the IndexWriter without opening it");
-            } else {
-                _writer.close();
-                _writer = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            _logger.error("Failed to purge. " + e);
+        }
+    }
+    
+    public Query createQuery(String queryString)
+    {
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+
+        StringTokenizer st = new StringTokenizer(queryString);
+        while (st.hasMoreTokens()) {
+
+            BooleanClause.Occur occur = BooleanClause.Occur.SHOULD;
+            String word = st.nextToken();
+
+            if (word.startsWith("-")) {
+                occur = BooleanClause.Occur.MUST_NOT;
+                word = word.substring(1);
+            } else if (word.startsWith("+")) {
+                occur = BooleanClause.Occur.MUST;
+                word = word.substring(1);
+            } else if (word.startsWith("?")) {
+                occur = BooleanClause.Occur.SHOULD;
+                word = word.substring(1);
+            }
+
+            _logger.trace("Query word : '" + word + "'");
+
+            Reader reader = new StringReader(word);
+            try {
+                TokenStream tokenStream = _analyzer.tokenStream("content", reader);
+                CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+
+                tokenStream.reset();
+                while (tokenStream.incrementToken()) {
+                    String term = charTermAttribute.toString();
+                    _logger.trace("Query term : '" + term + "'");
+
+                    builder.add(new TermQuery(new Term("content", term)), occur);
+
+                    if (occur != BooleanClause.Occur.MUST) {
+                        builder.add(new TermQuery(new Term("title", term)), occur);
+                    }
+                }
+                tokenStream.end();
+                tokenStream.close();
+            } catch (IOException e) {
+                _logger.error("Failed to tokenise word : " + word);
             }
         }
+        return builder.build();
     }
 
     public SearchResults search(String searchString) throws Exception
     {
-        Query query = createSearchQuery(searchString);
-
-        Hits hits = getSearcher().search(query);
-
-        return new LuceneSearchResults(hits);
-    }
-
-    private Query createSearchQuery(String searchString) throws Exception
-    {
-        BooleanQuery query = new BooleanQuery();
-
-        StringTokenizer st = new StringTokenizer(searchString);
-        while (st.hasMoreTokens()) {
-
-            // Words prefixed with "-" are NOT included in the search results.
-            String word = st.nextToken();
-            BooleanClause.Occur include = BooleanClause.Occur.MUST;
-            if (word.startsWith("-")) {
-                include = BooleanClause.Occur.MUST_NOT;
-                word = word.substring(1);
-            }
-
-            Reader reader = new StringReader(word);
-            TokenStream ts = getAnalyzer().tokenStream(null, reader);
-
-            Token token = ts.next();
-            while (token != null) {
-                Term term = new Term("content", new String(token.termBuffer(), 0, token.termLength()));
-                query.add(new TermQuery(term), include);
-
-                token = ts.next();
-            }
-        }
-
-        return query;
+        return search(createQuery(searchString));
     }
 
     public Term getWikiNameTerm(WikiName wikiName)
     {
         return new Term("wikiName", wikiName.getFormatted());
-    }
-
-    public void debugInfo(WikiName wikiName)
-    {
-        try {
-            System.out.println("LuceneMetaData debug info for : " + wikiName);
-            TermQuery query = new TermQuery(getWikiNameTerm(wikiName));
-
-            Hits hits = getSearcher().search(query);
-
-            for (Iterator<Hit> i = hits.iterator(); i.hasNext();) {
-                Hit hit = i.next();
-                Document document = hit.getDocument();
-
-                List<Field> fields = document.getFields();
-                for (Iterator<Field> fi = fields.iterator(); fi.hasNext();) {
-                    Field field = (Field) fi.next();
-                    System.out.println(field.name() + " = " + field.stringValue());
-                }
-                System.out.println();
-            }
-            System.out.println("End LuceneMetaData debug info for : " + wikiName);
-
-        } catch (Exception e) {
-        }
     }
 
     public String toString()

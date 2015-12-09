@@ -27,6 +27,7 @@ public class PlainParentNode extends AbstractParentNode
         _isBlock = isBlock;
     }
 
+    @Override
     public boolean isBlock()
     {
         return _isBlock;

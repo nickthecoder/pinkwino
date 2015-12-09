@@ -21,9 +21,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -31,7 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -82,6 +82,7 @@ public class LuceneMetaData implements MetaData, WikiPageListener
 
     private IndexSearcher _indexSearcher;
 
+    
     static String saveField(String value)
     {
         if (value == null) {
@@ -129,7 +130,12 @@ public class LuceneMetaData implements MetaData, WikiPageListener
 
     public LuceneMetaData(File directoryName) throws IOException
     {
-        _analyzer = new StandardAnalyzer();
+        this(directoryName, new EnglishAnalyzer() );
+    }
+    
+    public LuceneMetaData(File directoryName, Analyzer analyzer) throws IOException
+    {
+        _analyzer = analyzer;
         _directory = new NIOFSDirectory(Paths.get(directoryName.getPath()));
     }
 
@@ -139,9 +145,7 @@ public class LuceneMetaData implements MetaData, WikiPageListener
 
         openWriter();
         try {
-            for (Iterator<WikiPage> i = pages.iterator(); i.hasNext();) {
-                WikiPage wikiPage = i.next();
-
+            for (WikiPage wikiPage : pages) {
                 try {
                     update(wikiPage.getWikiName(), createDocument(wikiPage));
                 } catch (Exception e) {
@@ -161,6 +165,7 @@ public class LuceneMetaData implements MetaData, WikiPageListener
     {
         Thread thread = (new Thread()
         {
+            @Override
             public void run()
             {
                 try {
@@ -207,14 +212,23 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         return _indexSearcher;
     }
 
+    @Override
+    public SearchResults search(String searchString) throws Exception
+    {
+        LuceneTextSearch lts = new LuceneTextSearch( searchString );
+        
+        LuceneSearchResults results = search( lts.query );
+        results.keywords = lts.keywords;
 
-    public SearchResults search(Query query) throws IOException
+        return results;
+    }
+
+    public LuceneSearchResults search(Query query) throws IOException
     {
         IndexSearcher indexSearcher = createIndexSearcher();
 
         TopDocs topDocs = query(indexSearcher, query, 1, 100);
-        return new LuceneSearchResults(indexSearcher, topDocs);
-
+        return new LuceneSearchResults(this, indexSearcher, topDocs);
     }
 
     private TopDocs query(IndexSearcher searcher, Query q, int pageNumber, int hitsPerPage) throws IOException
@@ -224,26 +238,117 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         return collector.topDocs((pageNumber - 1) * hitsPerPage, hitsPerPage);
     }
 
+    
     /**
      * Lists all wiki pages which link to the given page. This does NOT include
      * wiki pages which are *dependant* on the given page, so, for example, if
      * page Foo include page Bar, then Foo will NOT be returned. See also
      * getBackDependencies.
      */
+    @Override
     public SearchResults getBackLinks(WikiName wikiName) throws IOException
     {
         TermQuery query = new TermQuery(new Term("link", wikiName.getFormatted()));
         return search(query);
     }
 
+
+    public String analyzeWord( String word )
+    {
+        Reader reader = new StringReader(word);
+        TokenStream tokenStream = null;
+        try {
+            tokenStream = _analyzer.tokenStream("content", reader);
+            CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+
+            tokenStream.reset();
+            while (tokenStream.incrementToken()) {
+                return charTermAttribute.toString();
+            }
+        } catch (Exception e) {
+            _logger.error( "Failed to filter a keyword. " + e );
+        } finally {
+            try {
+                if (tokenStream != null) {
+                    tokenStream.end();
+                    tokenStream.close();
+                }
+                reader.close();
+            } catch (Exception e) {
+                // Do nothing
+                _logger.error("Failed to close during analyzeWord " + e);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Builds a Lucene Query from a string. A search string is parsed into individual keywords, and
+     * a query built based on those words.
+     */
+    public class LuceneTextSearch
+    {
+        public List<String> keywords;
+        
+        public Query query;
+
+        public LuceneTextSearch( String queryString )
+        {
+            keywords = new ArrayList<String>();
+            BooleanQuery.Builder builder = new BooleanQuery.Builder();
+
+            StringTokenizer st = new StringTokenizer(queryString);
+            while (st.hasMoreTokens()) {
+
+                BooleanClause.Occur occur = BooleanClause.Occur.SHOULD;
+                String word = st.nextToken();
+
+                if (word.startsWith("-")) {
+                    occur = BooleanClause.Occur.MUST_NOT;
+                    word = word.substring(1);
+                } else if (word.startsWith("+")) {
+                    occur = BooleanClause.Occur.MUST;
+                    word = word.substring(1);
+                } else if (word.startsWith("?")) {
+                    occur = BooleanClause.Occur.SHOULD;
+                    word = word.substring(1);
+                }
+
+                _logger.trace("Query word : '" + word + "'");
+
+                String keyword = analyzeWord( word );
+                if ( keyword != null ) {
+                    _logger.trace("Query term : '" + keyword + "'");
+                    keywords.add( keyword );
+                        
+                    builder.add(new TermQuery(new Term("content", keyword)), occur);
+
+                    if (occur != BooleanClause.Occur.MUST) {
+                        builder.add(new TermQuery(new Term("title", keyword)), occur);
+                    }
+                }
+            }
+            query = builder.build();
+
+        }
+
+    }
+
+
+    public Term getWikiNameTerm(WikiName wikiName)
+    {
+        return new Term("wikiName", wikiName.getFormatted());
+    }
+
     /**
      * Lists all wiki pages which depend on the given page. i.e. all wiki pages
      * which *include* the given page, and all wiki pages who's image is used
      * within the given page etc.
-     * 
+     *
      * Note, only 1 level of dependencies are returned. So if A depends on B and
      * B depends on C, then C will NOT be returned as a dependency of A.
      */
+    @Override
     public SearchResults getDependents(WikiName wikiName) throws IOException
     {
         TermQuery query = new TermQuery(new Term("dependency", wikiName.getFormatted()));
@@ -266,13 +371,16 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         Document document = new Document();
         WikiName wikiName = wikiPage.getWikiName();
 
+        String content = wikiPage.getCurrentVersion().getPlainContent();
+        
         document.add(new StringField("wikiName", saveField(wikiName.getFormatted()), Field.Store.YES));
         document.add(new StringField("namespace", saveField(wikiName.getNamespace().getName()), Field.Store.YES));
         document.add(new TextField("title", saveField(wikiName.getTitle()), Field.Store.YES));
         document.add(new StringField("relation", saveField(wikiName.getRelation()), Field.Store.YES));
-        document.add(new TextField("content", saveField(wikiPage.getCurrentVersion().getContent()), Field.Store.YES));
-        document.add(new LongField("lastUpdate", new Date().getTime(), Field.Store.YES));
-
+        document.add(new TextField("content", saveField(content), Field.Store.YES));
+        document.add(new LongField("lastUpdated", wikiPage.getCurrentVersion().getDate().getTime(), Field.Store.YES));
+        document.add(new LongField("lastIndexed", new Date().getTime(), Field.Store.YES));
+        
         Collection<Dependency> dependencies = wikiPage.getCurrentVersion().getWikiDocument().getDependencies();
         for (Dependency dependency : dependencies) {
 
@@ -315,7 +423,7 @@ public class LuceneMetaData implements MetaData, WikiPageListener
     /**
      * Removes all documents from the index who's lastUpdate is smaller than
      * <code>time</code>.
-     * 
+     *
      * @param lastUpdate
      *            Based on the number of milliseconds since January 1, 1970,
      *            00:00:00 GMT. See {@link java.util.Date#time()}
@@ -323,7 +431,7 @@ public class LuceneMetaData implements MetaData, WikiPageListener
     protected void purge(long time)
     {
         try {
-            Query query = NumericRangeQuery.newLongRange("lastUpdate", 0l, time - 1, true, true);
+            Query query = NumericRangeQuery.newLongRange("lastIndexed", 0l, time - 1, true, true);
             _writer.deleteDocuments(query);
 
         } catch (Exception e) {
@@ -331,68 +439,12 @@ public class LuceneMetaData implements MetaData, WikiPageListener
             _logger.error("Failed to purge. " + e);
         }
     }
-    
-    public Query createQuery(String queryString)
-    {
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();
 
-        StringTokenizer st = new StringTokenizer(queryString);
-        while (st.hasMoreTokens()) {
-
-            BooleanClause.Occur occur = BooleanClause.Occur.SHOULD;
-            String word = st.nextToken();
-
-            if (word.startsWith("-")) {
-                occur = BooleanClause.Occur.MUST_NOT;
-                word = word.substring(1);
-            } else if (word.startsWith("+")) {
-                occur = BooleanClause.Occur.MUST;
-                word = word.substring(1);
-            } else if (word.startsWith("?")) {
-                occur = BooleanClause.Occur.SHOULD;
-                word = word.substring(1);
-            }
-
-            _logger.trace("Query word : '" + word + "'");
-
-            Reader reader = new StringReader(word);
-            try {
-                TokenStream tokenStream = _analyzer.tokenStream("content", reader);
-                CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
-
-                tokenStream.reset();
-                while (tokenStream.incrementToken()) {
-                    String term = charTermAttribute.toString();
-                    _logger.trace("Query term : '" + term + "'");
-
-                    builder.add(new TermQuery(new Term("content", term)), occur);
-
-                    if (occur != BooleanClause.Occur.MUST) {
-                        builder.add(new TermQuery(new Term("title", term)), occur);
-                    }
-                }
-                tokenStream.end();
-                tokenStream.close();
-            } catch (IOException e) {
-                _logger.error("Failed to tokenise word : " + word);
-            }
-        }
-        return builder.build();
-    }
-
-    public SearchResults search(String searchString) throws Exception
-    {
-        return search(createQuery(searchString));
-    }
-
-    public Term getWikiNameTerm(WikiName wikiName)
-    {
-        return new Term("wikiName", wikiName.getFormatted());
-    }
-
+    @Override
     public String toString()
     {
         return super.toString();
     }
 
+    
 }

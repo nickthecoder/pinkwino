@@ -1,14 +1,17 @@
+Create a summary
+    Put it in webwidgets
+        Use the same summary in Ichneutae - removing crap code.
 
-Use the latest Lucene???
+Lucene content should be text only, not wiki markup. Use the syntax tree and each node's text.
 
-Ensure Lucene database is updated after a page is updated.
+Check Lucene results are updated after a page is updated.
 
 
 Add a new WikiPageListener to inform Ichneutae that a page has changed.
-    Also one to inform the OTHER pinkwino instance (i.e. giddyserv vs nickthecoder.co.uk)
-
-Rename goes weird. Only with non-default namepsace. Permissions?
-   Add <!-- renamed from ... --> to the new page??
+    Also one to inform the OTHER pinkwino instance (i.e. giddyserv vs ickthecoder.co.uk)
+        Create a LuceneDebug plugin, which show metadata for any given page.
+        Also has a button to update the metadata.
+            This post can be used by this ofther WikiPageListener.
 
 Google maps plugin
     start, startLatitude and startLongitude currently don't work.

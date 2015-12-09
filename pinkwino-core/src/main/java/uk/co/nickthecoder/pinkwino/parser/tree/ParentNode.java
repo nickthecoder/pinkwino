@@ -21,17 +21,28 @@ import java.util.Iterator;
 /**
  * Any node which has a set of child nodes
  */
-
 public interface ParentNode extends Node
 {
+    /**
+     * @return An Iterator of all Nodes, in the order that they were added.
+     */
     public Iterator<Node> getChildren();
 
+    /**
+     * Adds a child Node to the end of the list.
+     * @param node
+     */
     public void add(Node node);
 
+    /**
+     * Renders the node as HTML, and appends it to the StringBuffer.
+     */
     public void render(StringBuffer buffer);
 
+    /**
+     * Appends the text of this parent node (including all its children, grandchildren etc) to
+     * the StringBuffer.
+     */
     public void text(StringBuffer buffer);
-
-    public String getText();
 
 }

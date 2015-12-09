@@ -1,4 +1,4 @@
-/* {{{ GPL
+/*
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -12,22 +12,45 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-}}} */
+ */
 
 package uk.co.nickthecoder.pinkwino.metadata;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * Creates a short summary of a page, with search phrases highlighted.
+ * Creates a short summary of a page, with search phrases highlighted. This is
+ * used on the seach.jsp plugin page to display a summary for each search
+ * result.
+ *
+ * Use getSummarySections() to iterate over each SummarySection, and display
+ * their contents. The sections where isMatched() is true should be displayed in
+ * bold.
  */
-
 public class SummaryMaker
 {
 
+    protected static Logger _logger = LogManager.getLogger(LuceneMetaData.class);
+
+    public String separator = "…";
+
+    /**
+     * Stop after n words have been matched.
+     */
+    public int maxMatchedSections = 5;
+    
+    /**
+     * The 
+     */
+    public int wordsBeforeMatch= 10;
+    
+    public int wordsAfterMatch= 10;
+    
     /**
      * The full text that needs to be summarised
      */
@@ -36,12 +59,14 @@ public class SummaryMaker
     /**
      * The keywords that need to be highlighted. A collection of String objects
      */
-    private Collection<String> _keywords;
+    private KeywordFilter _keywordFilter;
 
-    public SummaryMaker(String content, Collection<String> keywords)
+    private List<SummarySection> _sections;
+
+    public SummaryMaker(String content, KeywordFilter keywordFilter)
     {
         _content = content;
-        _keywords = keywords;
+        _keywordFilter = keywordFilter;
     }
 
     public String getContent()
@@ -49,287 +74,166 @@ public class SummaryMaker
         return _content;
     }
 
-    public Iterator<String> getKeywords()
+    public Iterator<SummarySection> getSections()
     {
-        return _keywords.iterator();
-    }
-
-    protected String createSummary()
-    {
-        // System.out.println( "Summary section for : " + getContent() );
-
-        String content = getContent();
-        String contentUpper = content.toUpperCase();
-        TreeSet<SummarySection> matchedSections = new TreeSet<SummarySection>();
-
-        for (Iterator<String> i = getKeywords(); i.hasNext();) {
-            String toMatch = i.next().toUpperCase();
-
-            int matchIndex = contentUpper.indexOf(toMatch);
-            if (matchIndex >= 0) {
-                matchedSections.add(createSummarySection(content, toMatch, matchIndex));
-            }
+        if (_sections == null) {
+            createSummarySections();
         }
-
-        int previousEnd = -1;
-        StringBuffer result = new StringBuffer();
-        for (Iterator<SummarySection> i = matchedSections.iterator(); i.hasNext();) {
-            SummarySection section = i.next();
-
-            if (previousEnd >= section.getFrom()) {
-                if (previousEnd > section.getTo()) {
-                    // Do nothing
-                } else {
-                    // Add just the extra bit
-                    result.append(content.substring(previousEnd, section.getTo()));
-                    previousEnd = section.getTo();
+        return _sections.iterator();
+    }
+        
+    private void createSummarySections()
+    {
+        _sections = new ArrayList<SummarySection>();
+        List<String> unMatchedWords = new ArrayList<String>();
+        
+        String[] words = _content.split("\\s");
+        int matchCount = 0;
+        
+        // Build up a list of SummarySection objects. These are either a single matched word,
+        // or a set of 1 or more unmatched words.
+        for ( String word : words ) {
+            if ( _keywordFilter.accept(word) ) {
+                matchCount ++;
+                if ( unMatchedWords.size() > 0) {
+                    _sections.add( new UnmatchedSummarySection(unMatchedWords));
+                    unMatchedWords = new ArrayList<String>();
                 }
+                if ( matchCount >= maxMatchedSections ) {
+                    break;
+                }
+                _sections.add( new MatchedSummarySection( word ) );
             } else {
-
-                if (section.getFrom() != 0) {
-                    result.append(" ... ");
-                }
-
-                result.append(section);
-                previousEnd = section.getTo();
-
+                unMatchedWords.add( word );
             }
-
         }
-        if (previousEnd < content.length()) {
-            result.append(" ... ");
+        if ( unMatchedWords.size() > 0) {
+            _sections.add( new UnmatchedSummarySection(unMatchedWords));
         }
-
-        // System.out.println( "Summary : "+ result );
-
-        return result.toString();
+        
+        if ( _sections.size() > 0) {
+            SummarySection firstSection = _sections.get(0);
+            SummarySection lastSection = _sections.get(_sections.size()-1);
+            for (SummarySection section : _sections ) {
+                section.compress( section == firstSection, section == lastSection);
+            }
+        }
     }
-
-    protected SummarySection createSummarySection(String content, String word, int matchIndex)
+    
+    public interface SummarySection
     {
-        int start = walkBackwards(content, matchIndex);
-        int end = walkForwards(content, matchIndex + word.length());
-
-        return new SummarySection(content, start, end);
+        public boolean isMatched();
+        
+        public String getText();
+        
+        public void compress( boolean isFirst, boolean isLast );
     }
-
-    protected int walkBackwards(String text, int matchIndex)
-    {
-        if (matchIndex <= 1) {
-            return 0;
-        }
-
-        // Configuration information
-        int requiredWords = 10;
-        int requiredCharacters = 100;
-
-        boolean prevWasSpace = false;
-
-        int doneCharacters = 0;
-        int doneWords = 0;
-
-        int i = matchIndex - 1;
-        while (i >= 0) {
-
-            char c = text.charAt(i);
-
-            // Whitespace
-            if (Character.isWhitespace(c)) {
-                if (!prevWasSpace) {
-                    doneWords++;
-                    if (doneWords > requiredWords) {
-                        // System.out.println( "Stopped back after word : " +
-                        // doneWords );
-                        return i;
-                    }
-
-                }
-                prevWasSpace = true;
-
-            } else {
-
-                doneCharacters++;
-                if (doneCharacters > requiredCharacters) {
-                    // System.out.println( "Stopped back after character : " +
-                    // doneCharacters );
-                    return i;
-                }
-
-                prevWasSpace = false;
-            }
-
-            // Full stop
-            if ((c == '.') && prevWasSpace && (doneWords >= requiredWords)) {
-                // System.out.println(
-                // "Stopped back after full stop - words = : " + doneWords );
-                return i;
-            }
-
-            i--;
-        }
-
-        // System.out.println( "Exited loop : i =  " + i );
-        return 0;
-    }
-
-    protected int walkForwards(String text, int matchIndex)
-    {
-        int end = text.length();
-        if (matchIndex >= end - 1) {
-            return end;
-        }
-
-        // Configuration information
-        int requiredWords = 10;
-        int requiredCharacters = 100;
-
-        boolean prevWasSpace = false;
-        boolean prevWasFullStop = false;
-
-        int doneCharacters = 0;
-        int doneWords = 0;
-
-        int i = matchIndex;
-        while (i < end) {
-
-            char c = text.charAt(i);
-
-            // Whitespace
-            if (Character.isWhitespace(c)) {
-
-                if (prevWasFullStop && (doneWords >= requiredWords)) {
-                    // System.out.println(
-                    // "Stopped forward after full stop - words = : " +
-                    // doneWords );
-                    return i - 1;
-                }
-
-                if (!prevWasSpace) {
-                    doneWords++;
-                    if (doneWords > requiredWords) {
-                        // System.out.println( "Stopped back after word : " +
-                        // doneWords );
-                        return i;
-                    }
-
-                }
-                prevWasSpace = true;
-
-            } else {
-
-                doneCharacters++;
-                if (doneCharacters > requiredCharacters) {
-                    // System.out.println( "Stopped back after character : " +
-                    // doneCharacters );
-                    return i;
-                }
-
-                prevWasSpace = false;
-            }
-
-            // Full stop
-            prevWasFullStop = (c == '.');
-
-            i++;
-        }
-
-        // System.out.println( "Exited loop : i =  " + i );
-        return end;
-    }
-
-    public Iterator<SummarySection> getSummarySections()
-    {
-        String content = getContent();
-        String upperContent = content.toUpperCase();
-        TreeSet<SummarySection> matchedSections = new TreeSet<SummarySection>();
-
-        for (Iterator<String> i = getKeywords(); i.hasNext();) {
-            String toMatch = i.next().toUpperCase();
-
-            int nextIndex = 0;
-            while ((nextIndex = upperContent.indexOf(toMatch, nextIndex)) >= 0) {
-                matchedSections.add(new SummarySection(content, nextIndex, nextIndex + toMatch.length(), true));
-                nextIndex = nextIndex + toMatch.length();
-            }
-        }
-
-        LinkedList<SummarySection> allSections = new LinkedList<SummarySection>();
-        int doneIndex = 0;
-        for (Iterator<SummarySection> i = matchedSections.iterator(); i.hasNext();) {
-            SummarySection matchedSection = i.next();
-
-            if (matchedSection.getFrom() > doneIndex) {
-                // Add an unmatched section.
-                allSections.add(new SummarySection(content, doneIndex, matchedSection.getFrom(), false));
-                doneIndex = matchedSection.getFrom();
-            }
-
-            if (matchedSection.getTo() <= doneIndex) {
-                // Throw it away (do nothing)
-            } else {
-                // Add the matched section
-                allSections.add(new SummarySection(content, doneIndex, matchedSection.getTo(), true));
-                doneIndex = matchedSection.getTo();
-            }
-
-        }
-
-        // Add the remaining unmatched section at the end.
-        if (doneIndex < content.length()) {
-            allSections.add(new SummarySection(content, doneIndex, content.length(), false));
-        }
-
-        return allSections.iterator();
-    }
-
-    // -------------------- [[Inner Class SummarySection]] --------------------
-
-    public class SummarySection implements Comparable<SummarySection>
-    {
-
+    
+    public class MatchedSummarySection implements SummarySection
+    {        
         private String _text;
-        private int _from;
-        private int _to;
-        private boolean _isMatched;
-
-        public SummarySection(String text, int from, int to)
+        
+        public MatchedSummarySection( String word )
         {
-            this(text, from, to, true);
+            this._text = word;
         }
-
-        public SummarySection(String text, int from, int to, boolean isMatched)
-        {
-            _text = text;
-            _from = from;
-            _to = to;
-            _isMatched = isMatched;
-        }
-
+        
         public boolean isMatched()
         {
-            return _isMatched;
+            return true;
         }
-
-        public String toString()
+        
+        public String getText()
         {
-            return _text.substring(_from, _to);
+            return this._text;
         }
-
-        public int getFrom()
+        
+        public void compress( boolean isFirst, boolean isLast )
         {
-            return _from;
+            // Do nothing
         }
-
-        public int getTo()
-        {
-            return _to;
-        }
-
-        public int compareTo(SummarySection o)
-        {
-            return _from - o.getFrom();
-        }
-
     }
+    
+    public class UnmatchedSummarySection implements SummarySection
+    {
+        private List<String> _words;
+        
+        private String _text;
+        
+        public UnmatchedSummarySection( List<String> words )
+        {
+            _words = words;
+        }
+        public boolean isMatched()
+        {
+            return false;
+        }
+        
+        public String getText()
+        {
+            if ( _text == null ) {
+                compress( false, false );
+            }
+            return _text;
+        }
+
+        /**
+         * Build up the text summary.
+         * In general the output will be the first n words, followed by a separator, followed by
+         * the last m words.
+         * 
+         * n = wordsAfterMatch, m = wordsBeforeMatch
+         * 
+         * If word count < n + m, then all the words are added, and there is no separator.
+         * 
+         *  The first summary section ignores the first n words.
+         *  The last summary section ignores the last m words.
+         */
+        public void compress( boolean isFirst, boolean isLast )
+        {
+            StringBuffer buffer = new StringBuffer();
+
+            int firstEnd = 0;
+            int secondStart = 0;
+            boolean addSep = false;
+            
+            int max = isFirst ? wordsBeforeMatch : (isLast ? wordsAfterMatch : wordsBeforeMatch + wordsAfterMatch + 2);
+            if ( _words.size() > max ) {
+                addSep = true;
+                firstEnd = wordsAfterMatch;
+                secondStart = _words.size() - wordsBeforeMatch;
+            }
+
+            // Should never happen?
+            if ((firstEnd > _words.size()) || (secondStart < 0)) {
+                _logger.error( "Strange start/end" );
+                firstEnd = 0;
+                secondStart = 0;
+                addSep = false;
+            }
+            
+            // Useful for debugging.
+            // buffer.append( " ((0.." + firstEnd +") & (" + secondStart + ".." + _words.size() + ")) ");
+            
+            if ( !isFirst ) {
+                for ( int i = 0; i < firstEnd; i ++ ) {
+                    buffer.append( _words.get(i) );
+                    buffer.append( " " );
+                }
+            }
+            
+            if (addSep) {
+                buffer.append( separator );
+            }
+            
+            if ( (!addSep) || (!isLast) ) {
+                for ( int i = secondStart; i < _words.size(); i ++ ) {
+                    buffer.append( " " );                
+                    buffer.append( _words.get(i) );
+                }
+            }
+            _text = buffer.toString();
+        }
+     }
 
 }

@@ -17,7 +17,8 @@
 package uk.co.nickthecoder.pinkwino.metadata;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,9 +31,9 @@ import org.apache.lucene.search.TopDocs;
  * Contains a Lucene Hit object. Each Hit has a lucene Document, which contains
  * the metadata for each wiki page.
  */
-
 public class LuceneSearchResults implements SearchResults
 {
+    private static final List<String> emptyKeywords = Collections.unmodifiableList(new ArrayList<String>(0));
     
     private static final Logger _logger = LogManager.getLogger(LuceneSearchResults.class);
 
@@ -40,31 +41,38 @@ public class LuceneSearchResults implements SearchResults
 
     private TopDocs _topDocs;
 
-    private Collection<String> _keywords;
+    public List<String> keywords;
 
-    public LuceneSearchResults(IndexSearcher indexSearcher, TopDocs topDocs)
+    LuceneMetaData _lmd;
+
+    public LuceneSearchResults(LuceneMetaData lmd, IndexSearcher indexSearcher, TopDocs topDocs)
     {
+        _lmd = lmd;
         _indexSearcher = indexSearcher;
         _topDocs = topDocs;
-        _keywords = new ArrayList<String>(0);
+        keywords = emptyKeywords;
     }
 
+    @Override
     public int getLength()
     {
         return _topDocs.scoreDocs.length;
     }
 
+    @Override
     public int length()
     {
         return _topDocs.scoreDocs.length;
     }
 
     /** Returns an iteration of SearchResult objects */
+    @Override
     public LuceneSearchResultIterator iterator()
     {
         return new LuceneSearchResultIterator(this);
     }
 
+    @Override
     public LuceneSearchResultIterator getIterator()
     {
         return iterator();
@@ -74,30 +82,19 @@ public class LuceneSearchResults implements SearchResults
     {
         try {
             ScoreDoc scoreDoc = _topDocs.scoreDocs[n];
-            Document doc = _indexSearcher.doc( scoreDoc.doc );
-            return new LuceneSearchResult( doc, scoreDoc.score);
+            Document doc = _indexSearcher.doc(scoreDoc.doc);
+            return new LuceneSearchResult(doc, scoreDoc.score, this);
         } catch (Exception e) {
             _logger.error("LuceneSearchResults: Failed to get hit #" + n);
             e.printStackTrace();
             return null;
         }
     }
-
-    // MORE - is this used or needed?
-    public Collection<String> getKeywords()
-    {
-        return _keywords;
-    }
-
-    public void setKeywords(Collection<String> keywords)
-    {
-        _keywords = keywords;
-    }
-
+    
+    @Override
     public String toString()
     {
         return super.toString();
     }
 
 }
-

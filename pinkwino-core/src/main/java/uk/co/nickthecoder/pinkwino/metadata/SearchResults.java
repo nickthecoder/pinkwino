@@ -16,17 +16,14 @@
 
 package uk.co.nickthecoder.pinkwino.metadata;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 /**
  * Holds information about the list of wiki pages returned from a MetaData
  * search.
  */
-
 public interface SearchResults
 {
-
     public int getLength();
 
     public int length();
@@ -34,11 +31,4 @@ public interface SearchResults
     public Iterator<SearchResult> iterator();
 
     public Iterator<SearchResult> getIterator();
-
-    public SearchResult get(int n);
-
-    public void setKeywords(Collection<String> keywords);
-
-    public Collection<String> getKeywords();
-
 }

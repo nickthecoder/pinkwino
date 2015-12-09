@@ -60,6 +60,7 @@ public class Span extends AbstractParentNode implements NodeFactory, SummaryPart
         super();
     }
 
+    @Override
     public void render(StringBuffer buffer)
     {
         buffer.append("<span");
@@ -69,11 +70,13 @@ public class Span extends AbstractParentNode implements NodeFactory, SummaryPart
         buffer.append("</span>");
     }
 
+    @Override
     public boolean isBlock()
     {
         return false;
     }
 
+    @Override
     public Node createNode()
     {
         AbstractNode node = new Span();
@@ -82,6 +85,7 @@ public class Span extends AbstractParentNode implements NodeFactory, SummaryPart
         return node;
     }
 
+    @Override
     public String toString()
     {
         return "Span " + getParameters();

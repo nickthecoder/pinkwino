@@ -1,2 +1,5 @@
 This is the sandbox for the ''wiki'' [Namespace]. I use it for doing simple little tests.
 There is probably a [default/Sandbox] in the default namespace too.
+
+==Heading==
+This is a section within the sandbox page.

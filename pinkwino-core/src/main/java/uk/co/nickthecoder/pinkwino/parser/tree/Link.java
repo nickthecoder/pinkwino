@@ -61,6 +61,7 @@ public class Link extends AbstractParentNode implements SummaryPart
         _destination = value;
     }
 
+    @Override
     public void render(StringBuffer buffer)
     {
         String href = getHref();
@@ -88,6 +89,7 @@ public class Link extends AbstractParentNode implements SummaryPart
         }
     }
 
+    @Override
     public boolean isBlock()
     {
         return false;

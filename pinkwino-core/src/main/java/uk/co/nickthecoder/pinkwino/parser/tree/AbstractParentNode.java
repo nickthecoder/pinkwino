@@ -16,7 +16,6 @@
 
 package uk.co.nickthecoder.pinkwino.parser.tree;
 
-// {{{ imports
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,11 +35,13 @@ public abstract class AbstractParentNode extends AbstractNode implements ParentN
         _children = new ArrayList<Node>();
     }
 
+    @Override
     public Iterator<Node> getChildren()
     {
         return _children.iterator();
     }
 
+    @Override
     public void add(Node node)
     {
         _children.add(node);
@@ -51,6 +52,7 @@ public abstract class AbstractParentNode extends AbstractNode implements ParentN
         _children.clear();
     }
 
+    @Override
     public void render(StringBuffer buffer)
     {
         for (Iterator<Node> i = getChildren(); i.hasNext();) {
@@ -70,9 +72,16 @@ public abstract class AbstractParentNode extends AbstractNode implements ParentN
 
     }
 
+    @Override
     public void text(StringBuffer buffer)
     {
+        boolean middle = false;
         for (Iterator<Node> i = getChildren(); i.hasNext();) {
+            if (middle) {
+                buffer.append(" ");
+            } else {
+                middle = true;
+            }
             Node node = i.next();
 
             node.text(buffer);
@@ -86,6 +95,7 @@ public abstract class AbstractParentNode extends AbstractNode implements ParentN
         return buffer.toString();
     }
 
+    @Override
     public Object clone()
     {
         try {

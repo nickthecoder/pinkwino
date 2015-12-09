@@ -203,6 +203,13 @@ figure { margin: 2em; }
 .wiki_opacitySlider { padding: 2px; background: #fee; border: 1px solid #e88; }
 .wiki_opacitySlider span { padding: 0.5em 1em; font-weight: bold; }
 
+.wiki_searchResultHeading { font-size: 130%; }
+.wiki_searchResult .wiki_namespace { font-size: 70%; }
+.wiki_searchResult .wiki_namespace:before { content: '('; }
+.wiki_searchResult .wiki_namespace:after { content: ')'; }
+.wiki_searchResult { margin: 0 0 1.5em 0; }
+.wiki_lastUpdated { color: #080; font-size: 80%; margin-top: 4px; }
+
 .googleMap_map { width: 600px; height: 400px; }
 
 

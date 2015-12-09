@@ -36,11 +36,13 @@ public class AutoParagraphBlock extends AbstractParentNode
         super();
     }
 
+    @Override
     public boolean isBlock()
     {
         return true;
     }
 
+    @Override
     public void add(Node node)
     {
         if (node.isBlock()) {

@@ -21,6 +21,7 @@ package uk.co.nickthecoder.pinkwino;
 import java.util.Date;
 
 import uk.co.nickthecoder.pinkwino.link.UrlManager;
+import uk.co.nickthecoder.pinkwino.parser.tree.Node;
 
 /**
  * A version of a wiki page, holds the actual content as well as meta data such
@@ -85,6 +86,20 @@ public class Version implements Comparable<Version>
     public String getRendered()
     {
         return render();
+    }
+
+    /**
+     * Parses the wiki markup to find just the text.
+     * @return The content of the wiki page stripped of the wiki markup.
+     */
+    public String getPlainContent()
+    {
+        WikiDocument wikiDocument = getWikiDocument();
+        Node rootNode = wikiDocument.getRootNode();
+
+        StringBuffer buffer = new StringBuffer();
+        rootNode.text(buffer);
+        return buffer.toString().replaceAll("\\s\\s*", " ");
     }
 
     public void setWikiDocument(WikiDocument value)

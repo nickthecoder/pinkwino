@@ -5,7 +5,7 @@
   <form name="searchPluginForm" action="<c:out value="${search_url}"/>" method="GET">
 
     <input type="text" name="search" size="55" maxlength="2000" value="<c:out value="${param.search}"/>"/>
-    <input type="submit" name="searchButton" value="Search"></input>
+    <input type="submit" name="searchButton" value="Search"/>
 
   </form>
 </div>
@@ -20,8 +20,25 @@
       <c:forEach items="${items}" var="result">
 
         <div class="wiki_searchResult">
-          <div class="wiki_searchResultTitle">
-            <a href="${result.wikiName.viewUrl}"><c:out value="${result.wikiName.formatted}"/></a>
+          <div class="wiki_searchResultHeading">
+            <span class="wiki_title">
+              <a href="${result.wikiName.viewUrl}"><c:out value="${result.wikiName.title}"/></a>
+            </span>
+            <c:if test="${result.wikiName.namespace != wikiEngine.defaultNamespace}">
+              <span class="wiki_namespace">
+                  <c:out value="${result.wikiName.namespace.name}"/>
+              </span>
+            </c:if>
+          </div>
+          <div class="wiki_searchSummary">
+          <c:forEach items="${result.summary.sections}" var="section">
+            <c:if test="${section.matched}"><b></c:if>
+            <c:out value="${section.text}"/>
+            <c:if test="${section.matched}"></b></c:if>
+          </c:forEach>
+          </div>
+          <div class="wiki_lastUpdated">
+            Last Updated : <c:out value="${result.lastUpdated}"/>
           </div>
         </div>
 

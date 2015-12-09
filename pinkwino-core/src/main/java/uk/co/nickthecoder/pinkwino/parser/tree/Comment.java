@@ -30,16 +30,19 @@ public class Comment extends AbstractParentNode implements NodeFactory
         super();
     }
 
+    @Override
     public void render(StringBuffer buffer)
     {
         // Do nothing
     }
 
+    @Override
     public boolean isBlock()
     {
         return false;
     }
 
+    @Override
     public Node createNode()
     {
         return this;

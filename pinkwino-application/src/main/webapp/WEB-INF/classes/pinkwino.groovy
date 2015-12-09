@@ -127,12 +127,13 @@ wikiEngine.getMediaManager().setTempDirectory( new File( "/tmp" ) )
 // ***** Remove this *****
 wikiEngine.getAttributes().setAttribute( "googleMap_key", "AIzaSyCpZxghYNTdsc5KXL483zoCMIN9tRLzHWw" );
 
+
 // LuceneMetaSata add searching to your wiki, as well as get info, such as which pages links
 // to a given page.
 def luceneMetaData = new LuceneMetaData( new File( "documents/lucene-metadata" ) );
 wikiEngine.setMetaData( luceneMetaData )
 wikiEngine.addWikiPageListener( luceneMetaData )
-luceneMetaData.rebuild()
+//luceneMetaData.rebuild()
 
 logger.trace( "default pinkwino.groovy : end" );
 

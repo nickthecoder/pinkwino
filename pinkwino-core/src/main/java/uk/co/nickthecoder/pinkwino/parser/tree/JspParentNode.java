@@ -40,11 +40,13 @@ public class JspParentNode extends JspNode implements ParentNode
         _children = new ArrayList<Node>();
     }
 
+    @Override
     public Iterator<Node> getChildren()
     {
         return _children.iterator();
     }
 
+    @Override
     public void add(Node node)
     {
         _children.add(node);
@@ -72,10 +74,4 @@ public class JspParentNode extends JspNode implements ParentNode
         return buffer.toString();
     }
 
-    public String getText()
-    {
-        StringBuffer buffer = new StringBuffer();
-        text(buffer);
-        return buffer.toString();
-    }
 }

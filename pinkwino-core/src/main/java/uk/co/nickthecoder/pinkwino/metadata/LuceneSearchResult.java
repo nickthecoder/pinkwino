@@ -12,28 +12,37 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
+ */
 
 package uk.co.nickthecoder.pinkwino.metadata;
 
+import java.util.Date;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexableField;
 
 import uk.co.nickthecoder.pinkwino.WikiEngine;
 import uk.co.nickthecoder.pinkwino.WikiName;
 
-
 public class LuceneSearchResult implements SearchResult
-{    
+{
+    protected static Logger _logger = LogManager.getLogger(LuceneSearchResult.class);
+
     private Document _document;
 
     private float _score;
-
+    
     private WikiName _wikiName;
 
-    public LuceneSearchResult(Document document, float score)
+    private LuceneSearchResults _searchResults;
+    
+    public LuceneSearchResult(Document document, float score, LuceneSearchResults searchResults )
     {
         _document = document;
         _score = score;
+        _searchResults = searchResults;
     }
 
     public String getNamespaceName()
@@ -51,11 +60,27 @@ public class LuceneSearchResult implements SearchResult
         return LuceneMetaData.loadField(_document.get("relation"));
     }
 
+    public String getContent()
+    {
+        String result = LuceneMetaData.loadField(_document.get("content")); 
+        return (result == null) ? "" : result;
+    }
+    
+    public Date getLastUpdated()
+    {
+        IndexableField result = _document.getField("lastUpdated");
+        Number time = result.numericValue();
+        
+        return new Date( time == null ? 0 : time.longValue());
+    }
+
+    @Override
     public float getScore()
     {
         return _score;
     }
 
+    @Override
     public WikiName getWikiName()
     {
         if (_wikiName == null) {
@@ -65,9 +90,32 @@ public class LuceneSearchResult implements SearchResult
         return _wikiName;
     }
 
+    @Override
+    public SummaryMaker getSummary()
+    {
+        return new SummaryMaker( getContent(), new MyKeywordFilter() );
+    }
+
+    @Override
     public String toString()
     {
         return "LuceneSearchResult : " + getWikiName() + " = " + getScore();
     }
 
+    
+    class MyKeywordFilter implements KeywordFilter
+    {
+        @Override
+        public boolean accept(String word)
+        {
+            String aword = _searchResults._lmd.analyzeWord( word );
+            for ( String keyword: _searchResults.keywords ) {
+                if ( keyword.equals(aword) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+    }
 }

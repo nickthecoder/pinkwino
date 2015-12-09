@@ -159,9 +159,13 @@ figure { margin: 2em; }
 .wiki_toc { border: 1px solid #f88; border-radius: 10px; box-shadow: 5px 5px 5px #ddd; background: #fee; padding: 1em; margin: 0em 1em 2em 1em;}
 .wiki_column_section h2, .wiki_column_section h3 { margin-top: 8px; }
 
-.wiki_infoList li { display: inline; list-style-type: none; line-height: 2em; padding: 0; margin: 0; line-height: 3em; }
-.wiki_infoList li a { width: 200px; border: 1px dotted #800; padding: 0.5em 1em; margin: 0 0.3em; white-space: nowrap; }
+.wiki_infoList li { display: inline; list-style-type: none; }
+.wiki_infoList li,
+.wiki_pager         {line-height: 2em; padding: 0; margin: 0; line-height: 3em; }
+.wiki_infoList li a,
+.wiki_pager a       { width: 200px; border: 1px dotted #800; padding: 0.5em 1em; margin: 0 0.3em; white-space: nowrap; }
 .wiki_infoList li a:hover { background: #fee; color: #f00; text-decoration: none; }
+.wiki_pager { text-align: center; }
 
 #wiki_versions { position: relative; min-height: 10000px; }
 #wiki_versionA, #wiki_versionB { position: absolute; top: 0px; left: 0px; }
@@ -171,6 +175,13 @@ figure { margin: 2em; }
 #wiki_diffTools { text-align: center; position: fixed; bottom: 0px; left: 0px; background: #fdd; border-top: 1px solid #000; z-index: 1000; width: 100%; padding: 6px 0 0 0; }
 .wiki_opacitySlider { padding: 2px; background: #fee; border: 1px solid #e88; }
 .wiki_opacitySlider span { padding: 0.5em 1em; font-weight: bold; }
+
+.wiki_searchResultHeading { font-size: 130%; }
+.wiki_searchResult .wiki_namespace { font-size: 70%; }
+.wiki_searchResult .wiki_namespace:before { content: '('; }
+.wiki_searchResult .wiki_namespace:after { content: ')'; }
+.wiki_searchResult { margin: 0 0 1.5em 0; }
+.wiki_lastUpdated { color: #080; font-size: 80%; margin-top: 4px; }
 
 .googleMap_map { width: 600px; height: 400px; }
 

@@ -190,9 +190,13 @@ figure { margin: 2em; }
 .wiki_toc { border: 1px solid #f88; border-radius: 10px; box-shadow: 5px 5px 5px #ddd; background: #fee; padding: 1em; margin: 0em 1em 2em 1em;}
 .wiki_column_section h2, .wiki_column_section h3 { margin-top: 8px; }
 
-.wiki_infoList li { display: inline; list-style-type: none; line-height: 2em; padding: 0; margin: 0; line-height: 3em; }
-.wiki_infoList li a { width: 200px; border: 1px dotted #800; padding: 0.5em 1em; margin: 0 0.3em; white-space: nowrap; }
+.wiki_infoList li { display: inline; list-style-type: none; }
+.wiki_infoList li,
+.wiki_pager         {line-height: 2em; padding: 0; margin: 0; line-height: 3em; }
+.wiki_infoList li a,
+.wiki_pager a       { width: 200px; border: 1px dotted #800; padding: 0.5em 1em; margin: 0 0.3em; white-space: nowrap; }
 .wiki_infoList li a:hover { background: #fee; color: #f00; text-decoration: none; }
+.wiki_pager { text-align: center; }
 
 #wiki_versions { position: relative; min-height: 10000px; }
 #wiki_versionA, #wiki_versionB { position: absolute; top: 0px; left: 0px; }

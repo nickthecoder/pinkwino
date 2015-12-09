@@ -44,15 +44,15 @@
 
       </c:forEach>
 
-      <div style="text-align: center">
+      <div class="wiki_pager">
         <ww:linkInfo href="${search_url}" useContextPath="false">
           <ww:linkParameter name="search" value="${param.search}"/>
 
           <ww:pagerLinks type="previous"> <ww:link>Previous</ww:link></ww:pagerLinks>
-          <ww:pagerLinks type="before"> (<ww:link>${page}</ww:link>) </ww:pagerLinks>
-          <ww:pagerLinks type="current"> (${page}) </ww:pagerLinks>
-          <ww:pagerLinks type="after"> (<ww:link>${page}</ww:link>) </ww:pagerLinks>
-          <ww:pagerLinks type="next"> <ww:link>Next</ww:link></ww:pagerLinks>
+          <ww:pagerLinks type="before"><ww:link>${page}</ww:link></ww:pagerLinks>
+          <ww:pagerLinks type="current">${page}</ww:pagerLinks>
+          <ww:pagerLinks type="after"><ww:link>${page}</ww:link></ww:pagerLinks>
+          <ww:pagerLinks type="next"><ww:link>Next</ww:link></ww:pagerLinks>
         </ww:linkInfo>
       </div>
 

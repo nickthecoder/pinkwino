@@ -1,11 +1,7 @@
 Create a summary
     Put it in webwidgets
-        Use the same summary in Ichneutae - removing crap code.
-
-Lucene content should be text only, not wiki markup. Use the syntax tree and each node's text.
-
-Check Lucene results are updated after a page is updated.
-
+        Use the same summary in Ichneutae?
+            Remove crap unused code from Ichneutae.
 
 Add a new WikiPageListener to inform Ichneutae that a page has changed.
     Also one to inform the OTHER pinkwino instance (i.e. giddyserv vs ickthecoder.co.uk)

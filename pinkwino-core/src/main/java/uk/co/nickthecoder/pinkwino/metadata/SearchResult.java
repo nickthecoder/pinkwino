@@ -16,7 +16,8 @@
 
 package uk.co.nickthecoder.pinkwino.metadata;
 
-import uk.co.nickthecoder.pinkwino.*;
+import uk.co.nickthecoder.pinkwino.WikiName;
+import uk.co.nickthecoder.webwidgets.util.SummaryMaker;
 
 /**
  * Details about a single WikiPage returned in a SearchResultIterator

@@ -25,6 +25,8 @@ import org.apache.lucene.index.IndexableField;
 
 import uk.co.nickthecoder.pinkwino.WikiEngine;
 import uk.co.nickthecoder.pinkwino.WikiName;
+import uk.co.nickthecoder.webwidgets.filter.Filter;
+import uk.co.nickthecoder.webwidgets.util.SummaryMaker;
 
 public class LuceneSearchResult implements SearchResult
 {
@@ -103,7 +105,7 @@ public class LuceneSearchResult implements SearchResult
     }
 
     
-    class MyKeywordFilter implements KeywordFilter
+    class MyKeywordFilter implements Filter<String>
     {
         @Override
         public boolean accept(String word)

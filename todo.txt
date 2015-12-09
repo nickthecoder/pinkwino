@@ -3,6 +3,8 @@ Create a summary
         Use the same summary in Ichneutae?
             Remove crap unused code from Ichneutae.
 
+Search: when there is no keywords, the summary is just ... Search for "out"
+
 Add a new WikiPageListener to inform Ichneutae that a page has changed.
     Also one to inform the OTHER pinkwino instance (i.e. giddyserv vs ickthecoder.co.uk)
         Create a LuceneDebug plugin, which show metadata for any given page.

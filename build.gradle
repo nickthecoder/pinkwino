@@ -22,9 +22,11 @@ project(':pinkwino-core') {
     targetCompatibility = 1.7
 
     dependencies {
-        compile 'javax.servlet:javax.servlet-api:3.1.0'
-        compile 'javax.servlet.jsp:jsp-api:2.2'
-        compile 'jstl:jstl:1.2'
+        providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+        providedCompile 'javax.servlet.jsp:jsp-api:2.2'
+        
+        runtime 'jstl:jstl:1.2'
+        
         compile 'taglibs:string:1.1.0'
         compile 'commons-lang:commons-lang:2.3'
         compile 'commons-net:commons-net:2.0'

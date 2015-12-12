@@ -106,7 +106,9 @@ public class WikiContext
             _attributes = null;
         } else {
             if (_request != request) {
-                _logger.error("Different request objects for the same wikiContext. Count = " + _count);
+                _logger.error("Different request objects for the same wikiContext.");
+                _logger.error(_request.getClass().getName() + " vs " + request.getClass().getName());
+                _logger.error(_request + "\n vs \n" + request);
             }
         }
         _request = request;
@@ -119,6 +121,7 @@ public class WikiContext
         _count--;
 
         if (_count == 0) {
+            _threadLocal.remove();
             _request = null;
             _response = null;
             _attributes = null;

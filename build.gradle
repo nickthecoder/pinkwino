@@ -25,7 +25,7 @@ project(':pinkwino-core') {
         compile 'javax.servlet:javax.servlet-api:3.1.0'
         compile 'javax.servlet.jsp:jsp-api:2.2'
         
-        runtime 'jstl:jstl:1.2'
+        compile 'jstl:jstl:1.2'
         
         compile 'taglibs:string:1.1.0'
         compile 'commons-lang:commons-lang:2.3'
@@ -44,14 +44,17 @@ project(':pinkwino-core') {
 
 project(':pinkwino-application') {
     apply plugin: 'war'
-  	apply plugin: 'eclipse'
+    apply plugin: 'eclipse'
     apply plugin: 'jetty'
 	
-	jettyRunWar.contextPath = 'pinkwino'
+    jettyRunWar.contextPath = 'pinkwino'
     jettyRun.contextPath = 'pinkwino'
 	
-  	dependencies {
+    dependencies {
         compile project(':pinkwino-core')
+
+        providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+        providedCompile 'javax.servlet.jsp:jsp-api:2.2'
     }
     
 }

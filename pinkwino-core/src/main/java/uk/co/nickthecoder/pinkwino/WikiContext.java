@@ -104,12 +104,6 @@ public class WikiContext
     {
         if (_count == 0) {
             _attributes = null;
-        } else {
-            if (_request != request) {
-                _logger.error("Different request objects for the same wikiContext.");
-                _logger.error(_request.getClass().getName() + " vs " + request.getClass().getName());
-                _logger.error(_request + "\n vs \n" + request);
-            }
         }
         _request = request;
         _response = response;

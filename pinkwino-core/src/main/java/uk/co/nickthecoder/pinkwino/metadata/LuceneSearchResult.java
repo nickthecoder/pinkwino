@@ -23,8 +23,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexableField;
 
+import uk.co.nickthecoder.pinkwino.WikiDocument;
 import uk.co.nickthecoder.pinkwino.WikiEngine;
 import uk.co.nickthecoder.pinkwino.WikiName;
+import uk.co.nickthecoder.pinkwino.WikiPage;
 import uk.co.nickthecoder.webwidgets.filter.Filter;
 import uk.co.nickthecoder.webwidgets.util.SummaryMaker;
 
@@ -76,6 +78,16 @@ public class LuceneSearchResult implements SearchResult
         return new Date( time == null ? 0 : time.longValue());
     }
 
+    public WikiPage getWikiPage()
+    {
+        return getWikiName().getWikiPage();
+    }
+
+    public WikiDocument getWikiDocument()
+    {
+        return getWikiName().getWikiPage().getCurrentVersion().getWikiDocument();
+    }
+    
     @Override
     public float getScore()
     {

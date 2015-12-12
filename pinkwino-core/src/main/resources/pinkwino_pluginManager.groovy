@@ -47,6 +47,7 @@ pluginManager.add( new DivPlugin( "menu", "wiki_menu", false ) )
 pluginManager.add( new NamedNodePlugin( "aside" ) )
 pluginManager.add( new JspPlugin( "systemStatus", "systemStatus.jsp", VisualPlugin.BODY_TYPE_NONE ) )
 pluginManager.add( new JspPlugin( "backLinks", "backLinks.jsp", VisualPlugin.BODY_TYPE_NONE ) )
+pluginManager.add( new LucenePageInfoPlugin() )
 
 def quote = new JspPlugin( "quote", "quote.jsp", VisualPlugin.BODY_TYPE_WIKI )
 quote.addParameterDescription( ParameterDescription.find( "align" ).defaultValue( "center" ) )

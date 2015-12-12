@@ -238,6 +238,11 @@ public class LuceneMetaData implements MetaData, WikiPageListener
         return collector.topDocs((pageNumber - 1) * hitsPerPage, hitsPerPage);
     }
 
+    public LuceneSearchResults search(WikiName wikiName) throws IOException
+    {   
+        TermQuery query = new TermQuery( getWikiNameTerm( wikiName ) );
+        return search(query);        
+    }
     
     /**
      * Lists all wiki pages which link to the given page. This does NOT include

@@ -3,3 +3,6 @@ There is probably a [default/Sandbox] in the default namespace too.
 
 ==Heading==
 This is a section within the sandbox page.
+
+==Changed==
+I changed it, will lucene pick up the new text?

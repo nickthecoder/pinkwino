@@ -1,0 +1,9 @@
+To configure your wiki, you need to create a configuration file.
+This typically lives outside of the pinkwino jar file, and is specified as a Context Parameter within your servlet engine.
+
+For example, in tomcat's server.xml file, include something like this :
+{{{
+<Context path="/wiki" docBase="PATH_TO_PINKWINO.jar">
+    <Parameter name="pinkwino.initscript" value="PATH_TO_CONFIG.groovy"/>
+</Context>
+}}}

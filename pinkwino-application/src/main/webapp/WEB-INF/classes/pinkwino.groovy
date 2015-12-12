@@ -135,5 +135,32 @@ wikiEngine.setMetaData( luceneMetaData )
 wikiEngine.addWikiPageListener( luceneMetaData )
 //luceneMetaData.rebuild()
 
+/*
+// Use the LucenePageInfo plugin to re-index the other pinkwino instance
+wikiEngine.addWikiPageListener(
+    new PostWikiPageListener( "http://giddyserv/intra-wiki/view/wiki/Lucene+Page+Info" )
+    .pageNameParameter( "pageName" )
+    .submitParameter( "reindex", "reindex" )
+);
+
+wikiEngine.addWikiPageListener(
+    new PostWikiPageListener( "http://nickthecoder.co.uk/wiki/view/wiki/Lucene+Page+Info" )
+    .pageNameParameter( "pageName" )
+    .submitParameter( "reindex", "reindex" )
+);
+
+// Tell Ichneutae to reindex the page
+wikiEngine.addWikiPageListener(
+    new PostWikiPageListener( "http://giddyserv/intra-search/update" )
+    .urlParameter( "url" )
+);
+
+// Tell Ichneutae to reindex the page
+wikiEngine.addWikiPageListener(
+    new PostWikiPageListener( "http://nickthecoder.co.uk/search/update" )
+    .urlParameter( "url" )
+);
+*/
+
 logger.trace( "default pinkwino.groovy : end" );
 

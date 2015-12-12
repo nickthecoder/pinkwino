@@ -263,7 +263,8 @@ ShortcutListener.prototype =
 function followLink( linkId ) {
   var link = document.getElementById( linkId );
   if ( link != null ) {
-    document.location = link;
+    link.click();
+    //document.location = link;
   }
 }
 

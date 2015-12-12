@@ -1,0 +1,9 @@
+Displays a wiki page's content held in the Lucene database.
+
+This plugin is only useful if your wiki is configured to use LuceneMetaData. Your groovy [Configuration File] should include something like this :
+
+{{{
+def luceneMetaData = new LuceneMetaData( new File( "PATH_TO_LUCENE_DATABASE" ) );
+wikiEngine.setMetaData( luceneMetaData )
+wikiEngine.addWikiPageListener( luceneMetaData )
+}}}

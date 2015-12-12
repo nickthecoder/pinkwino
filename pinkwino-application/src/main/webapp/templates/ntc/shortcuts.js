@@ -1,6 +1,6 @@
 shortcuts = new ShortcutListener();
 
-shortcuts.add( ["g", "h"], function() { followLink( "logo" ); } );
+shortcuts.add( ["g", "h"], function() { followLink( "home" ); } );
 shortcuts.add( ["g", "w"], function() { followLink( "wikiLink" ); } );
 shortcuts.add( ["g", "m"], function() { followLink( "musicLink" ); } );
 shortcuts.add( ["g", "p"], function() { followLink( "photosLink" ); } );
@@ -11,7 +11,7 @@ shortcuts.add( ["g", "g"], function() { followLink( "gardenLink" ); } );
 
 shortcuts.add( ["n", "t", "c"], function() { followLink( "ntcLink" ); } );
 
-shortcuts.onEscape = function() { document.getElementById( "searchText" ).focus(); };
+shortcuts.onEscape = function() { document.getElementById( "home" ).focus(); };
 
 window.addEventListener( "load", function() { shortcuts.init(); } );
 

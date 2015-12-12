@@ -8,11 +8,6 @@
   <Loggers>
     <Root level="warn">
       <AppenderRef ref="Console"/>
-    </Root>
-    <Logger name="uk.co.nickthecoder.pinkwino.WikiEngine" level="TRACE"/>
-    <Logger name="uk.co.nickthecoder.pinkwino.optional.image.Resize" level="TRACE"/>
-    <Logger name="uk.co.nickthecoder.pinkwino.optional.image.ImagePreprocessor" level="TRACE"/>
-    <Logger name="uk.co.nickthecoder.pinkwino.metadata.LuceneMetaData" level="TRACE"/>
-    
+    </Root>    
   </Loggers>
 </Configuration>

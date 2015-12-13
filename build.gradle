@@ -56,6 +56,9 @@ project(':pinkwino-application') {
         providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
         providedCompile 'javax.servlet.jsp:jsp-api:2.2'
     }
-    
+    war {   
+        rootSpec.exclude("**/servlet-api*.jar")
+    }
+
 }
 

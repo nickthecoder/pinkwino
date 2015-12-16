@@ -104,8 +104,7 @@
     </form>
 
     <h2>Meta Data</h2>
-    
-        
+
         <!-- links -->
         <c:if test="${version.wikiDocument.links.hasNext}">
         <div class="wiki_metaData_section">

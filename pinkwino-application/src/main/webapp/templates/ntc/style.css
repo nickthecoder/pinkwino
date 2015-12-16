@@ -101,7 +101,7 @@ pre { border: 1px solid #333; background: #ccc; }
 /*
   These styles are used  by the webwidgets tags.
 */
-
+.ww_clickable { cursor: pointer; }
 .ww_closed { display: none; }
 .ww_maximized .ww_maxButton, .ww_maximized .ww_expandButton, .ww_minimized .ww_minButton, .ww_minimized .ww_contractButton { display: none }
 .ww_minimized .ww_maxButton, .ww_minimized .ww_expandButton { display: inline; }
@@ -219,7 +219,7 @@ figure { margin: 2em; }
 
 @media (max-width: 1000px) {
   #whole { width: 100%; }
-  #full #content { width: 100%; float: none; width: inherit; margin-left: 2em; margin-right: 2em; }
+  #full #content, #columns #content { width: 100%; float: none; width: inherit; margin-left: 2em; margin-right: 2em; }
   #navigation { float: none; width: inherit; margin-top: 2em; }
   #navigation ul { line-height: 200%; }
   #navigation ul li { display: inline; padding: 0 1em 0 0; }

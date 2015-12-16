@@ -22,7 +22,7 @@
   </div>
   
   <ww:box minimized="true">
-    <ww:boxTitle clickable="true"><h3>Cheat Sheet ...</h3></ww:boxTitle>
+    <ww:boxTitle clickable="true"><h2>Cheat Sheet ...</h2></ww:boxTitle>
     <ww:boxContent>
       <div class="wiki_noEdit">
       <pw:wikiPage namespace="wiki" title="Cheat Sheet">

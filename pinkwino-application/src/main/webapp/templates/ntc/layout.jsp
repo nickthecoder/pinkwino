@@ -11,6 +11,7 @@
   <title>
 	<tiles:insert attribute="title"/>
   </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <ww:styleSheet href="/templates/ntc/style.css"/>
   <link rel="icon" href="<ww:contextPath/>/templates/ntc/icon.png"/>
   <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css' />

@@ -55,6 +55,7 @@ project(':pinkwino-application') {
 
         providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
         providedCompile 'javax.servlet.jsp:jsp-api:2.2'
+        runtime 'org.apache.logging.log4j:log4j-web:2.4.1'
     }
     war {   
         rootSpec.exclude("**/servlet-api*.jar")

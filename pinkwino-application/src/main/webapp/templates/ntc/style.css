@@ -224,9 +224,8 @@ figure { margin: 2em; }
   #whole { width: 100%; }
   #full #content, #columns #content { width: 100%; float: none; width: inherit; margin-left: 2em; margin-right: 2em; }
   #navigation { float: none; width: inherit; margin-top: 2em; }
-  #navigation ul { line-height: 200%; }
-  #navigation ul li { display: inline; padding: 0 1em 0 0; }
-  #navigation ul li:before{ padding: 0; content: ""; }
+  #navigation .wiki_menu { line-height: 200%; }
+  #navigation .wiki_menu a { display: inline; white-space: nowrap;}
 }
 
 /* Search Results */

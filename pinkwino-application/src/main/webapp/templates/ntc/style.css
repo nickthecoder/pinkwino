@@ -55,6 +55,7 @@ h2 { margin-bottom: 20px; padding: 0 0 12px 0; }
 h3 { margin: 2em 0 1em 0; }
 
 #navigation h2 { padding: 0 0 12px 15px; }
+#navigation li { list-style-type: none; }
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -213,6 +214,8 @@ figure { margin: 2em; }
 .wiki_searchResult .wiki_namespace:after { content: ')'; }
 .wiki_searchResult { margin: 0 0 1.5em 0; }
 .wiki_lastUpdated { color: #080; font-size: 80%; margin-top: 4px; }
+
+.wiki_chooseLetter { text-align: center; }
 
 .googleMap_map { width: 600px; height: 400px; }
 

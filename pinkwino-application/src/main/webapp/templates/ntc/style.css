@@ -243,3 +243,21 @@ figure { margin: 2em; }
 .pager .currentPage { border: 1px solid #888; padding: 3px; border-radius: 4px; }
 .pager a:hover{ background: #e44; border-radius: 4px; color: #fff; text-decoration: none; }
 
+/* Gardening Wiki */
+
+.plantDetails { margin: 0 0 1.5em 0; float: right; }
+.plantKey { margin: 1em 0 0.5em 0; float: right; }
+.plantData { margin: 0.5em 0 0.5em 0; float: right; }
+
+.sowIndoors { background: #ee4; }
+.sow { background: #44e; }
+.harvest { background: #e44; }
+.plantOut { background: #4e4; }
+
+.plantChart th { text-align: center; }
+.plantChart td, .plantKey th { height: 1.2em; width:1.2em; }
+.plantData, .plantLinks { clear: both; text-align: right; }
+.plantDetails td, .plantDetails th { border: 1px solid #000 };
+.plantChart tr.line { border-top: 2px solid #000; }
+
+

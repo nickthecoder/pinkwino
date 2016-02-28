@@ -89,6 +89,11 @@ public class Parser implements PluginSupport
         _syntaxManager = syntaxManager;
     }
 
+    public ParentNode getCurrentParent()
+    {
+        return this._currentParent;
+    }
+
     /**
      * Allows a piece of wiki text to be parsed and the results inserted into
      * the tree of nodes currently being created. This was created to allow a

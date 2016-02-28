@@ -31,6 +31,8 @@ import uk.co.nickthecoder.pinkwino.parser.tree.ParentNode;
 public interface PluginSupport
 {
 
+    public ParentNode getCurrentParent();
+    
     /**
      * Add a node to the tree of nodes (at the current position).
      */

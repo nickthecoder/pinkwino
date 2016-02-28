@@ -62,12 +62,11 @@ public class SaveWikiServlet extends WikiServlet
             out.println("OK");
 
         } catch (Exception e) {
-
+            //e.printStackTrace();
             response.setContentType("text/plain");
             response.setStatus(404);
             PrintWriter out = response.getWriter();
             out.println("FAIL");
-
         }
 
     }

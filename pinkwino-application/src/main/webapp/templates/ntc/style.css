@@ -64,6 +64,7 @@ ul li, ol li { padding: 0; margin: 1em 0 1em 2em; }
 
 table { border-collapse: collapse; }
 td, th { border: 1px solid #666; padding: 4px 8px; text-align: left; font-weight: normal; }
+th a { font-weight: bold; color: #c11; }
 
 pre { padding: 1em; overflow: scroll; }
 
@@ -253,11 +254,11 @@ figure { margin: 2em; }
 .sow { background: #44e; }
 .harvest { background: #e44; }
 .plantOut { background: #4e4; }
+.plantChart .other { background: #fdf; }
 
-.plantChart th { text-align: center; }
+.plantChart th, .plantChart td { text-align: center; }
 .plantChart td, .plantKey th { height: 1.2em; width:1.2em; }
 .plantData, .plantLinks { clear: both; text-align: right; }
-.plantDetails td, .plantDetails th { border: 1px solid #000 };
+.plantChart td, .plantDetails th { border: 1px solid #000 };
 .plantChart tr.line { border-top: 2px solid #000; }
-
 

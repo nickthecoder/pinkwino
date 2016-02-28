@@ -47,6 +47,7 @@ mediaManager.addMimeType( new MimeType( "text/x-sh", [ "sh" ] ) )
 mediaManager.addMimeType( new MimeType( "application/x-javascript", [ "js" ] ) )
 mediaManager.addMimeType( new MimeType( "application/xhtml+xml", [ "xhtml", "xht" ] ) )
 mediaManager.addMimeType( new MimeType( "application/xml", [ "xml", "xsl" ] ) )
+mediaManager.addMimeType( new MimeType( "application/json", [ "json" ], true, true ) )
 
 mediaManager.addMimeType( new MimeType( "application/x-gtar", [ "gtar", "tgz", "taz", "tar.gz" ] ) )
 mediaManager.addMimeType( new MimeType( "application/zip", [ "zip" ] ) )

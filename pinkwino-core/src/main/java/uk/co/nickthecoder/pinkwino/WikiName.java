@@ -58,7 +58,7 @@ public class WikiName implements Comparable<WikiName>
     private String _relation;
 
     /**
-     * WikiNames can have speical values in their relation, which is used to
+     * WikiNames can have special values in their relation, which is used to
      * feed the wiki page's media though some kind of process. For example, an
      * image could be scaled down to a thumbnail size, in which case the
      * relation may be called "thumbnail". For normal pages, this will be null.
@@ -66,7 +66,7 @@ public class WikiName implements Comparable<WikiName>
     private MediaPreprocessor _mediaPreprocessor;
 
     /**
-     * The paramters given by the relation. For example, if the relation is
+     * The parameters given by the relation. For example, if the relation is
      * "scale(width='100')", then parameters will contain one parameter called
      * width, value of 100.
      * 

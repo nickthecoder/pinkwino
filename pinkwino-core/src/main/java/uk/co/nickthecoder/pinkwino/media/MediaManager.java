@@ -50,7 +50,7 @@ public interface MediaManager
 
     /**
      * Called just before the media is streamed to the client. This allows for
-     * arbitary changes to be made to the stream and/or the page before it is
+     * arbitrary changes to be made to the stream and/or the page before it is
      * returned to the client.
      * 
      * In particular, this was designed to allow for image processing to take
@@ -65,7 +65,7 @@ public interface MediaManager
     public InputStream mediaPreprocess(Version version);
 
     /**
-     * If the name has a known extention, then remove it, returning just the
+     * If the name has a known extension, then remove it, returning just the
      * part before the period. Otherwise return name unchanged.
      */
     public String stripKnownExtentions(String name);

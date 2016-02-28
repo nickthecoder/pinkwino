@@ -18,24 +18,14 @@
 
 package uk.co.nickthecoder.pinkwino.plugins;
 
-import java.util.Map;
 import java.util.HashMap;
-
-import uk.co.nickthecoder.pinkwino.parser.tree.ParentNode;
-import uk.co.nickthecoder.pinkwino.parser.tree.PlainParentNode;
-import uk.co.nickthecoder.pinkwino.parser.tree.PlainText;
-import uk.co.nickthecoder.pinkwino.parser.tree.SimpleParentNode;
-import uk.co.nickthecoder.pinkwino.util.Parameters;
+import java.util.Map;
 
 import uk.co.nickthecoder.pinkwino.parser.tree.AbstractNode;
+import uk.co.nickthecoder.pinkwino.util.Parameters;
 
-/**
- * An example plugin for demonstation purposes only.
- */
 public class ReplacementPlugin extends AbstractVisualPlugin
 {
-    private String separator = null;
-
     private Map<Character,String> replacements;
 
     public ReplacementPlugin(String name)
@@ -44,12 +34,12 @@ public class ReplacementPlugin extends AbstractVisualPlugin
         replacements = new HashMap<Character,String>();
     }
 
-    public ReplacementPlugin replace( String x, String with )
+    final public ReplacementPlugin replace( String x, String with )
     {
         return replace( x.charAt(0), with );
     }
 
-    public ReplacementPlugin replace( char x, String with )
+    final public ReplacementPlugin replace( char x, String with )
     {
         this.replacements.put( x, with );
         return this;
@@ -60,8 +50,6 @@ public class ReplacementPlugin extends AbstractVisualPlugin
         return null;
     }
 
-    /**
-     */
     public void bodyText(PluginSupport pluginSupport, Parameters parameters, String text, Object pluginState)
     {
         pluginSupport.add( new ReplacementsNode( text ) );

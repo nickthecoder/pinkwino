@@ -1,0 +1,6 @@
+Add a CSS class to a given HTML element (the default is to add it to the "body" element).
+
+For example, if a wiki page is wide, then add a class to the body, which will make the "left navigation" appear at the bottom of the page.
+
+== Plugin Details ==
+{{plugin( plugin="addCSS")}}

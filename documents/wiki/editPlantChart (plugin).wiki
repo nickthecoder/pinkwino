@@ -1,0 +1,18 @@
+When used in conjunction with [plantChart (plugin)], allows the chart to have ticks and crosses added to it.
+
+The ticks and crosses are stored in a separate wiki page, which should end with ".json" to indicate that it is "JavaScript Object Notation".
+
+
+===Note===
+
+If you want to use the charts as a yearly checklist :
+# Create a page, lets call it ''Checklist''
+# Add the ''plantChart'' plugin to the "Checklist" page.
+# Create another page, called ''Checklist 2016''
+# On this page include the ''Checklist'' page, using the [include (plugin)]
+# Add an ''editPlantChart'' plugin with a page name of ''Checklist 2016.json''
+
+This will let you reuse the Checklist page every year.
+
+== Plugin Details ==
+{{plugin( plugin="editPlantChart")}}

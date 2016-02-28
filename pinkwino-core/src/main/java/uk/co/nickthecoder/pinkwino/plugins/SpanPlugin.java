@@ -53,13 +53,8 @@ public class SpanPlugin extends AbstractVisualPlugin
         SimpleParentNode span = new SimpleParentNode("span", false);
 
         if (_cssClass != null) {
-            Parameters spanParameters = new Parameters();
-            spanParameters.addParameter(new Parameter(ParameterDescription.find("class"), _cssClass));
-            span.setParameters(spanParameters);
-        } else {
-            span.setParameters(parameters);
+            span.addParameter(new Parameter(ParameterDescription.find("class"), _cssClass));
         }
-
         pluginSupport.begin(span);
 
         return null;

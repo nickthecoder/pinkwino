@@ -1,0 +1,55 @@
+Create a table like those found on seed packets describing when to sow seeds, when to plant out and when the crop will be ready to harvest.
+
+The body of the "plantChart" plugin is a text representation of the chart. Each line of text is a row in the chart.
+
+Each line is made up of 12 characters of each month of the year. Any amount of white space is ignored.
+
+Use the characters to colour each table cell as follows :
+
+* X : Blank
+* I : Sow Indoors
+* P : Plant Out
+* H : Harvest
+* F : Flowers
+* C : Take Cuttings
+* O : Other
+
+If you wish, you can use lower case letters to split a month into two parts.
+
+If you set the "labels" parameter to true, then the beginning of each line is a label for the row. To have spaces within the label, use the "pipe" "|" character to mark the end of the label.
+
+==Example==
+
+{{{
+{{plantChart
+X X X S X P X X H H  X X
+}}
+}}}
+
+{{plantChart
+X X X S X P X X H H  X X
+}}
+
+Here's a more complex example, with labels, and some months split into two (using lower case letters) :
+
+{{{
+
+{{plantChart(labels="true")
+Lettuce     X  X  X  xs X  xp px X H  H  X  X
+Sweet Pea|  X  X  X  S  X  F  F  F fx X  X  X
+Multi-Line  X  X  X  X  X  X  X  X S  X  X  X
+            X  H  H  X  X  X  X  X X  X  X  X
+}}
+}}}
+
+{{plantChart(labels="true")
+Lettuce     X  X  X  xs X  xp px X H  H  X  X
+Sweet Pea|  X  X  X  S  X  F  F  F fx X  X  X
+Multi-Line  X  X  X  X  X  X  X  X S  X  X  X
+            X  H  H  X  X  X  X  X X  X  X  X
+}}
+
+
+
+== Plugin Details ==
+{{plugin( plugin="plantChart")}}

@@ -59,5 +59,7 @@ pluginManager.add( new JspPlugin( "exampleStringBodyJsp", "exampleStringBody.jsp
 pluginManager.add( new SearchPlugin( ) )
 pluginManager.add( new ExternalLinkPlugin() )
 
+pluginManager.add( new AddCSSPlugin() );
+
 pluginManager.add( new PlantChartPlugin() )
 pluginManager.add( new EditPlantChartPlugin() )

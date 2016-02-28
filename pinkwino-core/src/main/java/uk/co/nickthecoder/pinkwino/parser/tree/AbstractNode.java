@@ -51,6 +51,14 @@ public abstract class AbstractNode implements Node
         // do nothing
     }
 
+    public void addParameter( Parameter parameter )
+    {
+        if (this._parameters == null) {
+            this._parameters = new Parameters();
+        }
+        this._parameters.addParameter(parameter);
+    }
+    
     public void setParameters(Parameters parameters)
     {
         _parameters = parameters;

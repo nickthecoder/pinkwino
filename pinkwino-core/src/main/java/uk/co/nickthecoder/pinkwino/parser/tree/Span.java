@@ -35,9 +35,7 @@ public class Span extends AbstractParentNode implements NodeFactory, SummaryPart
         Parameter parameter = new Parameter(stylePD, styleValue);
 
         Span span = new Span();
-        Parameters parameters = new Parameters();
-        parameters.addParameter(parameter);
-        span.setParameters(parameters);
+        span.addParameter(parameter);
 
         return span;
     }
@@ -48,9 +46,7 @@ public class Span extends AbstractParentNode implements NodeFactory, SummaryPart
         Parameter parameter = new Parameter(classPD, classValue);
 
         Span span = new Span();
-        Parameters parameters = new Parameters();
-        parameters.addParameter(parameter);
-        span.setParameters(parameters);
+        span.addParameter(parameter);
 
         return span;
     }

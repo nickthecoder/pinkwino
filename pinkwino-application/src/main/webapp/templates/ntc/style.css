@@ -33,8 +33,12 @@ h3 { font-size: 18px; font-weight: normal; }
 
 #navigation { float: left; width: 200px; padding: 40px 1em; }
 
+body.wide #navigation { float: none; width: inherit; margin-top: 2em; }
+body.wide #navigation .wiki_menu { line-height: 200%; }
+body.wide #navigation .wiki_menu a { display: inline; white-space: nowrap;}
+
 #columns #content { float:right; width: 650px; padding: 50px 2em; }
-#full #content { width: 920px; padding: 50px 2em;}
+#full #content, body.wide #columns #content { width: 920px; padding: 50px 2em;}
 
 #belowColumns { clear: both; }
 #footer { text-align: center; padding: 1em; }
@@ -56,6 +60,7 @@ h3 { margin: 2em 0 1em 0; }
 
 #navigation h2 { padding: 0 0 12px 15px; }
 #navigation li { list-style-type: none; }
+
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -252,10 +257,11 @@ figure { margin: 2em; }
 
 .sowIndoors { background: #ee4; }
 .sow { background: #44e; }
-.harvest { background: #e44; }
+.flowers, .harvest { background: #e44; }
 .plantOut { background: #4e4; }
 .plantChart .other { background: #fdf; }
 
+.plantChart th.label { max-width: 12em; overflow: hidden; white-space: nowrap; }
 .plantChart th, .plantChart td { text-align: center; }
 .plantChart td, .plantKey th { height: 1.2em; width:1.2em; }
 .plantData, .plantLinks { clear: both; text-align: right; }

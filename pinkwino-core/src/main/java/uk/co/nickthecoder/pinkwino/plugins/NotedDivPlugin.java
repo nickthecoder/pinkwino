@@ -71,9 +71,7 @@ public class NotedDivPlugin extends AbstractVisualPlugin
     {
 
         SimpleParentNode div = new SimpleParentNode("div", true);
-        Parameters divParameters = new Parameters();
-        divParameters.addParameter(new Parameter(ParameterDescription.find("class"), _cssClass));
-        div.setParameters(divParameters);
+        div.addParameter(new Parameter(ParameterDescription.find("class"), _cssClass));
 
         pluginSupport.begin(div);
         pluginSupport.begin(new AutoParagraphBlock());

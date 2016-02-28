@@ -69,9 +69,7 @@ public class DivPlugin extends AbstractVisualPlugin
         SimpleParentNode div = new SimpleParentNode("div", true);
 
         if (_cssClass != null) {
-            Parameters divParameters = new Parameters();
-            divParameters.addParameter(new Parameter(ParameterDescription.find("class"), _cssClass));
-            div.setParameters(divParameters);
+            div.addParameter(new Parameter(ParameterDescription.find("class"), _cssClass));
         } else {
             div.setParameters(parameters);
         }

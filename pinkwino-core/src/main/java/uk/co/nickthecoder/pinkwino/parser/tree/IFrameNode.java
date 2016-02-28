@@ -18,7 +18,6 @@ package uk.co.nickthecoder.pinkwino.parser.tree;
 
 import uk.co.nickthecoder.pinkwino.util.Parameter;
 import uk.co.nickthecoder.pinkwino.util.ParameterDescription;
-import uk.co.nickthecoder.pinkwino.util.Parameters;
 
 /**
 */
@@ -29,15 +28,11 @@ public class IFrameNode extends AbstractNode
     {
         super();
 
-        this.setParameters(new Parameters());
+        this.addParameter(new Parameter(ParameterDescription.find("html:width"), Integer.toString(width)));
 
-        this.getParameters().addParameter(
-                        new Parameter(ParameterDescription.find("html:width"), Integer.toString(width)));
+        this.addParameter(new Parameter(ParameterDescription.find("html:height"), Integer.toString(height)));
 
-        this.getParameters().addParameter(
-                        new Parameter(ParameterDescription.find("html:height"), Integer.toString(height)));
-
-        this.getParameters().addParameter(new Parameter(ParameterDescription.find("src"), url));
+        this.addParameter(new Parameter(ParameterDescription.find("src"), url));
     }
 
     public void render(StringBuffer buffer)

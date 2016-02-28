@@ -23,6 +23,8 @@ public class PlantChartPlugin extends AbstractVisualPlugin
 
     public Map<Character, String> cssClasses;
 
+    public Map<Character, String> titleMap;
+
     public PlantChartPlugin()
     {
         super("plantChart", BODY_TYPE_TEXT);
@@ -30,12 +32,25 @@ public class PlantChartPlugin extends AbstractVisualPlugin
             ParameterDescription.USAGE_GENERAL));
 
         cssClasses = new HashMap<Character, String>();
-        cssClasses.put('X', "");
+        cssClasses.put('X', ""); // Blank
         cssClasses.put('I', "sowIndoors");
         cssClasses.put('S', "sow");
         cssClasses.put('P', "plantOut");
         cssClasses.put('H', "harvest");
-        cssClasses.put('?', "other");
+        cssClasses.put('F', "flowers");
+        cssClasses.put('C', "cuttings");
+        cssClasses.put('O', "other");
+        cssClasses.put('?', "other"); // Backwards compatible only, use "O" instead.
+
+        titleMap = new HashMap<Character, String>();
+        titleMap.put('I', "Sow Indoors");
+        titleMap.put('S', "Sow Outdoors");
+        titleMap.put('P', "Plant Out");
+        titleMap.put('H', "Harvest");
+        titleMap.put('F', "Flowers");
+        titleMap.put('C', "Take Cuttings");
+        titleMap.put('O', "Other (see wiki page for details)");
+
     }
 
     @Override
@@ -52,9 +67,7 @@ public class PlantChartPlugin extends AbstractVisualPlugin
             .getBooleanValue() : false;
 
         Table table = new Table();
-        Parameters tableParams = new Parameters();
-        tableParams.addParameter(new Parameter(ParameterDescription.find("class"), "plantChart"));
-        table.setParameters(tableParams);
+        table.addParameter(new Parameter(ParameterDescription.find("class"), "plantChart"));
         pluginSupport.begin(table);
 
         TableRow headingRow = new TableRow();
@@ -67,9 +80,7 @@ public class PlantChartPlugin extends AbstractVisualPlugin
 
         for (int i = 0; i < 12; i++) {
             TableCell cell = new TableCell(true);
-            Parameters cellParams = new Parameters();
-            cellParams.addParameter(new Parameter(ParameterDescription.find("colspan"), "2"));
-            cell.setParameters(cellParams);
+            cell.addParameter(new Parameter(ParameterDescription.find("colspan"), "2"));
 
             cell.add(new PlainText(headings[i]));
             headingRow.add(cell);
@@ -103,10 +114,8 @@ public class PlantChartPlugin extends AbstractVisualPlugin
                     }
 
                     if ((labelCell != null) && (colSpanCount > 1)) {
-                        Parameters labelCellParameters = new Parameters();
-                        labelCellParameters.addParameter(new Parameter(ParameterDescription.find("rowspan"), Integer
+                        labelCell.addParameter(new Parameter(ParameterDescription.find("rowspan"), Integer
                             .toString(colSpanCount)));
-                        labelCell.setParameters(labelCellParameters);
 
                         colSpanCount = 1;
                         labelCell = null;
@@ -116,6 +125,7 @@ public class PlantChartPlugin extends AbstractVisualPlugin
 
             if (label != null) {
                 labelCell = new TableCell(true);
+                labelCell.addParameter(new Parameter(ParameterDescription.find("class"), "label"));
                 row.add(labelCell);
 
                 WikiName name = new WikiName(pluginSupport.getDefaultNamespace(), label);
@@ -137,23 +147,24 @@ public class PlantChartPlugin extends AbstractVisualPlugin
 
                 TableCell cell = new TableCell(false);
                 row.add(cell);
-                Parameters cellParams = new Parameters();
-                cell.setParameters(cellParams);
                 if ((!Character.isAlphabetic(c)) || Character.isUpperCase(c)) {
-                    cellParams.addParameter(new Parameter(ParameterDescription.find("colspan"), "2"));
+                    cell.addParameter(new Parameter(ParameterDescription.find("colspan"), "2"));
                 }
                 if (cssClass.length() > 0) {
-                    cellParams.addParameter(new Parameter(ParameterDescription.find("class"), cssClass));
+                    cell.addParameter(new Parameter(ParameterDescription.find("class"), cssClass));
                 }
+                String title = titleMap.get(Character.toUpperCase(c));
+                if (title != null) {
+                    cell.addParameter(new Parameter(ParameterDescription.find("title"), title));
+                }
+
             }
 
         }
 
         if ((labelCell != null) && (colSpanCount > 1)) {
-            Parameters labelCellParameters = new Parameters();
-            labelCellParameters.addParameter(new Parameter(ParameterDescription.find("rowspan"), Integer
+            labelCell.addParameter(new Parameter(ParameterDescription.find("rowspan"), Integer
                 .toString(colSpanCount)));
-            labelCell.setParameters(labelCellParameters);
         }
 
         pluginSupport.end(table);

@@ -63,7 +63,12 @@ public abstract class ParameterDescription implements Summarisable
                             false, "", USAGE_STYLE));
 
             registerParameterDescription(new RegexParameterDescription("class", "[\\p{Alnum}_ -]+", false, "",
-                            USAGE_HTML));
+                USAGE_HTML));
+
+            registerParameterDescription(new RegexParameterDescription("id", "[\\p{Alnum}_ -]+", false, "",
+                USAGE_HTML));
+
+            registerParameterDescription(new RegexParameterDescription("title", ".*", false, "", USAGE_HTML));
 
             registerParameterDescription(new RegexParameterDescription("cellspacing", "[0-9]+", false, "", USAGE_HTML));
             registerParameterDescription(new RegexParameterDescription("cellpadding", "[0-9]+", false, "", USAGE_HTML));
